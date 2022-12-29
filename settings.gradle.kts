@@ -1,2 +1,2 @@
 rootProject.name = "Server"
-include("greenhouseService")
+include("brightnessService")
