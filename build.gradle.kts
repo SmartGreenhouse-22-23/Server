@@ -1,7 +1,6 @@
 plugins {
     id("java")
-    id("org.danilopianini.git-sensitive-semantic-versioning-gradle-plugin") version "0.3.24"
-    //alias(libs.plugins.gitSemVer)
+    alias(libs.plugins.gitSemVer)
 }
 
 group = "it.unibo.smartgh"
@@ -15,14 +14,11 @@ repositories {
 }
 allprojects{
     apply(plugin = "java")
-    apply(plugin = "org.danilopianini.git-sensitive-semantic-versioning-gradle-plugin")
+    //apply(plugin = rootProject.libs.plugins.gitSemVer)
     dependencies {
-        implementation("io.vertx:vertx-core:$vertx")
-        implementation("io.vertx:vertx-web:$vertx")
-        implementation("io.vertx:vertx-web-client:$vertx")
-        implementation("io.vertx:vertx-mqtt:$vertx")
-        testImplementation("org.junit.jupiter:junit-jupiter-api:$junit")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junit")
+        implementation(rootProject.libs.bundles.vertx.dependencies)
+                testImplementation(rootProject.libs.junit.api)
+        testRuntimeOnly(rootProject.libs.junit.engine)
     }
 }
 

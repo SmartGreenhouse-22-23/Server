@@ -1,0 +1,23 @@
+[versions]
+vertx = "4.3.3"
+junit = "5.8.1"
+
+[libraries]
+vertx-core = {module = "io.vertx:vertx-core", version.ref = "vertx"}
+vertx-web = {module = "io.vertx:vertx-web", version.ref = "vertx"}
+vertx-web-client = {module = "io.vertx:vertx-web-client", version.ref = "vertx"}
+vertx-mqtt = {module = "io.vertx:vertx-mqtt", version.ref = "vertx"}
+
+junit-api = {module = "org.junit.jupiter:junit-jupiter-api", version.ref="junit"}
+junit-engine = {module = "org.junit.jupiter:junit-jupiter-engine", version.ref="junit"}
+
+[bundles]
+vertx-dependencies = [
+    "vertx-core",
+    "vertx-web",
+    "vertx-web-client",
+    "vertx-mqtt"
+]
+
+[plugins]
+gitSemVer = "org.danilopianini.git-sensitive-semantic-versioning-gradle-plugin:0.3.20"
