@@ -4,7 +4,7 @@ on:
   push:
 
 jobs:
-  compileTest:
+  build:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
@@ -19,3 +19,35 @@ jobs:
           java-version: 11
       - name: build
         run: ./gradlew build
+  release:
+    if: github.event_name == 'push'
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    concurrency:
+      group: release
+      cancel-in-progress: false
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEPLOYMENT_TOKEN }}
+        run: |
+          npm install
+          npx semantic-release
+    success:
+      runs-on: ubuntu-latest
+      needs:
+        - build
+      if: >-
+        always() && (
+          contains(join(needs.*.result, ','), 'failure')
+          || !contains(join(needs.*.result, ','), 'cancelled')
+        )
+      steps:
+        - name: Verify that there were no failures
+          run: ${{ !contains(join(needs.*.result, ','), 'failure') }}
