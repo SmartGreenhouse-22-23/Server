@@ -1,0 +1,22 @@
+name: ci
+
+on:
+  push:
+
+jobs:
+  compileTest:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ${{matrix.os}}
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 11
+
+      - name: execute program
+        run: ./gradlew run
