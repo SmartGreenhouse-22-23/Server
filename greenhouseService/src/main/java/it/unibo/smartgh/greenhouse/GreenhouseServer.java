@@ -1,5 +1,3 @@
-package greenhouse;
-
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
 public class GreenhouseServer extends AbstractVerticle {
