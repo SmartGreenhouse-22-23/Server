@@ -19,4 +19,6 @@ jobs:
           java-version: 11
 
       - name: execute program
-        run: ./gradlew run
+        run: |
+          chmod +x ./gradlew
+          ./gradlew build
