@@ -4,11 +4,20 @@ import it.unibo.smartgh.greenhouse.entity.Greenhouse;
 import it.unibo.smartgh.greenhouse.entity.Modality;
 import it.unibo.smartgh.greenhouse.persistence.GreenhouseDatabase;
 
-public class GreenhouseControllerImpl implements GreenhouseController{
+import java.net.UnknownHostException;
+
+public class GreenhouseControllerImpl implements GreenhouseController {
+    private static final String HOST = "localhost";
+    private static final int PORT = 8080;
     private final GreenhouseDatabase greenhouseDatabase;
 
     public GreenhouseControllerImpl(GreenhouseDatabase greenhouseDatabase) {
         this.greenhouseDatabase = greenhouseDatabase;
+        try {
+            this.greenhouseDatabase.connection(HOST, PORT);
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
