@@ -5,16 +5,16 @@ import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.RequestBody;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import it.unibo.smartgh.greenhouse.api.GreenhouseAPI;
-import it.unibo.smartgh.greenhouse.controller.GreenhouseController;
 import it.unibo.smartgh.greenhouse.entity.Greenhouse;
-
-import java.util.List;
+import it.unibo.smartgh.greenhouse.entity.Modality;
 
 import static it.unibo.smartgh.greenhouse.Logger.log;
+import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.greenhouseToJSON;
 
 public class GreenhouseServer {
 
@@ -58,7 +58,16 @@ public class GreenhouseServer {
     }
 
     private void handlePutModality(RoutingContext routingContext) {
-        //TODO
+        JsonObject body = routingContext.body().asJsonObject();
+        HttpServerResponse res = routingContext.response();
+        res.putHeader("Content-Type", "application/json");
+        Future<Void> fut = this.model.putActualModality(body.getString("id"),
+                Modality.valueOf(body.getString("modality").toUpperCase())
+        );
+        fut.onSuccess(gh -> {
+            res.setStatusCode(200).end(); //todo change with constant
+        });
+
     }
 
     private void handleGetGreenhouse(RoutingContext routingContext) {
@@ -66,12 +75,9 @@ public class GreenhouseServer {
         String id = request.getParam("id");
         HttpServerResponse res = routingContext.response();
         res.putHeader("Content-Type", "application/json");
-        JsonObject reply = new JsonObject();
         Future<Greenhouse> fut = this.model.getGreenhouse(id);
         fut.onSuccess(gh -> {
-            System.out.println(gh);
-            reply.put(BASE_PATH, gh); //TODO implement serializer
-            res.end(reply.toBuffer());
+            res.end(greenhouseToJSON(gh).toBuffer());
         });
     }
 }
