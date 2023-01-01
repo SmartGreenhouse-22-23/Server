@@ -1,37 +1,58 @@
-package it.unibo.smartgh.brightness.entity;
+package it.unibo.smartgh.entity;
 
 import java.util.Date;
 import java.util.Objects;
 
-public class BrightnessValue {
+public class PlantValueImpl implements PlantValue {
+    
+    private String greenhouseId;
+    private Date date;
+    private Double value;
 
-    private final String greenhouseId;
-    private final Date date;
-    private final Double value;
-
-    public BrightnessValue(String greenhouseId, Date date, Double value) {
+    public PlantValueImpl() {}
+    
+    public PlantValueImpl(String greenhouseId, Date date, Double value) {
         this.greenhouseId = greenhouseId;
         this.date = date;
         this.value = value;
     }
 
+    @Override
     public String getGreenhouseId() {
         return greenhouseId;
     }
 
+    @Override
     public Date getDate() {
         return date;
     }
 
+    @Override
     public Double getValue() {
         return value;
+    }
+
+    
+    @Override
+    public void setGreenhouseId(String greenhouseId){
+        this.greenhouseId = greenhouseId;
+    }
+
+    @Override
+    public void setDate(Date date){
+        this.date = date;
+    }
+
+    @Override
+    public void setValue(Double value){
+        this.value = value;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BrightnessValue that = (BrightnessValue) o;
+        PlantValueImpl that = (PlantValueImpl) o;
         return Objects.equals(greenhouseId, that.greenhouseId) && Objects.equals(date, that.date) && Objects.equals(value, that.value);
     }
 
@@ -42,7 +63,7 @@ public class BrightnessValue {
 
     @Override
     public String toString() {
-        return "BrightnessValue{" +
+        return "PlantValue{" +
                 "greenhouseId='" + greenhouseId + '\'' +
                 ", date=" + date +
                 ", value=" + value +
