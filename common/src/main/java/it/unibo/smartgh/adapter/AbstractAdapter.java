@@ -1,17 +1,20 @@
 package it.unibo.smartgh.adapter;
 
+import com.google.gson.Gson;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
+import it.unibo.smartgh.presentation.GsonUtils;
 
 public abstract class AbstractAdapter<API>  {
 
 	private final Vertx vertx;
-	
 	private final API model;
+	protected final Gson gson;
 	
 	protected AbstractAdapter(API model, Vertx vertx) {
 		this.model = model;
 		this.vertx = vertx;
+		this.gson = GsonUtils.createGson();
 	}
 	
 	protected Vertx getVertx() {
