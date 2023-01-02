@@ -10,6 +10,9 @@ import it.unibo.smartgh.soilMoisture.adapter.SoilMoistureHTTPAdapter;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Class that represent the Service, it extends the abstract class  {@link AbstractVerticle} of Vertx.
+ */
 public class SoilMoistureService extends AbstractVerticle {
 
     private List<AbstractAdapter> adapters;
@@ -25,8 +28,8 @@ public class SoilMoistureService extends AbstractVerticle {
     }
 
     @Override
-    public void start(Promise<Void> startPromise) throws Exception {
-        System.out.println("BrightnessService started.");
+    public void start(Promise<Void> startPromise) {
+        System.out.println("SoilMoistureService started.");
         installAdapters(startPromise);
     }
 

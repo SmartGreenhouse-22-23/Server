@@ -12,6 +12,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test to verify the connection with the database and the correct behavior of the operation executed.
+ */
 class SoilMoistureDatabaseTest {
 
     private static final String SOIL_MOISTURE_DB_NAME = "soilMoisture";

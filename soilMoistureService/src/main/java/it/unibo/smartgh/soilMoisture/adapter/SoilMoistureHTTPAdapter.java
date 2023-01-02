@@ -17,6 +17,9 @@ import it.unibo.smartgh.plantValue.api.PlantValueAPI;
 
 import java.util.List;
 
+/**
+ * Class that represents the HTTP adapter of the Soil Moisture Service.
+ */
 public class SoilMoistureHTTPAdapter extends AbstractAdapter<PlantValueAPI> {
 
     private static final String BASE_PATH = "/brightness";

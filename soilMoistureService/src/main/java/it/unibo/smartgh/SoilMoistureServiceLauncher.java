@@ -8,6 +8,9 @@ import it.unibo.smartgh.plantValue.persistence.PlantValueDatabase;
 import it.unibo.smartgh.plantValue.persistence.PlantValueDatabaseImpl;
 import it.unibo.smartgh.soilMoisture.service.SoilMoistureService;
 
+/**
+ * Class the represents the entry point to run the Soil Moisture Service.
+ */
 public class SoilMoistureServiceLauncher {
 
     private static final String SOIL_MOISTURE_DB_NAME = "soilMoisture";
