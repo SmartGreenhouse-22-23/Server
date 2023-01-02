@@ -2,12 +2,14 @@
 vertx = "4.3.3"
 junit = "5.8.1"
 mongodb = "4.8.1"
+vertxTest = "4.1.5"
 
 [libraries]
 vertx-core = {module = "io.vertx:vertx-core", version.ref = "vertx"}
 vertx-web = {module = "io.vertx:vertx-web", version.ref = "vertx"}
 vertx-web-client = {module = "io.vertx:vertx-web-client", version.ref = "vertx"}
 vertx-mqtt = {module = "io.vertx:vertx-mqtt", version.ref = "vertx"}
+vertx-test = {module= "io.vertx:vertx-junit5", version.ref = "vertxTest"}
 
 junit-api = {module = "org.junit.jupiter:junit-jupiter-api", version.ref="junit"}
 junit-engine = {module = "org.junit.jupiter:junit-jupiter-engine", version.ref="junit"}
@@ -18,7 +20,8 @@ vertx-dependencies = [
     "vertx-core",
     "vertx-web",
     "vertx-web-client",
-    "vertx-mqtt"
+    "vertx-mqtt",
+    "vertx-test"
 ]
 
 [plugins]
