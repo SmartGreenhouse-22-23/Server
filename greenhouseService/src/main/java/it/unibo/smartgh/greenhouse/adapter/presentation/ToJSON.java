@@ -49,13 +49,7 @@ public class ToJSON {
             Method maxMethod = c.getDeclaredMethod("getMax"+paramName);
             parameter.put("min"+paramName, minMethod.invoke(plant));
             parameter.put("max"+paramName, maxMethod.invoke(plant));
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
+        } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
         return parameter;

@@ -7,6 +7,8 @@ import it.unibo.smartgh.greenhouse.controller.GreenhouseController;
 import it.unibo.smartgh.greenhouse.entity.Greenhouse;
 import it.unibo.smartgh.greenhouse.entity.Modality;
 
+import java.util.NoSuchElementException;
+
 public class GreenhouseModel implements GreenhouseAPI{
     private final Vertx vertx;
     private final GreenhouseController greenhouseController;
@@ -19,16 +21,24 @@ public class GreenhouseModel implements GreenhouseAPI{
     @Override
     public Future<Greenhouse> getGreenhouse(String id) {
         Promise<Greenhouse> promise = Promise.promise();
-        Greenhouse greenhouse = greenhouseController.getGreenhouse(id);
-        promise.complete(greenhouse);
+        try {
+            Greenhouse greenhouse = greenhouseController.getGreenhouse(id);
+            promise.complete(greenhouse);
+        } catch (NoSuchElementException ex) {
+            promise.fail("No greenhouse");
+        }
         return promise.future();
     }
 
     @Override
     public Future<Void> putActualModality(String id, Modality modality) {
         Promise<Void> promise = Promise.promise();
-        greenhouseController.changeActualModality(id, modality);
-        promise.complete();
+        try {
+            greenhouseController.changeActualModality(id, modality);
+            promise.complete();
+        } catch (NoSuchElementException ex) {
+            promise.fail("invalid id");
+        }
         return promise.future();
     }
 }

@@ -19,6 +19,8 @@ import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.*;
 public class GreenhouseServer {
 
     private final static int STATUS_CODE_0K = 200;
+    private final static int STATUS_CODE_BAD_CONTENT = 400;
+    private final static int STATUS_CODE_NOT_FOUND = 404;
     private static final String BASE_PATH = "/greenhouse";
     private static final String PARAM_PATH = "/greenhouse/param";
     private static final String MODALITY_PATH = "/greenhouse/modality";
@@ -63,45 +65,79 @@ public class GreenhouseServer {
         String id = request.getParam("id");
         String param = request.getParam("param");
         HttpServerResponse res = routingContext.response();
-        res.putHeader("Content-Type", "application/json");
-        Future<Greenhouse> fut = this.model.getGreenhouse(id);
-        fut.onSuccess(gh -> {
-            res.end(paramToJSON(gh.getPlant(), param).toBuffer());
-        });
+        if (id == null || param == null) {
+            res.setStatusCode(STATUS_CODE_BAD_CONTENT).end();
+
+        } else {
+            res.putHeader("Content-Type", "application/json");
+            Future<Greenhouse> fut = this.model.getGreenhouse(id);
+            fut.onSuccess(gh -> {
+                try {
+                    res.end(paramToJSON(gh.getPlant(), param).toBuffer());
+                } catch (RuntimeException ex) {
+                    res.setStatusCode(STATUS_CODE_BAD_CONTENT).end();
+                }
+
+            });
+            fut.onFailure(err -> res.setStatusCode(STATUS_CODE_NOT_FOUND).end());
+        }
     }
 
     private void handleGetModality(RoutingContext routingContext) {
         HttpServerRequest request = routingContext.request();
         String id = request.getParam("id");
         HttpServerResponse res = routingContext.response();
-        res.putHeader("Content-Type", "application/json");
-        Future<Greenhouse> fut = this.model.getGreenhouse(id);
-        fut.onSuccess(gh -> {
-            res.end(modalityToJSON(gh.getActualModality()).toBuffer());
-        });
+        if (id == null) {
+            res.setStatusCode(STATUS_CODE_BAD_CONTENT).end();
+
+        } else {
+            res.putHeader("Content-Type", "application/json");
+            Future<Greenhouse> fut = this.model.getGreenhouse(id);
+            fut.onSuccess(gh -> {
+                res.end(modalityToJSON(gh.getActualModality()).toBuffer());
+            });
+            fut.onFailure(err -> res.setStatusCode(STATUS_CODE_NOT_FOUND).end());
+        }
+
     }
 
     private void handlePutModality(RoutingContext routingContext) {
         JsonObject body = routingContext.body().asJsonObject();
+        String id = body.getString("id");
+        String modality = body.getString("modality");
         HttpServerResponse res = routingContext.response();
-        res.putHeader("Content-Type", "application/json");
-        Future<Void> fut = this.model.putActualModality(body.getString("id"),
-                Modality.valueOf(body.getString("modality").toUpperCase())
-        );
-        fut.onSuccess(gh -> {
-            res.setStatusCode(STATUS_CODE_0K).end();
-        });
+        if (id == null || modality == null) {
+            res.setStatusCode(STATUS_CODE_BAD_CONTENT).end();
+        } else {
+            try{
+                res.putHeader("Content-Type", "application/json");
+                Future<Void> fut = this.model.putActualModality(id, Modality.valueOf(modality.toUpperCase()));
+                fut.onSuccess(gh -> {
+                    res.setStatusCode(STATUS_CODE_0K).end();
+                });
+                fut.onFailure(err -> res.setStatusCode(STATUS_CODE_NOT_FOUND).end());
+            } catch (IllegalArgumentException ex) {
+                res.setStatusCode(STATUS_CODE_BAD_CONTENT).end();
+            }
 
+        }
     }
 
     private void handleGetGreenhouse(RoutingContext routingContext) {
         HttpServerRequest request = routingContext.request();
         String id = request.getParam("id");
         HttpServerResponse res = routingContext.response();
-        res.putHeader("Content-Type", "application/json");
-        Future<Greenhouse> fut = this.model.getGreenhouse(id);
-        fut.onSuccess(gh -> {
-            res.end(greenhouseToJSON(gh).toBuffer());
-        });
+        if (id == null) {
+            res.setStatusCode(STATUS_CODE_BAD_CONTENT).end();
+
+        } else {
+            res.putHeader("Content-Type", "application/json");
+            Future<Greenhouse> fut = this.model.getGreenhouse(id);
+            fut.onSuccess(gh -> {
+                res.end(greenhouseToJSON(gh).toBuffer());
+            });
+            fut.onFailure(err -> res.setStatusCode(STATUS_CODE_NOT_FOUND).end());
+        }
+
     }
 }
