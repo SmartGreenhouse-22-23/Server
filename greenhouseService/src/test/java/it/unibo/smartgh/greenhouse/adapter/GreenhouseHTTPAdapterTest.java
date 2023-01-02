@@ -15,7 +15,7 @@ import it.unibo.smartgh.greenhouse.persistence.GreenhouseDatabaseImpl;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.greenhouseToJSON;
+import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -63,5 +63,29 @@ public class GreenhouseHTTPAdapterTest {
                     assertEquals(200, response.statusCode());
                     testContext.completeNow();
                 });
+    }
+    @Test
+    public void getModalityTest(Vertx vertx, VertxTestContext testContext) {
+        WebClient client = WebClient.create(vertx);
+        client.get(PORT, HOST, "/greenhouse/modality")
+                .addQueryParam("id", ID_AUTOMATIC)
+                .as(BodyCodec.string())
+                .send(testContext.succeeding(response -> testContext.verify(() -> {
+                    assertEquals(modalityToJSON(Modality.AUTOMATIC).toString(), response.body());
+                    testContext.completeNow();
+                })));
+    }
+
+    @Test
+    public void getParamTest(Vertx vertx, VertxTestContext testContext) {
+        WebClient client = WebClient.create(vertx);
+        client.get(PORT, HOST, "/greenhouse/param")
+                .addQueryParam("id", ID_AUTOMATIC)
+                .addQueryParam("param", "temperature")
+                .as(BodyCodec.string())
+                .send(testContext.succeeding(response -> testContext.verify(() -> {
+                    assertEquals(paramToJSON(greenhouse.getPlant(), "temperature").toString(), response.body());
+                    testContext.completeNow();
+                })));
     }
 }

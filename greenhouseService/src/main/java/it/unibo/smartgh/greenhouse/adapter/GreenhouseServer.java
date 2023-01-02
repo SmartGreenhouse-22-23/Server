@@ -14,10 +14,11 @@ import it.unibo.smartgh.greenhouse.entity.Greenhouse;
 import it.unibo.smartgh.greenhouse.entity.Modality;
 
 import static it.unibo.smartgh.greenhouse.Logger.log;
-import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.greenhouseToJSON;
+import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.*;
 
 public class GreenhouseServer {
 
+    private final static int STATUS_CODE_0K = 200;
     private static final String BASE_PATH = "/greenhouse";
     private static final String PARAM_PATH = "/greenhouse/param";
     private static final String MODALITY_PATH = "/greenhouse/modality";
@@ -45,8 +46,8 @@ public class GreenhouseServer {
         try {
             router.get(BASE_PATH).handler(this::handleGetGreenhouse);
             router.put(BASE_PATH).handler(this::handlePutModality);
-/*            router.get(MODALITY_PATH).handler(this::handleGetModality);
-            router.get(PARAM_PATH).handler(this::handleGetParamValues);*/
+            router.get(MODALITY_PATH).handler(this::handleGetModality);
+            router.get(PARAM_PATH).handler(this::handleGetParamValues);
 
         } catch (Exception ex) {
             log("API setup failed - " + ex.toString());
@@ -57,6 +58,29 @@ public class GreenhouseServer {
 
     }
 
+    private void handleGetParamValues(RoutingContext routingContext) {
+        HttpServerRequest request = routingContext.request();
+        String id = request.getParam("id");
+        String param = request.getParam("param");
+        HttpServerResponse res = routingContext.response();
+        res.putHeader("Content-Type", "application/json");
+        Future<Greenhouse> fut = this.model.getGreenhouse(id);
+        fut.onSuccess(gh -> {
+            res.end(paramToJSON(gh.getPlant(), param).toBuffer());
+        });
+    }
+
+    private void handleGetModality(RoutingContext routingContext) {
+        HttpServerRequest request = routingContext.request();
+        String id = request.getParam("id");
+        HttpServerResponse res = routingContext.response();
+        res.putHeader("Content-Type", "application/json");
+        Future<Greenhouse> fut = this.model.getGreenhouse(id);
+        fut.onSuccess(gh -> {
+            res.end(modalityToJSON(gh.getActualModality()).toBuffer());
+        });
+    }
+
     private void handlePutModality(RoutingContext routingContext) {
         JsonObject body = routingContext.body().asJsonObject();
         HttpServerResponse res = routingContext.response();
@@ -65,7 +89,7 @@ public class GreenhouseServer {
                 Modality.valueOf(body.getString("modality").toUpperCase())
         );
         fut.onSuccess(gh -> {
-            res.setStatusCode(200).end(); //todo change with constant
+            res.setStatusCode(STATUS_CODE_0K).end();
         });
 
     }
