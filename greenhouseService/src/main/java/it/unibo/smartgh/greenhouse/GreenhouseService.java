@@ -20,6 +20,7 @@ public class GreenhouseService extends AbstractVerticle {
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
         installAdapters(startPromise);
+        startPromise.complete();
     }
 
     private void installAdapters(Promise<Void> startPromise) {
@@ -29,7 +30,7 @@ public class GreenhouseService extends AbstractVerticle {
              */
             this.httpAdapter = new GreenhouseHTTPAdapter(model, "localhost", PORT, this.getVertx());
             Promise<Void> p = Promise.promise();
-            httpAdapter.setupAdapter(p);
+            httpAdapter.setupAdapter();
             Future<Void> fut = p.future();
             fut.onSuccess(res -> {
                 log("HTTP adapter installed.");

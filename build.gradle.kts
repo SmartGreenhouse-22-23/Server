@@ -15,7 +15,6 @@ allprojects{
     dependencies {
         implementation(rootProject.libs.bundles.vertx.dependencies)
         implementation(rootProject.libs.mongodb.driver)
-        implementation("io.vertx:vertx-junit5:4.1.5")
         testImplementation(rootProject.libs.junit.api)
         testRuntimeOnly(rootProject.libs.junit.engine)
     }

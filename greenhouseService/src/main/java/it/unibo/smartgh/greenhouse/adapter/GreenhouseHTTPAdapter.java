@@ -30,7 +30,7 @@ public class GreenhouseHTTPAdapter {
         this.port = port;
     }
 
-    public void setupAdapter(Promise<Void> startPromise) {
+    public void setupAdapter() {
         //todo
         GreenhouseServer greenhouseServer = new GreenhouseServer(host, port, this.model, this.vertx);
         greenhouseServer.start();
