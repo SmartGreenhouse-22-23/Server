@@ -22,9 +22,18 @@ public class GreenhouseDatabaseTest {
     @Test
     public void testGetGreenhouse() {
         Greenhouse res = greenhouseDatabase.getGreenhouse(ID_AUTOMATIC);
-        Plant plant = new PlantImpl("lemon AUTOMATIC", "is a species of small evergreen trees in the flowering plant f" +
-                "amily Rutaceae, native to Asia, primarily Northeast India (Assam), Northern Myanmar or China.", 8.0, 35.0,
-                4200.0, 130000.0, 20.0, 65.0, 30.0, 80.0);
+        Plant plant = new PlantBuilder("lemon AUTOMATIC")
+                .description("is a species of small evergreen trees in the flowering plant family" +
+                        "Rutaceae, native to Asia, primarily Northeast India (Assam), Northern Myanmar or China.")
+                .minTemperature(8.0)
+                .maxTemperature(35.0)
+                .minBrightness(4200.0)
+                .maxBrightness(130000.0)
+                .minSoilHumidity(20.0)
+                .maxSoilHumidity(65.0)
+                .minHumidity(30.0)
+                .maxHumidity(80.0)
+                .build();
         Greenhouse greenhouse = new GreenhouseImpl(plant, Modality.AUTOMATIC);
         assertEquals(greenhouse.getPlant().getName(), res.getPlant().getName());
         assertEquals(greenhouse.getActualModality(), res.getActualModality());

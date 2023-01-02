@@ -51,17 +51,17 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
         Document doc = documents.iterator().next();
         List list = new ArrayList(doc.values());
         Document plantDoc = (Document) list.get(1);
-        Plant plant = new PlantImpl(plantDoc.get("name", String.class),
-                plantDoc.get("description", String.class),
-                plantDoc.get("minTemperature", Double.class),
-                plantDoc.get("maxTemperature", Double.class),
-                plantDoc.get("minBrightness", Double.class),
-                plantDoc.get("maxBrightness", Double.class),
-                plantDoc.get("minSoilHumidity", Double.class),
-                plantDoc.get("maxSoilHumidity", Double.class),
-                plantDoc.get("minHumidity", Double.class),
-                plantDoc.get("maxHumidity", Double.class)
-                );
+        Plant plant = new PlantBuilder(plantDoc.get("name", String.class))
+                .description(plantDoc.get("description", String.class))
+                .minTemperature(plantDoc.get("minTemperature", Double.class))
+                .maxTemperature(plantDoc.get("maxTemperature", Double.class))
+                .minBrightness(plantDoc.get("minBrightness", Double.class))
+                .maxBrightness(plantDoc.get("maxBrightness", Double.class))
+                .minSoilHumidity(plantDoc.get("minSoilHumidity", Double.class))
+                .maxSoilHumidity(plantDoc.get("maxSoilHumidity", Double.class))
+                .minHumidity(plantDoc.get("minHumidity", Double.class))
+                .maxHumidity(plantDoc.get("maxHumidity", Double.class))
+                .build();
         Modality modality = Modality.valueOf(doc.get("modality", String.class).toUpperCase());
         return new GreenhouseImpl(plant, modality);
     }

@@ -26,9 +26,18 @@ public class GreenhouseHTTPAdapterTest {
     private static final String ID = "63af0ae025d55e9840cbc1fa";
     private static final String ID_AUTOMATIC =  "63b29b0a3792e15bae3229a7";
 
-    private final Plant plant = new PlantImpl("lemon AUTOMATIC", "is a species of small evergreen trees in the flowering plant f" +
-            "amily Rutaceae, native to Asia, primarily Northeast India (Assam), Northern Myanmar or China.", 8.0, 35.0,
-            4200.0, 130000.0, 20.0, 65.0, 30.0, 80.0);
+    private final Plant plant = new PlantBuilder("lemon AUTOMATIC")
+                .description("is a species of small evergreen trees in the flowering plant family" +
+                                     "Rutaceae, native to Asia, primarily Northeast India (Assam), Northern Myanmar or China.")
+                .minTemperature(8.0)
+                .maxTemperature(35.0)
+                .minBrightness(4200.0)
+                .maxBrightness(130000.0)
+                .minSoilHumidity(20.0)
+                .maxSoilHumidity(65.0)
+                .minHumidity(30.0)
+                .maxHumidity(80.0)
+                .build();
     private final Greenhouse greenhouse = new GreenhouseImpl(plant, Modality.AUTOMATIC);
 
     @BeforeEach
