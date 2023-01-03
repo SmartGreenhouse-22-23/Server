@@ -7,7 +7,21 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [ubuntu-18.04, macos-12, macos-11, macos-10.15]
+        mongodb-version: [ 6.0, 5.0, 4.4, 4.2 ]
+        include:
+          - os: ubuntu-22.04
+            mongodb-version: 6.0
+          - os: ubuntu-20.04
+            mongodb-version: 6.0
+          - os: ubuntu-20.04
+            mongodb-version: 5.0
+          - os: ubuntu-20.04
+            mongodb-version: 4.4
+          - os: windows-2022
+            mongodb-version: 5.0
+          - os: windows-2019
+            mongodb-version: 5.0
     runs-on: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v3
@@ -19,7 +33,7 @@ jobs:
       - name: Create mongo Docker container
         uses: ankane/setup-mongodb@v1
         with:
-          mongodb-version: 5.0
+          mongodb-version: ${{ matrix.mongodb-version }}
       - name: upload collection (Windows)
         if: ${{ runner.os == 'Windows'}}
         run: |
