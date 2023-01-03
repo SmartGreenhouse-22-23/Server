@@ -8,6 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
+        mongodb-version: ["4.0", "4.2"]
     runs-on: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v3
@@ -19,11 +20,9 @@ jobs:
       - name: build
         run: ./gradlew build 
       - name: Create mongo Docker container
-        id: build_mongo_docker
-        uses: DigiPie/mongo-action@v1.0.1
+        uses: wbari/start-mongoDB@v0.2
         with:
-          image-version: latest
-          port: 27017
+          mongoDBVersion: ${{ matrix.mongodb-version }}
       - name: test
         run: ./gradlew test
   release:
