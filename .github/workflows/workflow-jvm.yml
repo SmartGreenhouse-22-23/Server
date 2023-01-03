@@ -22,7 +22,7 @@ jobs:
         uses: ankane/setup-mongodb@v1
       - name: upload db
         run: |
-            mongosh --eval "load(./greenhouseService/src/main/resources/importDB.js)"
+            mongosh --eval "load(/greenhouseService/src/main/resources/importDB.js)"
       - name: build
         run: ./gradlew build -x test
       - name: test
