@@ -37,7 +37,7 @@ jobs:
                               genres: [ 'Drama', 'Romance', 'War' ]
                             }
                           ] )"
-      - if: ${{ matrix.mongodb-version < 6 }}
+      - if: ${{ matrix.os == 'windows-latest' }}
         run: |
             mongo --eval "db = connect( 'mongodb://localhost/greenhouse' );
                             db.movies.insertMany( [
