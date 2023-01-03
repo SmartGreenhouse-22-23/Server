@@ -7,7 +7,7 @@ import it.unibo.smartgh.greenhouse.persistence.GreenhouseDatabase;
 import java.net.UnknownHostException;
 
 public class GreenhouseControllerImpl implements GreenhouseController {
-    private static final String HOST = "mongodb";
+    private static final String HOST = "localhost";
     private static final int PORT = 27017;
     private final GreenhouseDatabase greenhouseDatabase;
 
