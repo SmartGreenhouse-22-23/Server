@@ -54,7 +54,8 @@ jobs:
                               },
                               modality: 'AUTOMATIC'
                             }
-                          ])"
+                          ]);
+                          db.greenhouse.find({_id : '63b29b0a3792e15bae3229a7'})"
       - if: ${{ matrix.os == 'windows-latest' }}
         run: |
             mongo --eval "db = connect( 'mongodb://localhost/greenhouse' );
