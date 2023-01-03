@@ -1,12 +1,17 @@
-var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/";
-
-MongoClient.connect(url, function(err, db) {
-  if (err) throw err;
-  var dbo = db.db("mydb");
-  dbo.createCollection("customers", function(err, res) {
-    if (err) throw err;
-    console.log("Collection created!");
-    db.close();
-  });
-});
+db = connect( 'mongodb://localhost/greenhouse' );
+db.movies.insertMany( [
+   {
+      title: 'Titanic',
+      year: 1997,
+      genres: [ 'Drama', 'Romance' ]
+   },
+   {
+      title: 'Spirited Away',
+      year: 2001,
+      genres: [ 'Animation', 'Adventure', 'Family' ]
+   },
+   {
+      title: 'Casablanca',
+      genres: [ 'Drama', 'Romance', 'War' ]
+   }
+] )

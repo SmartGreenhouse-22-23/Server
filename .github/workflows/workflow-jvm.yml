@@ -16,8 +16,6 @@ jobs:
         with:
           distribution: temurin
           java-version: 11
-      - name: install mongo package
-        run: npm install mongodb
       - name: Create mongo Docker container
         uses: ankane/setup-mongodb@v1
       - name: upload db
