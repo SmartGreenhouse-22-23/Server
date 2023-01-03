@@ -21,7 +21,7 @@ jobs:
       - name: read file
         run: |
               cd greenhouseService/src/main/resources 
-              cp ./ $HOME/data/db
+              cp importDB.js $HOME/data/db
       - name: upload db
         run: |
             mongosh --eval "load('/importDB.js')"
