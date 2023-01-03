@@ -33,6 +33,7 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
         MongoClient mongoClient = MongoClients.create("mongodb://" + host + ":" + port);
         MongoDatabase database = mongoClient.getDatabase(DB_NAME);
         collection = database.getCollection(COLLECTION_NAME);
+        System.out.println(collection.getNamespace().getCollectionName());
     }
 
     @Override
