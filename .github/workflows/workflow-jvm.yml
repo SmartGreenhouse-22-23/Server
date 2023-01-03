@@ -18,12 +18,25 @@ jobs:
           java-version: 11
       - name: Create mongo Docker container
         uses: ankane/setup-mongodb@v1
-      - name: read file
-        run: |
-              grep dbpath /etc/mongod.conf
       - name: upload db
         run: |
-            mongosh --eval "load('/importDB.js')"
+            mongosh --eval "db = connect( 'mongodb://localhost/greenhouse' );
+                            db.movies.insertMany( [
+                            {
+                              title: 'Titanic',
+                              year: 1997,
+                              genres: [ 'Drama', 'Romance' ]
+                            },
+                            {
+                              title: 'Spirited Away',
+                              year: 2001,
+                              genres: [ 'Animation', 'Adventure', 'Family' ]
+                            },
+                            {
+                              title: 'Casablanca',
+                              genres: [ 'Drama', 'Romance', 'War' ]
+                            }
+                          ] )"
       - name: build
         run: ./gradlew build -x test
       - name: test
