@@ -18,10 +18,10 @@ jobs:
           java-version: 11
       - name: Create mongo Docker container
         uses: ankane/setup-mongodb@v1
-      - name:
+      - name: read file
         run: |
               cd greenhouseService/src/main/resources 
-              ls -a
+              cat importDB.js
       - name: upload db
         run: |
             mongosh --eval "load('/greenhouseService/src/main/resources/importDB.js')"
