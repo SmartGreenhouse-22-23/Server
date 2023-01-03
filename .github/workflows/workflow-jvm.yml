@@ -7,21 +7,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-18.04, macos-12, macos-11, macos-10.15]
-        mongodb-version: [ 6.0, 5.0, 4.4, 4.2 ]
-        include:
-          - os: ubuntu-22.04
-            mongodb-version: 6.0
-          - os: ubuntu-20.04
-            mongodb-version: 6.0
-          - os: ubuntu-20.04
-            mongodb-version: 5.0
-          - os: ubuntu-20.04
-            mongodb-version: 4.4
-          - os: windows-2022
-            mongodb-version: 5.0
-          - os: windows-2019
-            mongodb-version: 5.0
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v3
@@ -30,23 +16,12 @@ jobs:
         with:
           distribution: temurin
           java-version: 11
+      - name: install mongo package
+        run: npm install mongodb
       - name: Create mongo Docker container
         uses: ankane/setup-mongodb@v1
-        with:
-          mongodb-version: ${{ matrix.mongodb-version }}
-      - name: upload collection (Windows)
-        if: ${{ runner.os == 'Windows'}}
         run: |
-            $params = '--db', 'greenhouse',
-                      '--collection', 'greenhouse',
-                      '--file', 'greenhouseService/src/main/resources/greenhouseDatabase.json',
-                      '--headerline'
-                      '--jsonArray'
-            & 'C:\Program Files\MongoDB\Server\5.0\bin\mongoimport.exe' $params
-      - name: upload collection (mac os and ubuntu)
-        if: ${{ runner.os != 'Windows'}}
-        run: |
-              mongoimport --db='greenhouse' --collection='greenhouse' --file='greenhouseService/src/main/resources/greenhouseDatabase.json' --jsonArray
+             mongosh --eval load(greenhouseService/src/main/resources/importDB.js)
       - name: build
         run: ./gradlew build -x test
       - name: test
