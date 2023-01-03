@@ -18,6 +18,8 @@ jobs:
           java-version: 11
       - name: Create mongo Docker container
         uses: ankane/setup-mongodb@v1
+        with:
+          mongodb-version: 5.0
       - name: upload collection (Windows)
         if: ${{ runner.os == 'Windows'}}
         run: |
