@@ -18,8 +18,8 @@ jobs:
           java-version: 11
       - name: build
         run: ./gradlew build 
-      - name: create mongoDb docker container
-        run: sudo docker run -d -p 27017:27017 mongo:latest
+      - name: create mongoDB docker container
+        run: docker run -d -p 27017:27017 mongo:latest
       - name: test
         run: ./gradlew test
   release:
