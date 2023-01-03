@@ -7,7 +7,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest, windows-2022]
     runs-on: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v3
@@ -20,7 +20,7 @@ jobs:
         uses: ankane/setup-mongodb@v1
       - name: upload collection
         run: |
-              mongoimport --collection='greenhouse' --file='greenhouseService/src/main/resources/greenhouseDatabase.json' --jsonArray
+              mongoimport --db='greenhouse' --collection='greenhouse' --file='greenhouseService/src/main/resources/greenhouseDatabase.json' --jsonArray
       - name: build
         run: ./gradlew build -x test
       - name: test
