@@ -21,10 +21,10 @@ jobs:
       - name: read file
         run: |
               cd greenhouseService/src/main/resources 
-              cat importDB.js
+              cp ./ $HOME/data/db
       - name: upload db
         run: |
-            mongosh --eval "load('/greenhouseService/src/main/resources/importDB.js')"
+            mongosh --eval "load('/importDB.js')"
       - name: build
         run: ./gradlew build -x test
       - name: test
