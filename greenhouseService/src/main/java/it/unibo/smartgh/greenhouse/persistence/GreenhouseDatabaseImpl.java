@@ -30,7 +30,7 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
                         .version(ServerApiVersion.V1)
                         .build())
                 .build();*/
-        MongoClient mongoClient = MongoClients.create("mongodb://" + host + ":" + port);
+        MongoClient mongoClient = MongoClients.create("mongodb://127.0.0.1:27017" /*+ host + ":" + port*/);
         MongoDatabase database = mongoClient.getDatabase(DB_NAME);
         collection = database.getCollection(COLLECTION_NAME);
     }
