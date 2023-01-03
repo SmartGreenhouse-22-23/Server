@@ -19,7 +19,7 @@ jobs:
       - name: Create mongo Docker container
         uses: ankane/setup-mongodb@v1
       - if: ${{ matrix.mongodb-version >= 6 }}
-          run: |
+        run: |
             mongosh --eval "db = connect( 'mongodb://localhost/greenhouse' );
                             db.movies.insertMany( [
                             {
