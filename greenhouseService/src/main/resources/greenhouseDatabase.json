@@ -1,0 +1,70 @@
+[
+  {
+    "_id": {
+      "$oid": "63af0ae025d55e9840cbc1fa"
+    },
+    "plant": {
+      "name": "lemon",
+      "description": "is a species of small evergreen trees in the flowering plant family Rutaceae, native to Asia, primarily Northeast India (Assam), Northern Myanmar or China.",
+      "minTemperature": {
+        "$numberDouble": "8.0"
+      },
+      "maxTemperature": {
+        "$numberDouble": "35.0"
+      },
+      "minBrightness": {
+        "$numberDouble": "4200.0"
+      },
+      "maxBrightness": {
+        "$numberDouble": "130000.0"
+      },
+      "minSoilHumidity": {
+        "$numberDouble": "20.0"
+      },
+      "maxSoilHumidity": {
+        "$numberDouble": "65.0"
+      },
+      "minHumidity": {
+        "$numberDouble": "30.0"
+      },
+      "maxHumidity": {
+        "$numberDouble": "80.0"
+      }
+    },
+    "modality": "AUTOMATIC"
+  },
+  {
+    "_id": {
+      "$oid": "63b29b0a3792e15bae3229a7"
+    },
+    "plant": {
+      "name": "lemon AUTOMATIC",
+      "description": "is a species of small evergreen trees in the flowering plant family Rutaceae, native to Asia, primarily Northeast India (Assam), Northern Myanmar or China.",
+      "minTemperature": {
+        "$numberDouble": "8.0"
+      },
+      "maxTemperature": {
+        "$numberDouble": "35.0"
+      },
+      "minBrightness": {
+        "$numberDouble": "4200.0"
+      },
+      "maxBrightness": {
+        "$numberDouble": "130000.0"
+      },
+      "minSoilHumidity": {
+        "$numberDouble": "20.0"
+      },
+      "maxSoilHumidity": {
+        "$numberDouble": "65.0"
+      },
+      "minHumidity": {
+        "$numberDouble": "30.0"
+      },
+      "maxHumidity": {
+        "$numberDouble": "80.0"
+      }
+    },
+    "modality": "AUTOMATIC"
+  }
+]

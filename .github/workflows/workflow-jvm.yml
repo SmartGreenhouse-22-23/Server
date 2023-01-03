@@ -20,6 +20,9 @@ jobs:
         run: ./gradlew build 
       - name: Create mongo Docker container
         uses: ankane/setup-mongodb@v1
+      - name: upload collection
+        run: |
+          mongoimport --collection='greenhouse' --file='greenhouseService/src/main/resources/greenhouseDatabase.json' --jsonArray
       - name: test
         run: ./gradlew test
   release:
