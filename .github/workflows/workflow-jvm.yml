@@ -20,8 +20,13 @@ jobs:
         run: npm install mongodb
       - name: Create mongo Docker container
         uses: ankane/setup-mongodb@v1
+      - name : import DB
+      - if: ${{ matrix.mongodb-version >= 6 }}
+       run: |
+         mongosh --eval "load(greenhouseService/src/main/resources/importDB.js)"
+      - if: ${{ matrix.mongodb-version < 6 }}
         run: |
-             mongosh --eval load(greenhouseService/src/main/resources/importDB.js)
+           mongo --eval "load(greenhouseService/src/main/resources/importDB.js)"
       - name: build
         run: ./gradlew build -x test
       - name: test
