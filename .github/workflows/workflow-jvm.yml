@@ -20,8 +20,8 @@ jobs:
         uses: ankane/setup-mongodb@v1
       - name:
         run: |
-        cd greenhouseService/src/main/resources 
-        ls -a
+              cd greenhouseService/src/main/resources 
+              ls -a
       - name: upload db
         run: |
             mongosh --eval "load('/greenhouseService/src/main/resources/importDB.js')"
