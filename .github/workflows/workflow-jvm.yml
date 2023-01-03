@@ -18,7 +18,7 @@ jobs:
           java-version: 11
       - name: Create mongo Docker container
         uses: ankane/setup-mongodb@v1
-      - if: ${{ matrix.mongodb-version >= 6 }}
+      - if: ${{ matrix.os != 'windows-latest'}}
         run: |
             mongosh --eval "db = connect( 'mongodb://localhost/greenhouse' );
                             db.movies.insertMany( [
