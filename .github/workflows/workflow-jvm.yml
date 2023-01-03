@@ -7,7 +7,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-2022]
+        os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v3
@@ -18,7 +18,17 @@ jobs:
           java-version: 11
       - name: Create mongo Docker container
         uses: ankane/setup-mongodb@v1
-      - name: upload collection
+      - name: upload collection (Windows)
+        if: ${{ runner.os == 'Windows'}}
+        run: |
+            $params = '--db', 'greenhouse',
+                      '--collection', 'greenhouse',
+                      '--file', 'greenhouseService/src/main/resources/greenhouseDatabase.json',
+                      '--headerline'
+                      '--jsonArray'
+            & 'C:\Program Files\MongoDB\Server\5.0\bin\mongoimport.exe' $params
+      - name: upload collection (mac os and ubuntu)
+        if: ${{ runner.os != 'Windows'}}
         run: |
               mongoimport --db='greenhouse' --collection='greenhouse' --file='greenhouseService/src/main/resources/greenhouseDatabase.json' --jsonArray
       - name: build
