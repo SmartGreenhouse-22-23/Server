@@ -23,7 +23,6 @@ jobs:
             mongosh --eval "`cat greenhouseService/src/main/resources/initDb.txt`"
       - if: ${{ matrix.os == 'windows-latest' }}
         run: |
-            cat greenhouseService/src/main/resources/initDb.txt
             mongo --eval \"`cat greenhouseService/src/main/resources/initDb.txt`\"
       - name: build
         run: ./gradlew build -x test
