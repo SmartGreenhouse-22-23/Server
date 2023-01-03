@@ -18,9 +18,28 @@ jobs:
           java-version: 11
       - name: Create mongo Docker container
         uses: ankane/setup-mongodb@v1
-      - name: upload db
-        run: |
+      - if: ${{ matrix.mongodb-version >= 6 }}
+          run: |
             mongosh --eval "db = connect( 'mongodb://localhost/greenhouse' );
+                            db.movies.insertMany( [
+                            {
+                              title: 'Titanic',
+                              year: 1997,
+                              genres: [ 'Drama', 'Romance' ]
+                            },
+                            {
+                              title: 'Spirited Away',
+                              year: 2001,
+                              genres: [ 'Animation', 'Adventure', 'Family' ]
+                            },
+                            {
+                              title: 'Casablanca',
+                              genres: [ 'Drama', 'Romance', 'War' ]
+                            }
+                          ] )"
+      - if: ${{ matrix.mongodb-version < 6 }}
+        run: |
+            mongo --eval "db = connect( 'mongodb://localhost/greenhouse' );
                             db.movies.insertMany( [
                             {
                               title: 'Titanic',
