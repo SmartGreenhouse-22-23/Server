@@ -1,9 +1,16 @@
 package it.unibo.smartgh.greenhouse.persistence;
 
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
 import it.unibo.smartgh.greenhouse.entity.*;
+import org.bson.Document;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+
+import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,6 +25,19 @@ public class GreenhouseDatabaseTest {
     @BeforeAll
     static void testConnection() {
         assertDoesNotThrow(() -> greenhouseDatabase.connection(HOST, PORT));
+    }
+
+    @Test
+    public void test(){
+        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
+        MongoDatabase database = mongoClient.getDatabase("greenhouse");
+        FindIterable<Document> docs = database.getCollection("greenhouse").find();
+        int count = 0;
+        for (Document doc : docs) {
+            System.out.println(doc);
+            count++;
+        }
+        assertEquals(2, count);
     }
 
     @Test

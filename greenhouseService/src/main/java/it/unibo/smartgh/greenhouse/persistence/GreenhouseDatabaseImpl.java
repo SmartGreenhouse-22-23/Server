@@ -3,18 +3,13 @@ package it.unibo.smartgh.greenhouse.persistence;
 import com.mongodb.*;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.result.UpdateResult;
 import it.unibo.smartgh.greenhouse.entity.*;
 import org.bson.Document;
 import org.bson.conversions.Bson;
-import org.bson.json.JsonObject;
 import org.bson.types.ObjectId;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.concurrent.TimeUnit;
 
 public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
     private final static String DB_NAME = "greenhouse";
@@ -40,7 +35,7 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
     @Override
     public Greenhouse getGreenhouse(String id) {
         Bson filter = Filters.eq("_id", new ObjectId(id));
-        FindIterable<Document> documents = collection.find(filter).maxAwaitTime(2, TimeUnit.MINUTES);
+        FindIterable<Document> documents = collection.find(filter);
         Document doc = documents.iterator().next();
         List list = new ArrayList(doc.values());
         Document plantDoc = (Document) list.get(1);
