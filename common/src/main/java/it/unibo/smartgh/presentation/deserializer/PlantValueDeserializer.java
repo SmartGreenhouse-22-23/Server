@@ -15,7 +15,8 @@ public class PlantValueDeserializer  extends GeneralDeserializer implements Json
     public PlantValue deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
         PlantValue plantValue = new PlantValueImpl();
-        if(json instanceof JsonObject object){
+        if(json instanceof JsonObject){
+            JsonObject object = (JsonObject) json;
             plantValue.setGreenhouseId(this.getPropertyAsString(object, "greenhouseId"));
             try {
                 System.out.println(this.getPropertyAsString(object, "date"));
