@@ -1,10 +1,8 @@
 package it.unibo.smartgh.greenhouse.persistence;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
 import it.unibo.smartgh.greenhouse.entity.*;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -22,14 +20,7 @@ public class GreenhouseDatabaseTest {
         assertDoesNotThrow(() -> greenhouseDatabase.connection(HOST, PORT));
     }
 
-    @Test
-    public void testConnectionLocally(){
-        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
-        MongoDatabase database = mongoClient.getDatabase("greenhouse");
-        assertEquals("greenhouse", database.getCollection("greenhouse").getNamespace().getDatabaseName());
-    }
-
-    @Test
+    @RepeatedTest(2)
     public void testGetGreenhouse() {
         Greenhouse res = greenhouseDatabase.getGreenhouse(ID_AUTOMATIC);
         Plant plant = new PlantBuilder("lemon AUTOMATIC")
