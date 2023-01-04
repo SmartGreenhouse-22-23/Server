@@ -59,7 +59,7 @@ public class GreenhouseHTTPAdapterTest {
                     testContext.completeNow();
                 })));
     }
-/*
+
     @Test
     public void putActualModalityTest(Vertx vertx, VertxTestContext testContext) {
         WebClient client = WebClient.create(vertx);
@@ -96,5 +96,5 @@ public class GreenhouseHTTPAdapterTest {
                     assertEquals(paramToJSON(greenhouse.getPlant(), "temperature").toString(), response.body());
                     testContext.completeNow();
                 })));
-    }*/
+    }
 }
