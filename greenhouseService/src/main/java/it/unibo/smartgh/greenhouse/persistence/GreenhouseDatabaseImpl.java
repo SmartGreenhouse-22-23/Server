@@ -21,19 +21,10 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
     private MongoCollection<Document> collection;
 
     @Override
-    public void connection(String host, int port) throws UnknownHostException {
-        //TODO
-/*        ConnectionString connectionString = new ConnectionString("mongodb+srv://admin:admin0@appuntisoftwarecluster.qgyp3.mongodb.net/greenhouse?retryWrites=true&w=majority");
-        MongoClientSettings settings = MongoClientSettings.builder()
-                .applyConnectionString(connectionString)
-                .serverApi(ServerApi.builder()
-                        .version(ServerApiVersion.V1)
-                        .build())
-                .build();*/
+    public void connection(String host, int port){
         MongoClient mongoClient = MongoClients.create("mongodb://" + host + ":" + port);
         MongoDatabase database = mongoClient.getDatabase(DB_NAME);
         collection = database.getCollection(COLLECTION_NAME);
-        System.out.println(collection.getNamespace().getCollectionName());
     }
 
     @Override
