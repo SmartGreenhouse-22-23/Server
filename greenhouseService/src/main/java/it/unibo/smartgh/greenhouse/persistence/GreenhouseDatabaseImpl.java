@@ -3,33 +3,35 @@ package it.unibo.smartgh.greenhouse.persistence;
 import com.mongodb.*;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.result.UpdateResult;
 import it.unibo.smartgh.greenhouse.entity.*;
 import org.bson.Document;
 import org.bson.conversions.Bson;
-import org.bson.json.JsonObject;
 import org.bson.types.ObjectId;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
+
+import static java.lang.Double.parseDouble;
+import static java.lang.Double.valueOf;
 
 public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
     private final static String DB_NAME = "greenhouse";
     private final static String COLLECTION_NAME = "greenhouse";
-    private MongoCollection<Document> collection;
 
-    @Override
-    public void connection(String host, int port){
-        MongoClient mongoClient = MongoClients.create("mongodb://" + host + ":" + port);
+    private final static String HOST = "localhost";
+    private final static int PORT = 27017;
+
+    private MongoCollection<Document> connection2(){
+        MongoClient mongoClient = MongoClients.create("mongodb://" + HOST + ":" + PORT);
         MongoDatabase database = mongoClient.getDatabase(DB_NAME);
-        collection = database.getCollection(COLLECTION_NAME);
+        return database.getCollection(COLLECTION_NAME);
     }
 
     @Override
     public void putActualModality(String id, Modality modality) {
         this.getGreenhouse(id); //used for check the id
+        MongoCollection<Document> collection = connection2();
         collection.updateOne(
                 new BasicDBObject("_id", new ObjectId(id)),
                 new BasicDBObject("$set", new BasicDBObject("modality", modality.name()))
@@ -38,6 +40,7 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
 
     @Override
     public Greenhouse getGreenhouse(String id) {
+        MongoCollection<Document> collection = connection2();
         Bson filter = Filters.eq("_id", new ObjectId(id));
         FindIterable<Document> documents = collection.find(filter);
         Document doc = documents.iterator().next();
@@ -45,14 +48,14 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
         Document plantDoc = (Document) list.get(1);
         Plant plant = new PlantBuilder(plantDoc.get("name", String.class))
                 .description(plantDoc.get("description", String.class))
-                .minTemperature(plantDoc.get("minTemperature", Double.class))
-                .maxTemperature(plantDoc.get("maxTemperature", Double.class))
-                .minBrightness(plantDoc.get("minBrightness", Double.class))
-                .maxBrightness(plantDoc.get("maxBrightness", Double.class))
-                .minSoilHumidity(plantDoc.get("minSoilHumidity", Double.class))
-                .maxSoilHumidity(plantDoc.get("maxSoilHumidity", Double.class))
-                .minHumidity(plantDoc.get("minHumidity", Double.class))
-                .maxHumidity(plantDoc.get("maxHumidity", Double.class))
+                .minTemperature(valueOf(plantDoc.get("minTemperature").toString()))
+                .maxTemperature(valueOf(plantDoc.get("maxTemperature").toString()))
+                .minBrightness(valueOf(plantDoc.get("minBrightness").toString()))
+                .maxBrightness(valueOf(plantDoc.get("maxBrightness").toString()))
+                .minSoilHumidity(valueOf(plantDoc.get("minSoilHumidity").toString()))
+                .maxSoilHumidity(valueOf(plantDoc.get("maxSoilHumidity").toString()))
+                .minHumidity(valueOf(plantDoc.get("minHumidity").toString()))
+                .maxHumidity(valueOf(plantDoc.get("maxHumidity").toString()))
                 .build();
         Modality modality = Modality.valueOf(doc.get("modality", String.class).toUpperCase());
         return new GreenhouseImpl(plant, modality);

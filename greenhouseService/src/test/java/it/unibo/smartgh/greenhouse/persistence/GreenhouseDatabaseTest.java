@@ -1,8 +1,18 @@
 package it.unibo.smartgh.greenhouse.persistence;
 
+import com.mongodb.client.*;
+import com.mongodb.client.model.Filters;
 import it.unibo.smartgh.greenhouse.entity.*;
+import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+
+import java.net.UnknownHostException;
+import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,11 +23,6 @@ public class GreenhouseDatabaseTest {
     private static final GreenhouseDatabase greenhouseDatabase = new GreenhouseDatabaseImpl();
     private static final String ID = "63af0ae025d55e9840cbc1fa";
     private static final String ID_AUTOMATIC =  "63b29b0a3792e15bae3229a7";
-
-    @BeforeAll
-    static void testConnection() {
-        assertDoesNotThrow(() -> greenhouseDatabase.connection(HOST, PORT));
-    }
 
     @Test
     public void testGetGreenhouse() {

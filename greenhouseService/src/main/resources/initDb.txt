@@ -1,7 +1,7 @@
 db = connect( 'mongodb://localhost/greenhouse' );
 db.greenhouse.insertMany( [
 {
-  _id: '63af0ae025d55e9840cbc1fa',
+  _id: ObjectId('63af0ae025d55e9840cbc1fa'),
   plant: {
     name: 'lemon',
     description: 'is a species of small evergreen trees in the flowering plant family Rutaceae, native to Asia, primarily Northeast India (Assam), Northern Myanmar or China.',
@@ -17,7 +17,7 @@ db.greenhouse.insertMany( [
   modality: 'AUTOMATIC'
 },
 {
-  _id: '63b29b0a3792e15bae3229a7',
+  _id: ObjectId('63b29b0a3792e15bae3229a7'),
   plant: {
     name: 'lemon AUTOMATIC',
     description: 'is a species of small evergreen trees in the flowering plant family Rutaceae, native to Asia, primarily Northeast India (Assam), Northern Myanmar or China.',
