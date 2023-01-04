@@ -11,6 +11,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+/**
+ * Custom {@link JsonDeserializer} for the {@link Operation} class. Used to convert a JSON object
+ * into an {@link Operation} object.
+ */
 public class OperationDeserializer extends GeneralDeserializer implements JsonDeserializer<Operation> {
 
     @Override

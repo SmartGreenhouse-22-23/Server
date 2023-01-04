@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * This class is an implementation of the {@link Operation} interface.
+ */
 public class OperationImpl implements Operation {
 
     private String greenhouseId;
@@ -13,10 +16,22 @@ public class OperationImpl implements Operation {
     private String action;
     private Optional<Double> value;
 
+    /**
+     * Constructs a new {@link OperationImpl} with no value associated with it.
+     */
     public OperationImpl() {
         this.value = Optional.empty();
     }
 
+    /**
+     * Constructs a new {@link OperationImpl} with the given characteristics.
+     * @param greenhouseId the greenhouse id
+     * @param modality the modality of the operation (automatic or manual)
+     * @param date the date of the operation
+     * @param parameter the parameter the operation refers to
+     * @param action the action represented by the operation
+     * @param value the value associated with the operation, if any
+     */
     public OperationImpl(String greenhouseId, Modality modality, Date date, String parameter, String action,
                          Double value) {
         this.greenhouseId = greenhouseId;

@@ -11,6 +11,9 @@ import it.unibo.smartgh.operation.api.OperationAPI;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * The service for managing Greenhouse operations.
+ */
 public class OperationService extends AbstractVerticle {
 
     private final List<AbstractAdapter<OperationAPI>> adapters;
@@ -18,6 +21,12 @@ public class OperationService extends AbstractVerticle {
     private final String host;
     private final int port;
 
+    /**
+     * Constructs a new {@link OperationService}.
+     * @param model the {@link OperationAPI} object
+     * @param host the hostname for the server
+     * @param port the port number for the server
+     */
     public OperationService(OperationAPI model, String host, int port) {
         this.adapters = new LinkedList<>();
         this.model = model;

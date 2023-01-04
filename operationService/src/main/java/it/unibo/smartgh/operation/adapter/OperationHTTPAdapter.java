@@ -16,6 +16,9 @@ import it.unibo.smartgh.operation.entity.OperationImpl;
 import java.sql.Date;
 import java.util.List;
 
+/**
+ * This class is an implementation of the AbstractAdapter class that adapts an OperationAPI instance to the HTTP protocol.
+ */
 public class OperationHTTPAdapter extends AbstractAdapter<OperationAPI> {
 
     private static final String BASE_PATH = "/operations";
@@ -28,6 +31,13 @@ public class OperationHTTPAdapter extends AbstractAdapter<OperationAPI> {
     private final String host;
     private final int port;
 
+    /**
+     * Creates an instance of the {@link OperationHTTPAdapter}.
+     * @param model the OperationAPI instance
+     * @param vertx the Vertx instance
+     * @param host the host name
+     * @param port the port
+     */
     public OperationHTTPAdapter(OperationAPI model, Vertx vertx, String host, int port) {
         super(model, vertx);
         this.host = host;

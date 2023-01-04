@@ -1,15 +1,17 @@
 package it.unibo.smartgh.operation.presentation.serializer;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
+import com.google.gson.*;
+import it.unibo.smartgh.operation.entity.Operation;
 import it.unibo.smartgh.operation.entity.OperationImpl;
 
 import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+/**
+ * Custom {@link JsonSerializer} for the {@link Operation} class. Used to convert a {@link Operation} object
+ * into an JSON object.
+ */
 public class OperationSerializer implements JsonSerializer<OperationImpl> {
 
     @Override

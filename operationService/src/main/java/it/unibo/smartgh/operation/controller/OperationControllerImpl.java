@@ -6,10 +6,17 @@ import it.unibo.smartgh.operation.persistence.OperationDatabase;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This class is an implementation of the {@link OperationController} interface.
+ */
 public class OperationControllerImpl implements OperationController {
 
     private final OperationDatabase operationDatabase;
 
+    /**
+     * Creates an instance of the class with the given {@link OperationDatabase} instance.
+     * @param operationDatabase the {@link OperationDatabase} instance
+     */
     public OperationControllerImpl(OperationDatabase operationDatabase) {
         this.operationDatabase = operationDatabase;
     }

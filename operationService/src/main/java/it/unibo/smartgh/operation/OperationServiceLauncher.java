@@ -9,6 +9,9 @@ import it.unibo.smartgh.operation.persistence.OperationDatabase;
 import it.unibo.smartgh.operation.persistence.OperationDatabaseImpl;
 import it.unibo.smartgh.operation.service.OperationService;
 
+/**
+ * Launcher class for an {@link OperationService} in a Vert.x application.
+ */
 public class OperationServiceLauncher {
 
     private static final String OPERATION_DB_NAME = "operation";

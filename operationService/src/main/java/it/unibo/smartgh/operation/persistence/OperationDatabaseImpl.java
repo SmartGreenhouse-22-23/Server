@@ -13,10 +13,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * This class is an implementation of the {@link OperationDatabase} interface that stores operations in a MongoDB database.
+ */
 public class OperationDatabaseImpl implements OperationDatabase {
     
     private final MongoCollection<Document> collection;
 
+    /**
+     * Constructs a new {@link OperationDatabaseImpl} with the specified database and collection parameters.
+     * @param dbName the name of the database
+     * @param collectionName the name of the collection
+     * @param host the hostname of the MongoDB server
+     * @param port the port of the MongoDB server
+     */
     public OperationDatabaseImpl(String dbName, String collectionName, String host, int port) {
         MongoClient mongoClient = MongoClients.create("mongodb://" + host + ":" + port);
         MongoDatabase database = mongoClient.getDatabase(dbName);
