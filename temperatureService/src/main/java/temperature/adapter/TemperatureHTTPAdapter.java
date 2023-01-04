@@ -17,6 +17,9 @@ import it.unibo.smartgh.plantValue.api.PlantValueAPI;
 
 import java.util.List;
 
+/**
+ * Class that represents the HTTP adapter of the Temperature.
+ */
 public class TemperatureHTTPAdapter extends AbstractAdapter<PlantValueAPI> {
 
     private static final String BASE_PATH = "/temperature";
@@ -26,6 +29,13 @@ public class TemperatureHTTPAdapter extends AbstractAdapter<PlantValueAPI> {
     private final String host;
     private final int port;
 
+    /**
+     * Constructor of {@link TemperatureHTTPAdapter}.
+     * @param model the temperature API model.
+     * @param vertx the current instance of vertx.
+     * @param host the temperature service host
+     * @param port the temperature service port
+     */
     public TemperatureHTTPAdapter(PlantValueAPI model, Vertx vertx, String host, int port) {
         super(model, vertx);
         this.host = host;

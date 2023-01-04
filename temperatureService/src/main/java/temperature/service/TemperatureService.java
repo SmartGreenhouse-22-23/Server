@@ -11,6 +11,9 @@ import temperature.adapter.TemperatureHTTPAdapter;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Class that represent the Service, it extends the abstract class {@link AbstractVerticle} of Vertx.
+ */
 public class TemperatureService extends AbstractVerticle {
 
     private final List<AbstractAdapter<PlantValueAPI>> adapters;
@@ -18,6 +21,12 @@ public class TemperatureService extends AbstractVerticle {
     private final String host;
     private final int port;
 
+    /**
+     * Constructor of temperature service.
+     * @param model the temperature model.
+     * @param host the temperature service host.
+     * @param port the temperature service port.
+     */
     public TemperatureService(PlantValueModel model, String host, int port) {
         this.adapters = new LinkedList<>();
         this.model = model;
