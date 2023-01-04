@@ -48,6 +48,7 @@ public class GreenhouseServer {
         try {
             router.get(BASE_PATH).handler(this::handleGetGreenhouse);
             router.put(BASE_PATH).handler(this::handlePutModality);
+            router.post(BASE_PATH).handler(this::handlePostSensorData);
             router.get(MODALITY_PATH).handler(this::handleGetModality);
             router.get(PARAM_PATH).handler(this::handleGetParamValues);
 
@@ -58,6 +59,27 @@ public class GreenhouseServer {
 
         server.requestHandler(router).listen(this.port, this.host);
 
+    }
+
+    private void handlePostSensorData(RoutingContext routingContext) {
+        JsonObject body = routingContext.body().asJsonObject();
+        String id = body.getString("id");
+        JsonObject parameters = body.getJsonObject("parameters");
+        HttpServerResponse res = routingContext.response();
+        if (id == null || parameters == null) {
+            res.setStatusCode(STATUS_CODE_BAD_CONTENT).end();
+        } else {
+            try{
+                Future<Void> fut = this.model.insertAndCheckParams(id, parameters);
+                fut.onSuccess(gh -> {
+                    res.setStatusCode(STATUS_CODE_0K).end();
+                });
+                fut.onFailure(err -> res.setStatusCode(STATUS_CODE_NOT_FOUND).end());
+            } catch (IllegalArgumentException ex) {
+                res.setStatusCode(STATUS_CODE_BAD_CONTENT).end();
+            }
+
+        }
     }
 
     private void handleGetParamValues(RoutingContext routingContext) {
