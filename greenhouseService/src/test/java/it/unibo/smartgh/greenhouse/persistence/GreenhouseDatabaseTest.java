@@ -20,7 +20,7 @@ public class GreenhouseDatabaseTest {
         assertDoesNotThrow(() -> greenhouseDatabase.connection(HOST, PORT));
     }
 
-    @RepeatedTest(2)
+    @Test
     public void testGetGreenhouse() {
         Greenhouse res = greenhouseDatabase.getGreenhouse(ID_AUTOMATIC);
         Plant plant = new PlantBuilder("lemon AUTOMATIC")

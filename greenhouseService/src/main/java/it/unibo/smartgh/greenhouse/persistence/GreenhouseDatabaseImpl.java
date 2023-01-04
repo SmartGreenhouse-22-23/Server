@@ -14,6 +14,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
 
 public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
     private final static String DB_NAME = "greenhouse";
@@ -39,7 +40,7 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
     @Override
     public Greenhouse getGreenhouse(String id) {
         Bson filter = Filters.eq("_id", new ObjectId(id));
-        FindIterable<Document> documents = collection.find(filter);
+        FindIterable<Document> documents = collection.find(filter).maxAwaitTime(2, TimeUnit.MINUTES);
         Document doc = documents.iterator().next();
         List list = new ArrayList(doc.values());
         Document plantDoc = (Document) list.get(1);
