@@ -47,17 +47,17 @@ public final class PlantBuilder {
     }
 
     public PlantBuilder maxSoilHumidity(Double val) {
-        this.maxBrightness = val;
+        this.maxSoilHumidity = val;
         return this;
     }
 
     public PlantBuilder minHumidity(Double val) {
-        this.minSoilHumidity = val;
+        this.minHumidity = val;
         return this;
     }
 
     public PlantBuilder maxHumidity(Double val) {
-        this.maxBrightness = val;
+        this.maxHumidity = val;
         return this;
     }
 
