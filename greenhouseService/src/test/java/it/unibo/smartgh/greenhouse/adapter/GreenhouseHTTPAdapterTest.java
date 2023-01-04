@@ -60,7 +60,7 @@ public class GreenhouseHTTPAdapterTest {
                 })));
     }
 
-    @Test
+    @RepeatedTest(2)
     public void putActualModalityTest(Vertx vertx, VertxTestContext testContext) {
         WebClient client = WebClient.create(vertx);
         client.put(PORT, HOST, "/greenhouse")
