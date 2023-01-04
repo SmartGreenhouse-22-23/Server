@@ -7,7 +7,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v3
@@ -16,13 +16,17 @@ jobs:
         with:
           distribution: temurin
           java-version: 11
-      - name: build
-        run: ./gradlew build 
       - name: Create mongo Docker container
         uses: ankane/setup-mongodb@v1
-      - name: upload collection
+      - if: ${{ matrix.os != 'windows-latest'}}
         run: |
-          mongoimport --collection='greenhouse' --file='greenhouseService/src/main/resources/greenhouseDatabase.json' --jsonArray
+            mongosh --eval "`cat greenhouseService/src/main/resources/initDb.txt`"
+      - if: ${{ matrix.os == 'windows-latest' }}
+        run: |
+            $content = cat greenhouseService/src/main/resources/initDb.txt
+            mongo --eval "$content"
+      - name: build
+        run: ./gradlew build -x test
       - name: test
         run: ./gradlew test
   release:

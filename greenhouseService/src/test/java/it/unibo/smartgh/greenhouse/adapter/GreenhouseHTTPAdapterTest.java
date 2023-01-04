@@ -27,7 +27,7 @@ public class GreenhouseHTTPAdapterTest {
     private static final String ID_AUTOMATIC =  "63b29b0a3792e15bae3229a7";
 
     private final Plant plant = new PlantBuilder("lemon AUTOMATIC")
-                .description("is a species of small evergreen trees in the flowering plant family" +
+                .description("is a species of small evergreen trees in the flowering plant family " +
                                      "Rutaceae, native to Asia, primarily Northeast India (Assam), Northern Myanmar or China.")
                 .minTemperature(8.0)
                 .maxTemperature(35.0)
