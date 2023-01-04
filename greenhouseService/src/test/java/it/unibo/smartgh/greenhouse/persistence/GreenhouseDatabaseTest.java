@@ -1,15 +1,17 @@
 package it.unibo.smartgh.greenhouse.persistence;
 
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.*;
+import com.mongodb.client.model.Filters;
 import it.unibo.smartgh.greenhouse.entity.*;
 import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
+import java.net.UnknownHostException;
 import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -22,22 +24,9 @@ public class GreenhouseDatabaseTest {
     private static final String ID = "63af0ae025d55e9840cbc1fa";
     private static final String ID_AUTOMATIC =  "63b29b0a3792e15bae3229a7";
 
-    @BeforeAll
-    static void testConnection() {
-        assertDoesNotThrow(() -> greenhouseDatabase.connection(HOST, PORT));
-    }
-
-    @Test
-    public void test(){
-        MongoClient mongoClient = MongoClients.create("mongodb://localhost:27017");
-        MongoDatabase database = mongoClient.getDatabase("greenhouse");
-        FindIterable<Document> docs = database.getCollection("greenhouse").find();
-        int count = 0;
-        for (Document doc : docs) {
-            System.out.println(doc);
-            count++;
-        }
-        assertEquals(2, count);
+    @BeforeEach
+    public void testConnection() throws UnknownHostException {
+        greenhouseDatabase.connection(HOST, PORT);
     }
 
     @Test
