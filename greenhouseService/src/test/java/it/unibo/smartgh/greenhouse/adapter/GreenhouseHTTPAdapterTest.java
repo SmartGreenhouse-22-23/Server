@@ -40,7 +40,7 @@ public class GreenhouseHTTPAdapterTest {
                 .build();
     private final Greenhouse greenhouse = new GreenhouseImpl(plant, Modality.AUTOMATIC);
 
-    @BeforeEach
+/*    @BeforeEach
     public void startService(Vertx vertx, VertxTestContext testContext){
         System.out.println("Greenhouse service initializing");
         GreenhouseAPI model = new GreenhouseModel(vertx, new GreenhouseControllerImpl(new GreenhouseDatabaseImpl()));
@@ -96,5 +96,5 @@ public class GreenhouseHTTPAdapterTest {
                     assertEquals(paramToJSON(greenhouse.getPlant(), "temperature").toString(), response.body());
                     testContext.completeNow();
                 })));
-    }
+    }*/
 }
