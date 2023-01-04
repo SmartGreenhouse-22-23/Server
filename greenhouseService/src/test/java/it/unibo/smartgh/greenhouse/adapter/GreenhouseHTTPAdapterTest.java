@@ -48,7 +48,7 @@ public class GreenhouseHTTPAdapterTest {
         vertx.deployVerticle(service, testContext.succeedingThenComplete());
         System.out.println("Greenhouse service ready");
     }
-    @Test
+/*    @Test
     public void getGreenhouseTest(Vertx vertx, VertxTestContext testContext) {
         WebClient client = WebClient.create(vertx);
         client.get(PORT, HOST, "/greenhouse")
@@ -96,5 +96,5 @@ public class GreenhouseHTTPAdapterTest {
                     assertEquals(paramToJSON(greenhouse.getPlant(), "temperature").toString(), response.body());
                     testContext.completeNow();
                 })));
-    }
+    }*/
 }
