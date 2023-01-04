@@ -1,4 +1,4 @@
-package temperature.adapter;
+package it.unibo.smartgh.temperature.adapter;
 
 import com.google.gson.JsonParseException;
 import io.vertx.core.Future;

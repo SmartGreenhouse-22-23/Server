@@ -1,4 +1,4 @@
-package temperature.service;
+package it.unibo.smartgh.temperature.service;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
@@ -6,7 +6,7 @@ import io.vertx.core.Promise;
 import it.unibo.smartgh.adapter.AbstractAdapter;
 import it.unibo.smartgh.plantValue.api.PlantValueAPI;
 import it.unibo.smartgh.plantValue.api.PlantValueModel;
-import temperature.adapter.TemperatureHTTPAdapter;
+import it.unibo.smartgh.temperature.adapter.TemperatureHTTPAdapter;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package temperature;
+package it.unibo.smartgh.temperature;
 
 import io.vertx.core.Vertx;
 import it.unibo.smartgh.plantValue.api.PlantValueModel;
@@ -6,10 +6,10 @@ import it.unibo.smartgh.plantValue.controller.PlantValueController;
 import it.unibo.smartgh.plantValue.controller.PlantValueControllerImpl;
 import it.unibo.smartgh.plantValue.persistence.PlantValueDatabase;
 import it.unibo.smartgh.plantValue.persistence.PlantValueDatabaseImpl;
-import temperature.service.TemperatureService;
+import it.unibo.smartgh.temperature.service.TemperatureService;
 
 public class TemperatureServiceLauncher {
-    private static final String TEMPERATURE_DB_NAME = "temperature";
+    private static final String TEMPERATURE_DB_NAME = "/temperature";
     private static final String TEMPERATURE_COLLECTION_NAME = "temperatureValues";
     private static final String HOST = "localhost";
     private static final int PORT = 8890;
