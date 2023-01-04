@@ -24,11 +24,6 @@ public class GreenhouseDatabaseTest {
     private static final String ID = "63af0ae025d55e9840cbc1fa";
     private static final String ID_AUTOMATIC =  "63b29b0a3792e15bae3229a7";
 
-    @BeforeEach
-    public void testConnection() throws UnknownHostException {
-        greenhouseDatabase.connection(HOST, PORT);
-    }
-
     @Test
     public void testGetGreenhouse() {
         Greenhouse res = greenhouseDatabase.getGreenhouse(ID_AUTOMATIC);
