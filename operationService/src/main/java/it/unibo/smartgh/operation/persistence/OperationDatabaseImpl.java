@@ -31,7 +31,7 @@ public class OperationDatabaseImpl implements OperationDatabase {
                 .append("date", operation.getDate())
                 .append("parameter", operation.getParameter())
                 .append("action", operation.getAction())
-                .append("value", operation.getValue());
+                .append("value", operation.getValue().orElse(null));
         collection.insertOne(operationObject);
     }
 
