@@ -1,0 +1,158 @@
+{
+	"info": {
+		"_postman_id": "9d3c2774-278c-425f-81d2-abb721107068",
+		"name": "greenhouseService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19334777"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8889/greenhouse?id=63af0ae025d55e9840cbc1fa",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8889/greenhouse?id=63af0ae025d55e9840cbc1fa",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8889",
+					"path": [
+						"greenhouse"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "63af0ae025d55e9840cbc1fa"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8889/greenhouse",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"63af0ae025d55e9840cbc1fa\",\n    \"modality\" : \"manual\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8889/greenhouse",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8889",
+					"path": [
+						"greenhouse"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8889/greenhouse/param?id=63af0ae025d55e9840cbc1fa&param=humidity",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8889/greenhouse/param?id=63af0ae025d55e9840cbc1fa&param=humidity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8889",
+					"path": [
+						"greenhouse",
+						"param"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "63af0ae025d55e9840cbc1fa"
+						},
+						{
+							"key": "param",
+							"value": "humidity"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8889/greenhouse/modality?id=63af0ae025d55e9840cbc1fa",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8889/greenhouse/modality?id=63af0ae025d55e9840cbc1fa",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8889",
+					"path": [
+						"greenhouse",
+						"modality"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "63af0ae025d55e9840cbc1fa"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8889/greenhouse",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"63af0ae025d55e9840cbc1fa\",\n    \"parameters\" : {\n        \"Temp\": 5.0,\n        \"Hum\": 40.0,\n        \"Brigh\": 4500.0,\n        \"Soil\": 25.0\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8889/greenhouse",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8889",
+					"path": [
+						"greenhouse"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
