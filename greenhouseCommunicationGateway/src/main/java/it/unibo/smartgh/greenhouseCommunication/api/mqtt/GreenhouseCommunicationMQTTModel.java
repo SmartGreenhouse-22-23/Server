@@ -5,19 +5,26 @@ import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.client.WebClient;
 
 public class GreenhouseCommunicationMQTTModel implements GreenhouseCommunicationMQTTAPI{
 
-    private static final String NEWOPERATION_TOPIC = "newOperation";
-    private Vertx vertx;
+    private static final String GREENHOUSE_PATH = "/greenhouse";
+    private static final String GREENHOUSE_SERVICE_HOST = "localhost";
+    private static final int GREENHOUSE_SERVICE_PORT = 8889;
+    private final Vertx vertx;
     private JsonObject thingDescription;
+    private final WebClient httpClient;
+    private String thingID;
 
     public GreenhouseCommunicationMQTTModel(String thingID, Vertx vertx){
         this.vertx = vertx;
+        this.httpClient = WebClient.create(vertx);
         this.setupThingDescription(thingID);
     }
 
     private void setupThingDescription(String thingID){
+        this.thingID = thingID;
         thingDescription = new JsonObject();
         thingDescription.put("@context", "https://www.w3.org/2019/wot/td/v1");
         thingDescription.put("id", thingID);
@@ -89,10 +96,13 @@ public class GreenhouseCommunicationMQTTModel implements GreenhouseCommunication
 
     @Override
     public Future<Void> forwardNewGreenhouseData(JsonObject newGreenhouseData) {
-        //TODO send data to the other service check API
-        // crea http client che si connette al srvizio della serra e invia i nuovi dati
-        // con la rotta giusta
-        return null;
+        Promise<Void> p = Promise.promise();
+        JsonObject message = new JsonObject();
+        message.put("id", this.thingID);
+        message.put("parameters", newGreenhouseData);
+        httpClient.post(GREENHOUSE_SERVICE_PORT, GREENHOUSE_SERVICE_HOST, GREENHOUSE_PATH)
+                .sendJsonObject(message);
+        return p.future();
     }
 
     @Override
