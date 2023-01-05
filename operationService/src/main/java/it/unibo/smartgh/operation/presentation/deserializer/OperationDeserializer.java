@@ -21,7 +21,8 @@ public class OperationDeserializer extends GeneralDeserializer implements JsonDe
     public Operation deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
         Operation operation = new OperationImpl();
-        if (json instanceof JsonObject object) {
+        if (json instanceof JsonObject) {
+            JsonObject object = (JsonObject) json;
             operation.setGreenhouseId(this.getPropertyAsString(object, "greenhouseId"));
             try {
                 operation.setDate(formatter.parse(this.getPropertyAsString(object, "date")));
