@@ -11,10 +11,10 @@ repositories {
 }
 allprojects{
     apply(plugin = "java")
-    //apply(plugin = rootProject.libs.plugins.gitSemVer)
     dependencies {
         implementation(rootProject.libs.bundles.vertx.dependencies)
         implementation(rootProject.libs.mongodb.driver)
+        implementation(rootProject.libs.gson)
         testImplementation(rootProject.libs.junit.api)
         testRuntimeOnly(rootProject.libs.junit.engine)
     }
