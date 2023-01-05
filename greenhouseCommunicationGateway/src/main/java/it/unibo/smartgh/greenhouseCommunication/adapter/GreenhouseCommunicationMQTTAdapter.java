@@ -52,7 +52,7 @@ public class GreenhouseCommunicationMQTTAdapter extends AbstractAdapter<Greenhou
 
     private void handleNewDataReceived(MqttPublishMessage s){
         System.out.println("There are new message in topic: " + s.topicName());
-        JsonObject message = s.payload().toJsonObject();
+        JsonObject message = new JsonObject(s.payload().toString().replace('\'', '\"'));
         Future<Void> future = this.getModel().forwardNewGreenhouseData(message);
         future.onFailure(error -> {
             System.out.println(error.getMessage());
