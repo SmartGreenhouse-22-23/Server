@@ -1,0 +1,34 @@
+_id: req_7330637635b2418aa09138f358b3460c
+type: Request
+parentId: wrk_d308b39fd07e403eb7aeb5d83c022964
+modified: 1672906294489
+created: 1672906278337
+url: http://localhost:8889/greenhouse
+name: inser new values
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+        "id": "63af0ae025d55e9840cbc1fa",
+        "parameters" : {
+            "Temp": 5.0,
+            "Hum": 40.0,
+            "Brigh": 4500.0,
+            "Soil": 25.0
+        }
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1672905686287.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
