@@ -182,12 +182,16 @@ public class GreenhouseModel implements GreenhouseAPI{
             String path = "";
             if (p.equals("Temp")) {
                 path = "temperature";
+                port = 8895;
             } else if (p.equals("Soil")) {
                 path = "soilMoisture";
+                port = 8894;
             } else if (p.equals("Brigh")) {
                 path = "brightness";
+                port = 8893;
             } else if (p.equals("Hum")) {
                 path = "humidity";
+                port = 8891;
             }
             DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
             futures.add(client.post(port, host, "/"+ path)

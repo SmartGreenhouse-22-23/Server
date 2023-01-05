@@ -13,7 +13,7 @@ public class BrightnessServiceLauncher {
     private static final String BRIGHTNESS_DB_NAME = "brightness";
     private static final String BRIGHTNESS_COLLECTION_NAME = "brightnessValues";
     private static final String HOST = "localhost";
-    private static final int PORT = 8891;
+    private static final int PORT = 8893;
     private static final String MONGODB_HOST = "localhost";
     private static final int MONGODB_PORT = 27017;
 

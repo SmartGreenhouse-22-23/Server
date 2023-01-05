@@ -16,7 +16,7 @@ public class SoilMoistureServiceLauncher {
     private static final String SOIL_MOISTURE_DB_NAME = "soilMoisture";
     private static final String SOIL_MOISTURE_COLLECTION_NAME = "soilMoistureValues";
     private static final String HOST = "localhost";
-    private static final int PORT = 8891;
+    private static final int PORT = 8894;
     private static final String MONGODB_HOST = "localhost";
     private static final int MONGODB_PORT = 27017;
 

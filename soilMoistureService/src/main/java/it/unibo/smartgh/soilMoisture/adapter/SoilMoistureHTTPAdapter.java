@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class SoilMoistureHTTPAdapter extends AbstractAdapter<PlantValueAPI> {
 
-    private static final String BASE_PATH = "/brightness";
+    private static final String BASE_PATH = "/soilMoisture";
     private static final String HISTORY_PATH = BASE_PATH + "/history/:howMany";
     private static final String BAD_REQUEST_MESSAGE = "Bad request: some field is missing or invalid in the provided data.";
 
