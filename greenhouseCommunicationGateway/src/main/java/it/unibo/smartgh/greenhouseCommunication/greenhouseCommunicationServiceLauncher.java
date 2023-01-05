@@ -15,7 +15,7 @@ public class greenhouseCommunicationServiceLauncher {
 
 
     public static void  main(String[] args){
-        String greenhouseID = "1";
+        String greenhouseID = "63af0ae025d55e9840cbc1fa";
         Vertx vertx = Vertx.vertx();
         GreenhouseCommunicationHTTPModel httpModel = new GreenhouseCommunicationHTTPModel(vertx);
         GreenhouseCommunicationMQTTModel mqttModel = new GreenhouseCommunicationMQTTModel(greenhouseID, vertx);
