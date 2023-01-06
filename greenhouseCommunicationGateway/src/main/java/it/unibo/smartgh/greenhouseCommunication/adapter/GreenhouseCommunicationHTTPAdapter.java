@@ -11,6 +11,9 @@ import io.vertx.ext.web.handler.BodyHandler;
 import it.unibo.smartgh.adapter.AbstractAdapter;
 import it.unibo.smartgh.greenhouseCommunication.api.http.GreenhouseCommunicationHTTPAPI;
 
+/**
+ * This class represents the HTTP adapter for the Greenhouse Communication Service.
+ */
 public class GreenhouseCommunicationHTTPAdapter extends AbstractAdapter<GreenhouseCommunicationHTTPAPI> {
 
     private static final String BASE_PATH = "/greenhouseCommunication";
@@ -18,6 +21,8 @@ public class GreenhouseCommunicationHTTPAdapter extends AbstractAdapter<Greenhou
     private static final String SOIL_MOISTURE_OPERATION_PATH  = BASE_PATH + "/soilMoistureOperation";
     private static final String AIR_HUMIDITY_OPERATION_PATH  = BASE_PATH + "/airHumidityOperation";
     private static final String TEMPERATURE_OPERATION_PATH  = BASE_PATH + "/temperatureOperation";
+
+    private static final String JSON_MESSAGE_PROPERTY = "message";
 
     private final String host;
     private final int port;
@@ -74,7 +79,7 @@ public class GreenhouseCommunicationHTTPAdapter extends AbstractAdapter<Greenhou
     private void handlePostTemperatureOperation(RoutingContext request) {
         HttpServerResponse response = request.response();
 
-        Future<Void> future = this.getModel().postTemperatureOperation(request.body().asString());
+        Future<Void> future = this.getModel().postTemperatureOperation(request.body().asJsonObject().getString(JSON_MESSAGE_PROPERTY));
         this.manageResponse(response, future);
 
     }
@@ -82,7 +87,7 @@ public class GreenhouseCommunicationHTTPAdapter extends AbstractAdapter<Greenhou
     private void handlePostAirHumidityOperation(RoutingContext request) {
         HttpServerResponse response = request.response();
 
-        Future<Void> future = this.getModel().postAirHumidityOperator(request.body().asString());
+        Future<Void> future = this.getModel().postAirHumidityOperator(request.body().asJsonObject().getString(JSON_MESSAGE_PROPERTY));
         this.manageResponse(response, future);
 
     }
@@ -90,14 +95,14 @@ public class GreenhouseCommunicationHTTPAdapter extends AbstractAdapter<Greenhou
     private void handlePostSoilMoistureOperation(RoutingContext request) {
         HttpServerResponse response = request.response();
 
-        Future<Void> future = this.getModel().postSoilMoistureOperation(request.body().asString());
+        Future<Void> future = this.getModel().postSoilMoistureOperation(request.body().asJsonObject().getString(JSON_MESSAGE_PROPERTY));
         this.manageResponse(response, future);
     }
 
     private void handlePostBrightnessOperation(RoutingContext request) {
         HttpServerResponse response = request.response();
 
-        Future<Void> future = this.getModel().postBrightnessOperation(request.body().asString());
+        Future<Void> future = this.getModel().postBrightnessOperation(request.body().asJsonObject().getString(JSON_MESSAGE_PROPERTY));
         this.manageResponse(response, future);
     }
 }
