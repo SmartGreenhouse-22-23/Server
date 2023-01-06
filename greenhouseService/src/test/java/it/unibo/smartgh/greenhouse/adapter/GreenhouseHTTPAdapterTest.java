@@ -12,11 +12,13 @@ import it.unibo.smartgh.greenhouse.api.GreenhouseModel;
 import it.unibo.smartgh.greenhouse.controller.GreenhouseControllerImpl;
 import it.unibo.smartgh.greenhouse.entity.*;
 import it.unibo.smartgh.greenhouse.persistence.GreenhouseDatabaseImpl;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @ExtendWith(VertxExtension.class)
@@ -41,8 +43,8 @@ public class GreenhouseHTTPAdapterTest {
                 .build();
     private final Greenhouse greenhouse = new GreenhouseImpl(ID_AUTOMATIC, plant, Modality.AUTOMATIC);
 
-    @BeforeEach
-    public void startService(Vertx vertx, VertxTestContext testContext){
+    @BeforeAll
+    public static void start(Vertx vertx, VertxTestContext testContext){
         System.out.println("Greenhouse service initializing");
         GreenhouseAPI model = new GreenhouseModel(vertx, new GreenhouseControllerImpl(new GreenhouseDatabaseImpl()));
         GreenhouseService service = new GreenhouseService(model);
