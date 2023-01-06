@@ -20,6 +20,11 @@ public class GreenhouseCommunicationMQTTModel implements GreenhouseCommunication
     private final WebClient httpClient;
     private String thingID;
 
+    /**
+     * Constructor for the greenhouse communication mqtt model
+     * @param thingID the thing id
+     * @param vertx the current instance
+     */
     public GreenhouseCommunicationMQTTModel(String thingID, Vertx vertx){
         this.vertx = vertx;
         this.httpClient = WebClient.create(vertx);
