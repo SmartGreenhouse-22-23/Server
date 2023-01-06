@@ -15,6 +15,8 @@ public final class PlantBuilder {
     private Double minHumidity;
     private Double maxHumidity;
 
+    private String img;
+
     /**
      * Constructor for the plant entity
      * @param name of the plant
@@ -30,6 +32,15 @@ public final class PlantBuilder {
      */
     public PlantBuilder description(String description) {
         this.description = description;
+        return this;
+    }
+    /**
+     * Add image to plant entity
+     * @param image of the plant
+     * @return the plant builder
+     */
+    public PlantBuilder image(String image) {
+        this.img = image;
         return this;
     }
     /**
@@ -116,6 +127,7 @@ public final class PlantBuilder {
     public Plant build(){
         return new PlantImpl(this.name,
                 this.description,
+                this.img,
                 this.minTemperature,
                 this.maxTemperature,
                 this.minBrightness,

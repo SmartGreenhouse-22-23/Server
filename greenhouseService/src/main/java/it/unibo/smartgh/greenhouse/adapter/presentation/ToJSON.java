@@ -34,6 +34,7 @@ public class ToJSON {
         JsonObject plant = new JsonObject();
         plant.put("name", p.getName());
         plant.put("description", p.getDescription());
+        plant.put("img", p.getImg());
         plant.put("minTemperature", p.getMinTemperature());
         plant.put("maxTemperature", p.getMaxTemperature());
         plant.put("minBrightness", p.getMinBrightness());

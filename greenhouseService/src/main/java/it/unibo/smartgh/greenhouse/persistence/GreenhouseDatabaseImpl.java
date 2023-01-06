@@ -49,6 +49,7 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
         Document plantDoc = (Document) list.get(1);
         Plant plant = new PlantBuilder(plantDoc.get("name", String.class))
                 .description(plantDoc.get("description", String.class))
+                .image(plantDoc.get("img", String.class))
                 .minTemperature(valueOf(plantDoc.get("minTemperature").toString()))
                 .maxTemperature(valueOf(plantDoc.get("maxTemperature").toString()))
                 .minBrightness(valueOf(plantDoc.get("minBrightness").toString()))

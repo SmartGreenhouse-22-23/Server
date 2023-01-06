@@ -6,6 +6,7 @@ package it.unibo.smartgh.greenhouse.entity;
 public class PlantImpl implements Plant{
     private final String name;
     private final String description;
+    private final String img;
     private final Double minTemperature;
     private final Double maxTemperature;
     private final Double minBrightness;
@@ -19,6 +20,7 @@ public class PlantImpl implements Plant{
      * Constructor of the plant entity
      * @param name of the plant
      * @param description of the plant
+     * @param img of the plant
      * @param minTemperature of the plant
      * @param maxTemperature of the plant
      * @param minBrightness of the plant
@@ -30,6 +32,7 @@ public class PlantImpl implements Plant{
      */
     public PlantImpl(String name,
                      String description,
+                     String img,
                      Double minTemperature,
                      Double maxTemperature,
                      Double minBrightness,
@@ -40,6 +43,7 @@ public class PlantImpl implements Plant{
                      Double maxHumidity) {
         this.name = name;
         this.description = description;
+        this.img = img;
         this.minTemperature = minTemperature;
         this.maxTemperature = maxTemperature;
         this.minBrightness = minBrightness;
@@ -98,5 +102,10 @@ public class PlantImpl implements Plant{
     @Override
     public Double getMaxHumidity() {
         return this.maxHumidity;
+    }
+
+    @Override
+    public String getImg() {
+        return this.img;
     }
 }

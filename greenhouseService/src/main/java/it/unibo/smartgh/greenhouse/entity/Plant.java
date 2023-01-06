@@ -53,4 +53,10 @@ public interface Plant {
      */
     Double getMaxHumidity();
 
+    /**
+     * Get the plant image link
+     * @return the plant image link
+     */
+    String getImg();
+
 }

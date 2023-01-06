@@ -19,6 +19,7 @@ public class GreenhouseDatabaseTest {
         Plant plant = new PlantBuilder("lemon AUTOMATIC")
                 .description("is a species of small evergreen trees in the flowering plant family " +
                         "Rutaceae, native to Asia, primarily Northeast India (Assam), Northern Myanmar or China.")
+                .image("https://www.burkesbackyard.com.au/wp-content/uploads/2014/01/945001_399422270172619_1279327806_n.jpg")
                 .minTemperature(8.0)
                 .maxTemperature(35.0)
                 .minBrightness(4200.0)
