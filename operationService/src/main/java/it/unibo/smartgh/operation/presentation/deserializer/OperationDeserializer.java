@@ -30,6 +30,7 @@ public class OperationDeserializer extends GeneralDeserializer implements JsonDe
                 throw new JsonParseException("Not a valid date format (dd/MM/yyyy - HH:mm:ss)");
             }
             operation.setModality(Modality.valueOf(this.getPropertyAsString(object, "modality").toUpperCase(Locale.ROOT)));
+            operation.setParameter(this.getPropertyAsString(object, "parameter"));
             operation.setAction(this.getPropertyAsString(object, "action"));
             operation.setValue(this.getPropertyAs(object, "value", Double.class, context));
         } else {
