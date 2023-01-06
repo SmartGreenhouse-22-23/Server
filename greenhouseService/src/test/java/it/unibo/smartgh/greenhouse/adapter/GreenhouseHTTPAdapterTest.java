@@ -38,7 +38,7 @@ public class GreenhouseHTTPAdapterTest {
                 .minHumidity(30.0)
                 .maxHumidity(80.0)
                 .build();
-    private final Greenhouse greenhouse = new GreenhouseImpl(plant, Modality.AUTOMATIC);
+    private final Greenhouse greenhouse = new GreenhouseImpl(ID_AUTOMATIC, plant, Modality.AUTOMATIC);
 
     @BeforeEach
     public void startService(Vertx vertx, VertxTestContext testContext){

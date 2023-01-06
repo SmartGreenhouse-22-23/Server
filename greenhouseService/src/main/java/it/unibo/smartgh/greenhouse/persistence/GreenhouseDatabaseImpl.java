@@ -59,6 +59,6 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
                 .maxHumidity(valueOf(plantDoc.get("maxHumidity").toString()))
                 .build();
         Modality modality = Modality.valueOf(doc.get("modality", String.class).toUpperCase());
-        return new GreenhouseImpl(plant, modality);
+        return new GreenhouseImpl(id, plant, modality);
     }
 }

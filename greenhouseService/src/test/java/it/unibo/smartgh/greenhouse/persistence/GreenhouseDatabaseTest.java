@@ -28,7 +28,7 @@ public class GreenhouseDatabaseTest {
                 .minHumidity(30.0)
                 .maxHumidity(80.0)
                 .build();
-        Greenhouse greenhouse = new GreenhouseImpl(plant, Modality.AUTOMATIC);
+        Greenhouse greenhouse = new GreenhouseImpl(ID_AUTOMATIC, plant, Modality.AUTOMATIC);
         assertEquals(greenhouse.getPlant().getName(), res.getPlant().getName());
         assertEquals(greenhouse.getActualModality(), res.getActualModality());
     }

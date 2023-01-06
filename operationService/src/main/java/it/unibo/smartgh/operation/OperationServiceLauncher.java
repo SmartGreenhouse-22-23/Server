@@ -16,7 +16,7 @@ public class OperationServiceLauncher {
 
     private static final String OPERATION_DB_NAME = "operation";
     private static final String OPERATION_COLLECTION_NAME = "operation";
-    private static final int PORT = 8892;
+    private static final int PORT = 8896;
     private static final int MONGODB_PORT = 27017;
     private static final String HOST = "localhost";
     private static final String MONGODB_HOST = "localhost";

@@ -78,98 +78,121 @@ public class GreenhouseModel implements GreenhouseAPI{
     private void checkAlarm(Greenhouse greenhouse, JsonObject parameters) {
         Plant plant = greenhouse.getPlant();
 
-        checkTemperature(plant.getMinTemperature(),
+        checkTemperature(greenhouse,
+                plant.getMinTemperature(),
                 plant.getMaxTemperature(),
                 valueOf(parameters.getValue("Temp").toString()),
                 greenhouse.getActualModality() == Modality.AUTOMATIC);
 
-        checkBrightness(plant.getMinBrightness(),
+        checkBrightness(greenhouse,
+                plant.getMinBrightness(),
                 plant.getMaxBrightness(),
                 valueOf(parameters.getValue("Bright").toString()),
                 greenhouse.getActualModality() == Modality.AUTOMATIC);
 
-        checkSoilMoisture(plant.getMinSoilMoisture(),
+        checkSoilMoisture(greenhouse,
+                plant.getMinSoilMoisture(),
                 plant.getMaxSoilMoisture(),
                 valueOf(parameters.getValue("Soil").toString()),
                 greenhouse.getActualModality() == Modality.AUTOMATIC);
 
-        checkHumidity(plant.getMinHumidity(),
+        checkHumidity(greenhouse,
+                plant.getMinHumidity(),
                 plant.getMaxHumidity(),
                 valueOf(parameters.getValue("Hum").toString()),
                 greenhouse.getActualModality() == Modality.AUTOMATIC);
     }
 
-    private void checkHumidity(Double min, Double max, Double hum, boolean automatic) {
-        //TODO communicate with operation microservice
+    private void insertOperation (String ghId, String parameter, String action, String modality, Double value){
+        WebClient client = WebClient.create(vertx);
+        String host = "localhost";
+        int port = 8896;
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+        client.post(port, host, "/operations")
+                .sendJsonObject(
+                        new JsonObject()
+                                .put("greenhouseId", ghId)
+                                .put("modality", modality)
+                                .put("date", formatter.format(new Date()))
+                                .put("parameter", parameter)
+                                .put("action", action)
+                                .put("value", value)
+                );
+
+    }
+
+    private void checkHumidity(Greenhouse gh, Double min, Double max, Double hum, boolean automatic) {
+        //TODO communicate with client
         if (hum.compareTo(max) > 0){
-            //low soil humidity => operation irrigation on
             System.out.println("Notify client high humidity => operation ventilation on");
 
             if (automatic) {
-                System.out.println("SEND OPERATION");
+                insertOperation(gh.getId(), "humidity", "VENTILATION on", gh.getActualModality().toString(), hum);
             }
         } else {
-            //soil humidity ok => off operation
             System.out.println("Notify client humidity ok or low nothing to do");
 
             if (automatic) {
-                System.out.println("SEND OPERATION");
+                insertOperation(gh.getId(), "humidity", "VENTILATION off", gh.getActualModality().toString(), hum);
             }
         }
     }
 
-    private void checkSoilMoisture(Double min, Double max, Double soil, boolean automatic) {
-        //TODO communicate with operation microservice
+    private void checkSoilMoisture(Greenhouse gh, Double min, Double max, Double soil, boolean automatic) {
+        //TODO communicate with client
         if (soil.compareTo(min) < 0){
-            //low soil humidity => operation irrigation on
             System.out.println("Notify client low soil humidity => operation irrigation on");
 
             if (automatic) {
-                System.out.println("SEND OPERATION");
+                insertOperation(gh.getId(), "soilMoisture", "IRRIGATION on", gh.getActualModality().toString(), soil);
             }
         } else {
-            //soil humidity ok or high => off operation
             System.out.println("Notify client brightness ok or high nothing to do");
 
             if (automatic) {
-                System.out.println("SEND OPERATION");
+                insertOperation(gh.getId(), "soilMoisture", "IRRIGATION off", gh.getActualModality().toString(), soil);
             }
         }
     }
 
-    private void checkBrightness(Double min, Double max, Double brigh, boolean automatic) {
-        //TODO communicate with operation microservice
-        if (brigh.compareTo(min) < 0 || brigh.compareTo(max) > 0){
-            //low or high brightness => operation lamp to middle luminosity
-            System.out.println("Notify client low brightness => operation lamp to middle luminosity");
+    private void checkBrightness(Greenhouse gh, Double min, Double max, Double brigh, boolean automatic) {
+        //TODO communicate with client
+        if (brigh.compareTo(min) < 0){
+            System.out.println("Notify client low brightness => operation brigh + 5");
 
             if (automatic) {
-                System.out.println("SEND OPERATION");
+                int newBrigh = brigh.compareTo(255.0) >= 0 ? 255 : brigh.intValue() + 5;
+                insertOperation(gh.getId(), "brightness", "LUMINOSITY " + newBrigh, gh.getActualModality().toString(), brigh);
+            }
+        }  else if (brigh.compareTo(max) > 0) {
+            if (automatic) {
+                int newBrigh = brigh.compareTo(0.0) <= 0 ? 0 : brigh.intValue() - 5;
+                insertOperation(gh.getId(), "brightness", "LUMINOSITY " + newBrigh, gh.getActualModality().toString(), brigh);
             }
         } else {
-            //brightness ok => off operation
             System.out.println("Notify client brightness ok nothing to do");
         }
     }
 
-    private void checkTemperature(Double min, Double max, Double temp, boolean automatic) {
-        //TODO communicate with operation microservice
+    private void checkTemperature(Greenhouse gh, Double min, Double max, Double temp, boolean automatic) {
+        //TODO communicate with client
         if (temp.compareTo(min) < 0){
-            //low temperature => operation lamp On
             System.out.println("Notify client low temperature => operation term lamp On");
 
             if (automatic) {
-                System.out.println("SEND OPERATION");
+                insertOperation(gh.getId(), "temperature", "TEMPERATURE increase", gh.getActualModality().toString(), temp);
             }
         } else if (temp.compareTo(max) > 0) {
-            //high temperature => operation ventilation on
             System.out.println("Notify client high temperature => operation ventilation on");
 
             if (automatic) {
-                System.out.println("SEND OPERATION");
+                insertOperation(gh.getId(), "temperature", "TEMPERATURE decrease", gh.getActualModality().toString(), temp);
             }
         } else {
-            //temperature ok => off operation
+            if (temp.compareTo(min + 5.0) >= 0 || temp.compareTo(max - 5.0) <= 0) {
+                insertOperation(gh.getId(), "temperature", "TEMPERATURE off", gh.getActualModality().toString(), temp);
+            }
+
             System.out.println("Notify client temperature ok => off operation");
         }
     }
