@@ -5,10 +5,12 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
+import it.unibo.smartgh.greenhouseCommunication.api.http.GreenhouseCommunicationHTTPAPI;
 import it.unibo.smartgh.greenhouseCommunication.api.http.GreenhouseCommunicationHTTPModel;
+import it.unibo.smartgh.greenhouseCommunication.api.mqtt.GreenhouseCommunicationMQTTAPI;
 import it.unibo.smartgh.greenhouseCommunication.api.mqtt.GreenhouseCommunicationMQTTModel;
 import it.unibo.smartgh.greenhouseCommunication.service.GreenhouseCommunicationService;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -24,11 +26,11 @@ public class GreenhouseCommunicationHTTPAdapterTest {
 
     private static final String GREENHOUSE_ID = "63af0ae025d55e9840cbc1fa";
 
-    @BeforeEach
-    public void startService(Vertx vertx, VertxTestContext testContext){
+    @BeforeAll
+    public static void start(Vertx vertx, VertxTestContext testContext){
         System.out.println("Greenhouse Communication service initializing");
-        GreenhouseCommunicationHTTPModel httpModel = new GreenhouseCommunicationHTTPModel(vertx);
-        GreenhouseCommunicationMQTTModel mqttModel = new GreenhouseCommunicationMQTTModel(GREENHOUSE_ID, vertx);
+        GreenhouseCommunicationHTTPAPI httpModel = new GreenhouseCommunicationHTTPModel(vertx);
+        GreenhouseCommunicationMQTTAPI mqttModel = new GreenhouseCommunicationMQTTModel(GREENHOUSE_ID, vertx);
         GreenhouseCommunicationService service = new GreenhouseCommunicationService(httpModel, mqttModel, MQTT_HOST, HTTP_HOST, MQTT_PORT, HTTP_PORT);
         vertx.deployVerticle(service, testContext.succeedingThenComplete());
         System.out.println("Greenhouse Communication service ready");
