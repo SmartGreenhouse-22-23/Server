@@ -5,6 +5,9 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 
+/**
+ * This class represents the Model for handling the communication via HTTP.
+ */
 public class GreenhouseCommunicationHTTPModel implements GreenhouseCommunicationHTTPAPI {
 
     private static final String BRIGHTNESS_OPERATION_TOPIC = "LUMINOSITY";

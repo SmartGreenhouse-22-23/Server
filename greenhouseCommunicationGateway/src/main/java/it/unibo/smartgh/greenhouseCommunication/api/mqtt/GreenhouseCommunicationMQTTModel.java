@@ -7,6 +7,9 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
 
+/**
+ * This class represents the Model for handling the communication via HTTP.
+ */
 public class GreenhouseCommunicationMQTTModel implements GreenhouseCommunicationMQTTAPI{
 
     private static final String GREENHOUSE_PATH = "/greenhouse";
@@ -101,6 +104,7 @@ public class GreenhouseCommunicationMQTTModel implements GreenhouseCommunication
         message.put("id", this.thingID);
         message.put("parameters", newGreenhouseData);
         httpClient.post(GREENHOUSE_SERVICE_PORT, GREENHOUSE_SERVICE_HOST, GREENHOUSE_PATH)
+                .putHeader("content-type", "application/json")
                 .sendJsonObject(message);
         return p.future();
     }
