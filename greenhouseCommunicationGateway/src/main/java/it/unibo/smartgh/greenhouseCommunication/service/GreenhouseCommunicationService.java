@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * This class represents the Greenhouse Communication Service.
+ */
 public class GreenhouseCommunicationService extends AbstractVerticle {
 
     private List<AbstractAdapter> adapters;
