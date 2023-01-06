@@ -33,8 +33,8 @@ public class GreenhouseHTTPAdapterTest {
                 .maxTemperature(35.0)
                 .minBrightness(4200.0)
                 .maxBrightness(130000.0)
-                .minSoilHumidity(20.0)
-                .maxSoilHumidity(65.0)
+                .minSoilMoisture(20.0)
+                .maxSoilMoisture(65.0)
                 .minHumidity(30.0)
                 .maxHumidity(80.0)
                 .build();

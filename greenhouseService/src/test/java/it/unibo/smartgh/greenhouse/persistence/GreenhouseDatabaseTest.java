@@ -1,18 +1,7 @@
 package it.unibo.smartgh.greenhouse.persistence;
 
-import com.mongodb.client.*;
-import com.mongodb.client.model.Filters;
 import it.unibo.smartgh.greenhouse.entity.*;
-import org.bson.Document;
-import org.bson.conversions.Bson;
-import org.bson.types.ObjectId;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
-
-import java.net.UnknownHostException;
-import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,8 +23,8 @@ public class GreenhouseDatabaseTest {
                 .maxTemperature(35.0)
                 .minBrightness(4200.0)
                 .maxBrightness(130000.0)
-                .minSoilHumidity(20.0)
-                .maxSoilHumidity(65.0)
+                .minSoilMoisture(20.0)
+                .maxSoilMoisture(65.0)
                 .minHumidity(30.0)
                 .maxHumidity(80.0)
                 .build();

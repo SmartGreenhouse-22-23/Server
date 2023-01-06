@@ -10,8 +10,8 @@ public final class PlantBuilder {
     private Double maxTemperature;
     private Double minBrightness;
     private Double maxBrightness;
-    private Double minSoilHumidity;
-    private Double maxSoilHumidity;
+    private Double minSoilMoisture;
+    private Double maxSoilMoisture;
     private Double minHumidity;
     private Double maxHumidity;
 
@@ -74,8 +74,8 @@ public final class PlantBuilder {
      * @param val of the plant
      * @return the plant builder
      */
-    public PlantBuilder minSoilHumidity(Double val) {
-        this.minSoilHumidity = val;
+    public PlantBuilder minSoilMoisture(Double val) {
+        this.minSoilMoisture = val;
         return this;
     }
 
@@ -84,8 +84,8 @@ public final class PlantBuilder {
      * @param val of the plant
      * @return the plant builder
      */
-    public PlantBuilder maxSoilHumidity(Double val) {
-        this.maxSoilHumidity = val;
+    public PlantBuilder maxSoilMoisture(Double val) {
+        this.maxSoilMoisture = val;
         return this;
     }
 
@@ -120,8 +120,8 @@ public final class PlantBuilder {
                 this.maxTemperature,
                 this.minBrightness,
                 this.maxBrightness,
-                this.minSoilHumidity,
-                this.maxSoilHumidity,
+                this.minSoilMoisture,
+                this.maxSoilMoisture,
                 this.minHumidity,
                 this.maxHumidity
                 );

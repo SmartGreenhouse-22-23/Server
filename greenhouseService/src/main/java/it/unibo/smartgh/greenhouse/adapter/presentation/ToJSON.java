@@ -5,7 +5,6 @@ import it.unibo.smartgh.greenhouse.entity.Greenhouse;
 import it.unibo.smartgh.greenhouse.entity.Modality;
 import it.unibo.smartgh.greenhouse.entity.Plant;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -39,8 +38,8 @@ public class ToJSON {
         plant.put("maxTemperature", p.getMaxTemperature());
         plant.put("minBrightness", p.getMinBrightness());
         plant.put("maxBrightness", p.getMaxBrightness());
-        plant.put("minSoilHumidity", p.getMinSoilHumidity());
-        plant.put("maxSoilHumidity", p.getMaxSoilHumidity());
+        plant.put("minSoilMoisture", p.getMinSoilMoisture());
+        plant.put("maxSoilMoisture", p.getMaxSoilMoisture());
         plant.put("minHumidity", p.getMinHumidity());
         plant.put("maxHumidity", p.getMaxHumidity());
         return plant;

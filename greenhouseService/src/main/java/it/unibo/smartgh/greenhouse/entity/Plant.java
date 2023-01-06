@@ -36,12 +36,12 @@ public interface Plant {
      * Represent the lower bound of the soil humidity parameter.
      * @return the lower bound of soil humidity
      */
-    Double getMinSoilHumidity();
+    Double getMinSoilMoisture();
     /**
      * Represent the upper bound of the soil humidity parameter.
      * @return the upper bound of soil humidity
      */
-    Double getMaxSoilHumidity();
+    Double getMaxSoilMoisture();
     /**
      * Represent the lower bound of the air humidity parameter.
      * @return the lower bound of air humidity

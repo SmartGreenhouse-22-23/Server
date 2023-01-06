@@ -10,8 +10,8 @@ public class PlantImpl implements Plant{
     private final Double maxTemperature;
     private final Double minBrightness;
     private final Double maxBrightness;
-    private final Double minSoilHumidity;
-    private final Double maxSoilHumidity;
+    private final Double minSoilMoisture;
+    private final Double maxSoilMoisture;
     private final Double minHumidity;
     private final Double maxHumidity;
 
@@ -23,8 +23,8 @@ public class PlantImpl implements Plant{
      * @param maxTemperature of the plant
      * @param minBrightness of the plant
      * @param maxBrightness of the plant
-     * @param minSoilHumidity of the plant
-     * @param maxSoilHumidity of the plant
+     * @param minSoilMoisture of the plant
+     * @param maxSoilMoisture of the plant
      * @param minHumidity of the plant
      * @param maxHumidity of the plant
      */
@@ -34,8 +34,8 @@ public class PlantImpl implements Plant{
                      Double maxTemperature,
                      Double minBrightness,
                      Double maxBrightness,
-                     Double minSoilHumidity,
-                     Double maxSoilHumidity,
+                     Double minSoilMoisture,
+                     Double maxSoilMoisture,
                      Double minHumidity,
                      Double maxHumidity) {
         this.name = name;
@@ -44,8 +44,8 @@ public class PlantImpl implements Plant{
         this.maxTemperature = maxTemperature;
         this.minBrightness = minBrightness;
         this.maxBrightness = maxBrightness;
-        this.minSoilHumidity = minSoilHumidity;
-        this.maxSoilHumidity = maxSoilHumidity;
+        this.minSoilMoisture = minSoilMoisture;
+        this.maxSoilMoisture = maxSoilMoisture;
         this.minHumidity = minHumidity;
         this.maxHumidity = maxHumidity;
     }
@@ -81,13 +81,13 @@ public class PlantImpl implements Plant{
     }
 
     @Override
-    public Double getMinSoilHumidity() {
-        return this.minSoilHumidity;
+    public Double getMinSoilMoisture() {
+        return this.minSoilMoisture;
     }
 
     @Override
-    public Double getMaxSoilHumidity() {
-        return this.maxSoilHumidity;
+    public Double getMaxSoilMoisture() {
+        return this.maxSoilMoisture;
     }
 
     @Override

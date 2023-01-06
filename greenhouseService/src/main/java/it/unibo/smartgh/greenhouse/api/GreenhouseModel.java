@@ -4,11 +4,8 @@ import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
-import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
-import io.vertx.ext.web.codec.BodyCodec;
 import it.unibo.smartgh.greenhouse.controller.GreenhouseController;
 import it.unibo.smartgh.greenhouse.entity.Greenhouse;
 import it.unibo.smartgh.greenhouse.entity.Modality;
@@ -20,9 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.concurrent.CompletableFuture;
 
-import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.paramToJSON;
 import static java.lang.Double.valueOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
@@ -93,8 +88,8 @@ public class GreenhouseModel implements GreenhouseAPI{
                 valueOf(parameters.getValue("Brigh").toString()),
                 greenhouse.getActualModality() == Modality.AUTOMATIC);
 
-        checkSoilHumidity(plant.getMinSoilHumidity(),
-                plant.getMaxSoilHumidity(),
+        checkSoilMoisture(plant.getMinSoilMoisture(),
+                plant.getMaxSoilMoisture(),
                 valueOf(parameters.getValue("Soil").toString()),
                 greenhouse.getActualModality() == Modality.AUTOMATIC);
 
@@ -123,7 +118,7 @@ public class GreenhouseModel implements GreenhouseAPI{
         }
     }
 
-    private void checkSoilHumidity(Double min, Double max, Double soil, boolean automatic) {
+    private void checkSoilMoisture(Double min, Double max, Double soil, boolean automatic) {
         //TODO communicate with operation microservice
         if (soil.compareTo(min) < 0){
             //low soil humidity => operation irrigation on

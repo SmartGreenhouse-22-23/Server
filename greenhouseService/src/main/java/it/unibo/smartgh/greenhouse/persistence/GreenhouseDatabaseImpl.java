@@ -10,9 +10,7 @@ import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import static java.lang.Double.parseDouble;
 import static java.lang.Double.valueOf;
 
 /**
@@ -55,8 +53,8 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
                 .maxTemperature(valueOf(plantDoc.get("maxTemperature").toString()))
                 .minBrightness(valueOf(plantDoc.get("minBrightness").toString()))
                 .maxBrightness(valueOf(plantDoc.get("maxBrightness").toString()))
-                .minSoilHumidity(valueOf(plantDoc.get("minSoilHumidity").toString()))
-                .maxSoilHumidity(valueOf(plantDoc.get("maxSoilHumidity").toString()))
+                .minSoilMoisture(valueOf(plantDoc.get("minSoilMoisture").toString()))
+                .maxSoilMoisture(valueOf(plantDoc.get("maxSoilMoisture").toString()))
                 .minHumidity(valueOf(plantDoc.get("minHumidity").toString()))
                 .maxHumidity(valueOf(plantDoc.get("maxHumidity").toString()))
                 .build();
