@@ -9,14 +9,21 @@ import it.unibo.smartgh.plantValue.api.PlantValueAPI;
 
 import java.util.LinkedList;
 import java.util.List;
-
+/**
+ * Class that represent the Service, it extends the abstract class {@link AbstractVerticle} of Vertx.
+ */
 public class HumidityService extends AbstractVerticle {
 
     private List<AbstractAdapter> adapters;
     private final PlantValueAPI model;
     private final String host;
     private final int port;
-
+    /**
+     * Constructor of humidity service.
+     * @param model the humidity model.
+     * @param host the humidity service host.
+     * @param port the humidity service port.
+     */
     public HumidityService(PlantValueAPI model, String host, int port) {
         this.adapters = new LinkedList<>();
         this.model = model;

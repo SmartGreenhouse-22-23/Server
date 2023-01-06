@@ -15,6 +15,9 @@ import java.util.concurrent.TimeUnit;
 import static java.lang.Double.parseDouble;
 import static java.lang.Double.valueOf;
 
+/**
+ * Implementation of the Greenhouse service database
+ */
 public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
     private final static String DB_NAME = "greenhouse";
     private final static String COLLECTION_NAME = "greenhouse";
@@ -22,7 +25,7 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
     private final static String HOST = "localhost";
     private final static int PORT = 27017;
 
-    private MongoCollection<Document> connection2(){
+    private MongoCollection<Document> connection(){
         MongoClient mongoClient = MongoClients.create("mongodb://" + HOST + ":" + PORT);
         MongoDatabase database = mongoClient.getDatabase(DB_NAME);
         return database.getCollection(COLLECTION_NAME);
@@ -31,7 +34,7 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
     @Override
     public void putActualModality(String id, Modality modality) {
         this.getGreenhouse(id); //used for check the id
-        MongoCollection<Document> collection = connection2();
+        MongoCollection<Document> collection = connection();
         collection.updateOne(
                 new BasicDBObject("_id", new ObjectId(id)),
                 new BasicDBObject("$set", new BasicDBObject("modality", modality.name()))
@@ -40,7 +43,7 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
 
     @Override
     public Greenhouse getGreenhouse(String id) {
-        MongoCollection<Document> collection = connection2();
+        MongoCollection<Document> collection = connection();
         Bson filter = Filters.eq("_id", new ObjectId(id));
         FindIterable<Document> documents = collection.find(filter);
         Document doc = documents.iterator().next();

@@ -16,7 +16,9 @@ import it.unibo.smartgh.plantValue.api.PlantValueAPI;
 import it.unibo.smartgh.customException.EmptyDatabaseException;
 
 import java.util.List;
-
+/**
+ * Class that represents the HTTP adapter of the Humidity.
+ */
 public class HumidityHTTPAdapter extends AbstractAdapter<PlantValueAPI> {
 
     private static final String BASE_PATH = "/humidity";
@@ -25,7 +27,13 @@ public class HumidityHTTPAdapter extends AbstractAdapter<PlantValueAPI> {
 
     private final String host;
     private final int port;
-
+    /**
+     * Constructor of {@link HumidityHTTPAdapter}.
+     * @param model the humidity API model.
+     * @param vertx the current instance of vertx.
+     * @param host the humidity service host
+     * @param port the humidity service port
+     */
     public HumidityHTTPAdapter(PlantValueAPI model, Vertx vertx, String host, int port) {
         super(model, vertx);
         this.host = host;

@@ -8,6 +8,9 @@ import it.unibo.smartgh.plantValue.persistence.PlantValueDatabase;
 import it.unibo.smartgh.plantValue.persistence.PlantValueDatabaseImpl;
 import it.unibo.smartgh.temperature.service.TemperatureService;
 
+/**
+ * Class the represents the entry point to run the Temperature Service.
+ */
 public class TemperatureServiceLauncher {
     private static final String TEMPERATURE_DB_NAME = "temperature";
     private static final String TEMPERATURE_COLLECTION_NAME = "temperatureValues";

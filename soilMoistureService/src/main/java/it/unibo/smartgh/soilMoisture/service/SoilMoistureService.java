@@ -19,7 +19,12 @@ public class SoilMoistureService extends AbstractVerticle {
     private final PlantValueAPI model;
     private final String host;
     private final int port;
-
+    /**
+     * Constructor of soil moisture service.
+     * @param model the soil moisture model.
+     * @param host the soil moisture service host.
+     * @param port the soil moisture service port.
+     */
     public SoilMoistureService(PlantValueAPI model, String host, int port) {
         this.adapters = new LinkedList<>();
         this.model = model;

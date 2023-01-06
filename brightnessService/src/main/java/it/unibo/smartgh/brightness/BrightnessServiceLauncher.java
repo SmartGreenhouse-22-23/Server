@@ -7,7 +7,9 @@ import it.unibo.smartgh.plantValue.controller.PlantValueController;
 import it.unibo.smartgh.plantValue.controller.PlantValueControllerImpl;
 import it.unibo.smartgh.plantValue.persistence.PlantValueDatabase;
 import it.unibo.smartgh.plantValue.persistence.PlantValueDatabaseImpl;
-
+/**
+ * Class the represents the entry point to run the Brightness Service.
+ */
 public class BrightnessServiceLauncher {
 
     private static final String BRIGHTNESS_DB_NAME = "brightness";

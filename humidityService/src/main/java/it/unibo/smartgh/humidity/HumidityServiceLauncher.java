@@ -7,7 +7,9 @@ import it.unibo.smartgh.plantValue.controller.PlantValueController;
 import it.unibo.smartgh.plantValue.controller.PlantValueControllerImpl;
 import it.unibo.smartgh.plantValue.persistence.PlantValueDatabase;
 import it.unibo.smartgh.plantValue.persistence.PlantValueDatabaseImpl;
-
+/**
+ * Class the represents the entry point to run the Humidity Service.
+ */
 public class HumidityServiceLauncher {
 
     private static final String HUMIDITY_DB_NAME = "humidity";

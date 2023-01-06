@@ -25,11 +25,18 @@ import java.util.concurrent.CompletableFuture;
 import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.paramToJSON;
 import static java.lang.Double.valueOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+/**
+ * Implementation of the Greenhouse service API
+ */
 public class GreenhouseModel implements GreenhouseAPI{
     private final Vertx vertx;
     private final GreenhouseController greenhouseController;
 
+    /**
+     * Constructor of the greenhouse model
+     * @param vertx the actual vertx instance
+     * @param greenhouseController the greenhouse service controller
+     */
     public GreenhouseModel(Vertx vertx, GreenhouseController greenhouseController) {
         this.vertx = vertx;
         this.greenhouseController = greenhouseController;

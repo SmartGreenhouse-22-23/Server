@@ -9,14 +9,21 @@ import it.unibo.smartgh.plantValue.api.PlantValueAPI;
 
 import java.util.LinkedList;
 import java.util.List;
-
+/**
+ * Class that represent the Service, it extends the abstract class {@link AbstractVerticle} of Vertx.
+ */
 public class BrightnessService extends AbstractVerticle {
 
     private List<AbstractAdapter> adapters;
     private final PlantValueAPI model;
     private final String host;
     private final int port;
-
+    /**
+     * Constructor of brightness service.
+     * @param model the brightness model.
+     * @param host the brightness service host.
+     * @param port the brightness service port.
+     */
     public BrightnessService(PlantValueAPI model, String host, int port) {
         this.adapters = new LinkedList<>();
         this.model = model;

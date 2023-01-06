@@ -28,7 +28,13 @@ public class SoilMoistureHTTPAdapter extends AbstractAdapter<PlantValueAPI> {
 
     private final String host;
     private final int port;
-
+    /**
+     * Constructor of {@link SoilMoistureHTTPAdapter}.
+     * @param model the soil moisture API model.
+     * @param vertx the current instance of vertx.
+     * @param host the soil moisture service host
+     * @param port the soil moisture service port
+     */
     public SoilMoistureHTTPAdapter(PlantValueAPI model, Vertx vertx, String host, int port) {
         super(model, vertx);
         this.host = host;

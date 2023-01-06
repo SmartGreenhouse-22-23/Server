@@ -16,7 +16,9 @@ import it.unibo.smartgh.plantValue.api.PlantValueAPI;
 import it.unibo.smartgh.customException.EmptyDatabaseException;
 
 import java.util.List;
-
+/**
+ * Class that represents the HTTP adapter of the Brightness.
+ */
 public class BrightnessHTTPAdapter extends AbstractAdapter<PlantValueAPI> {
 
     private static final String BASE_PATH = "/brightness";
@@ -25,7 +27,13 @@ public class BrightnessHTTPAdapter extends AbstractAdapter<PlantValueAPI> {
 
     private final String host;
     private final int port;
-
+    /**
+     * Constructor of {@link BrightnessHTTPAdapter}.
+     * @param model the brightness API model.
+     * @param vertx the current instance of vertx.
+     * @param host the brightness service host
+     * @param port the brightness service port
+     */
     public BrightnessHTTPAdapter(PlantValueAPI model, Vertx vertx, String host, int port) {
         super(model, vertx);
         this.host = host;

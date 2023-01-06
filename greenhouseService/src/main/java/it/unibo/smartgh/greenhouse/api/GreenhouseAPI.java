@@ -5,6 +5,9 @@ import io.vertx.core.json.JsonObject;
 import it.unibo.smartgh.greenhouse.entity.Greenhouse;
 import it.unibo.smartgh.greenhouse.entity.Modality;
 
+/**
+ * Interface of the Greenhouse service API
+ */
 public interface GreenhouseAPI {
     /**
      * Get greenhouse.

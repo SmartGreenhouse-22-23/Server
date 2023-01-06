@@ -1,5 +1,8 @@
 package it.unibo.smartgh.greenhouse.entity;
 
+/**
+ * The greenhouse entity interface.
+ */
 public interface Greenhouse {
     /**
      * Get the plant grown in the greenhouse

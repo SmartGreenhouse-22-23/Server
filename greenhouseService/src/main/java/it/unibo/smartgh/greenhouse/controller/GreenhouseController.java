@@ -3,6 +3,9 @@ package it.unibo.smartgh.greenhouse.controller;
 import it.unibo.smartgh.greenhouse.entity.Greenhouse;
 import it.unibo.smartgh.greenhouse.entity.Modality;
 
+/**
+ * Interface of the Greenhouse service controller
+ */
 public interface GreenhouseController {
     /**
      * Update the actual modality of a greenhouse

@@ -1,5 +1,8 @@
 package it.unibo.smartgh.greenhouse.entity;
 
+/**
+ * Implementation of the plant entity
+ */
 public class PlantImpl implements Plant{
     private final String name;
     private final String description;
@@ -12,7 +15,19 @@ public class PlantImpl implements Plant{
     private final Double minHumidity;
     private final Double maxHumidity;
 
-    //TODO meglio un builder ?
+    /**
+     * Constructor of the plant entity
+     * @param name of the plant
+     * @param description of the plant
+     * @param minTemperature of the plant
+     * @param maxTemperature of the plant
+     * @param minBrightness of the plant
+     * @param maxBrightness of the plant
+     * @param minSoilHumidity of the plant
+     * @param maxSoilHumidity of the plant
+     * @param minHumidity of the plant
+     * @param maxHumidity of the plant
+     */
     public PlantImpl(String name,
                      String description,
                      Double minTemperature,

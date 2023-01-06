@@ -16,6 +16,9 @@ import it.unibo.smartgh.greenhouse.entity.Modality;
 import static it.unibo.smartgh.greenhouse.Logger.log;
 import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.*;
 
+/**
+ * Implementation of the greenhouse service server
+ */
 public class GreenhouseServer {
 
     private final static int STATUS_CODE_0K = 200;
@@ -31,6 +34,13 @@ public class GreenhouseServer {
     private final GreenhouseAPI model;
     private final Vertx vertx;
 
+    /**
+     * Constructor of the greenhouse server
+     * @param host of the server
+     * @param port of the server
+     * @param model of the greenhouse service
+     * @param vertx the current instance of vertx
+     */
     public GreenhouseServer(String host, int port, GreenhouseAPI model, Vertx vertx) {
         this.host = host;
         this.port = port;
@@ -38,7 +48,9 @@ public class GreenhouseServer {
         this.vertx = vertx;
     }
 
-
+    /**
+     * Start the new server
+     */
     public void start() {
         HttpServer server = vertx.createHttpServer();
         Router router = Router.router(vertx);

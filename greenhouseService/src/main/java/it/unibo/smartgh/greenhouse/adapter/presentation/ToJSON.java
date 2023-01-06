@@ -9,7 +9,15 @@ import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+/**
+ * Utility class for converting objects to JsonObject
+ */
 public class ToJSON {
+    /**
+     * Convert the greenhouse object into jsonObject
+     * @param gh the greenhouse object
+     * @return its JsonObject representation
+     */
     public static JsonObject greenhouseToJSON(Greenhouse gh){
         JsonObject greenhouse = new JsonObject();
         JsonObject plant = plantToJSON(gh.getPlant());
@@ -18,6 +26,11 @@ public class ToJSON {
         return greenhouse;
     }
 
+    /**
+     * Convert the plant object into jsonObject
+     * @param p the plant object
+     * @return its JsonObject representation
+     */
     private static JsonObject plantToJSON(Plant p) {
         JsonObject plant = new JsonObject();
         plant.put("name", p.getName());
@@ -33,12 +46,23 @@ public class ToJSON {
         return plant;
     }
 
+    /**
+     * Convert the modality object into jsonObject
+     * @param mod the modality object
+     * @return its JsonObject representation
+     */
     public static JsonObject modalityToJSON(Modality mod){
         JsonObject modality = new JsonObject();
         modality.put("modality", mod.name());
         return modality;
     }
 
+    /**
+     * Get the minimum and maximum value of the parameter of a plant like JsonObject
+     * @param plant of the greenhouse
+     * @param param for which wants the optimal values
+     * @return the JsonObject containing the minimum and maximum value of the parameter
+     */
     public static JsonObject paramToJSON(Plant plant, String param){
         JsonObject parameter = new JsonObject();
         String original = param.toLowerCase();

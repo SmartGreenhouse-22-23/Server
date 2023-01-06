@@ -6,9 +6,16 @@ import it.unibo.smartgh.greenhouse.persistence.GreenhouseDatabase;
 
 import java.net.UnknownHostException;
 
+/**
+ * Implementation of the greenhouse service controller
+ */
 public class GreenhouseControllerImpl implements GreenhouseController {
     private final GreenhouseDatabase greenhouseDatabase;
 
+    /**
+     * Constructor of the greenhouse controller
+     * @param greenhouseDatabase the greenhouse service database
+     */
     public GreenhouseControllerImpl(GreenhouseDatabase greenhouseDatabase) {
         this.greenhouseDatabase = greenhouseDatabase;
     }

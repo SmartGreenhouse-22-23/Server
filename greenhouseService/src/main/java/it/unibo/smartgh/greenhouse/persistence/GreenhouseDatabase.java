@@ -5,6 +5,9 @@ import it.unibo.smartgh.greenhouse.entity.Modality;
 
 import java.net.UnknownHostException;
 
+/**
+ * Interface for the greenhouse service database.
+ */
 public interface GreenhouseDatabase {
     /**
      * Update the actual modality of a greenhouse

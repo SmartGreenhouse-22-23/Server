@@ -1,5 +1,8 @@
 package it.unibo.smartgh.greenhouse.entity;
 
+/**
+ * The Plant entity interface
+ */
 public interface Plant {
     /**
      * The plant name.
