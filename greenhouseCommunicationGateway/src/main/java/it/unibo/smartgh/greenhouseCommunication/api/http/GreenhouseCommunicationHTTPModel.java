@@ -43,7 +43,7 @@ public class GreenhouseCommunicationHTTPModel implements GreenhouseCommunication
 
     private Future<Void> sendOperationMessage(String topic, String command) {
         Promise<Void> promise = Promise.promise();
-        this.vertx.eventBus().publish(topic, command);
+        this.vertx.eventBus().send(topic, command);
         promise.complete();
         return promise.future();
     }

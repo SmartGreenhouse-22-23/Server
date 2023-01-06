@@ -1,6 +1,7 @@
 package it.unibo.smartgh.greenhouseCommunication.service;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import it.unibo.smartgh.adapter.AbstractAdapter;
@@ -41,12 +42,17 @@ public class GreenhouseCommunicationService extends AbstractVerticle {
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
         this.installAdapters(startPromise);
+        startPromise.complete();
     }
 
     private void installAdapters(Promise<Void> startPromise) {
         ArrayList<Future> allFutures = new ArrayList<Future>();
         allFutures.add(this.installHttpAdapter());
         allFutures.add(this.installMQTTAdapter());
+        CompositeFuture.all(allFutures).onComplete(res -> {
+            System.out.println("Adapters installed.");
+            startPromise.complete();
+        });
 
     }
 
@@ -79,7 +85,7 @@ public class GreenhouseCommunicationService extends AbstractVerticle {
             mqttFuture.onSuccess(res -> {
                 adapters.add(mqttAdapter);
             }).onFailure( error -> {
-                System.out.println("HTTP adapter not installed");
+                System.out.println("MQTT adapter not installed");
             });
             mqttAdapter.setupAdapter(mqttPromise);
 
@@ -88,7 +94,7 @@ public class GreenhouseCommunicationService extends AbstractVerticle {
             System.out.println("HTTP adapter installation failed.");
         }
 
-        return Future.failedFuture("HTTP adapter not installed");
+        return Future.failedFuture("MQTT adapter not installed");
     }
 
 }
