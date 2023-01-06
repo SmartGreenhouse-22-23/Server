@@ -19,7 +19,10 @@ import java.util.List;
  */
 public class PlantValueDatabaseImpl implements PlantValueDatabase {
 
-    private final MongoCollection<Document> collection;
+    private final String dbName;
+    private final String collectionName;
+    private final String host;
+    private final int port;
 
     /**
      * Constructor of the plant value database
@@ -29,13 +32,15 @@ public class PlantValueDatabaseImpl implements PlantValueDatabase {
      * @param port of the database
      */
     public PlantValueDatabaseImpl(String dbName, String collectionName, String host, int port) {
-        MongoClient mongoClient = MongoClients.create("mongodb://" + host + ":" + port);
-        MongoDatabase database = mongoClient.getDatabase(dbName);
-        collection = database.getCollection(collectionName);
+        this.dbName = dbName;
+        this.collectionName = collectionName;
+        this.host = host;
+        this.port = port;
     }
 
     @Override
     public void insertPlantValue(PlantValue plantValue) {
+        MongoCollection<Document> collection = connect();
         Document plantObject = new Document()
                 .append("_id", new ObjectId())
                 .append("greenhouseId", plantValue.getGreenhouseId())
@@ -46,6 +51,7 @@ public class PlantValueDatabaseImpl implements PlantValueDatabase {
 
     @Override
     public PlantValue getPlantCurrentValue() throws EmptyDatabaseException {
+        MongoCollection<Document> collection = connect();
         Document document = collection.find().sort(new Document("_id", -1)).first();
         if (document != null) {
             return new PlantValueImpl(document.get("greenhouseId", String.class), document.get("date", Date.class), document.get("value", Double.class));
@@ -56,11 +62,18 @@ public class PlantValueDatabaseImpl implements PlantValueDatabase {
 
     @Override
     public List<PlantValue> getHistoryData(int howMany) {
+        MongoCollection<Document> collection = connect();
         List<PlantValue> plantValueList = new LinkedList<>();
         for (Document document : collection.find().sort(new Document("_id", -1)).limit(howMany)) {
             plantValueList.add(new PlantValueImpl(document.get("greenhouseId", String.class), document.get("date", Date.class), document.get("value", Double.class)));
         }
         return plantValueList;
+    }
+
+    private MongoCollection<Document> connect(){
+        MongoClient mongoClient = MongoClients.create("mongodb://" + host + ":" + port);
+        MongoDatabase database = mongoClient.getDatabase(dbName);
+        return database.getCollection(collectionName);
     }
 
 }

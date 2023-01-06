@@ -85,7 +85,7 @@ public class GreenhouseModel implements GreenhouseAPI{
 
         checkBrightness(plant.getMinBrightness(),
                 plant.getMaxBrightness(),
-                valueOf(parameters.getValue("Brigh").toString()),
+                valueOf(parameters.getValue("Bright").toString()),
                 greenhouse.getActualModality() == Modality.AUTOMATIC);
 
         checkSoilMoisture(plant.getMinSoilMoisture(),
