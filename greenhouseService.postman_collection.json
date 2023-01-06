@@ -133,7 +133,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": \"63af0ae025d55e9840cbc1fa\",\n    \"parameters\" : {\n        \"Temp\": 5.0,\n        \"Hum\": 40.0,\n        \"Brigh\": 4500.0,\n        \"Soil\": 25.0\n    }\n}",
+					"raw": "{\n    \"id\": \"63af0ae025d55e9840cbc1fa\",\n    \"parameters\" : {\n        \"Temp\": 5.0,\n        \"Hum\": 40.0,\n        \"Bright\": 4500.0,\n        \"Soil\": 25.0\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
