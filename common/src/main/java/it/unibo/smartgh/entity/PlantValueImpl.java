@@ -3,14 +3,26 @@ package it.unibo.smartgh.entity;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * Implementation of the plant value entity
+ */
 public class PlantValueImpl implements PlantValue {
     
     private String greenhouseId;
     private Date date;
     private Double value;
 
+    /**
+     * Empty constructor of plant value
+     */
     public PlantValueImpl() {}
-    
+
+    /**
+     * Constructor of plant value
+     * @param greenhouseId id of the greenhouse
+     * @param date when the value is sensed
+     * @param value sensed
+     */
     public PlantValueImpl(String greenhouseId, Date date, Double value) {
         this.greenhouseId = greenhouseId;
         this.date = date;

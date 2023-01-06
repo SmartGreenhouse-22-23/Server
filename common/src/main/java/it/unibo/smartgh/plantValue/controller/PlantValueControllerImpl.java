@@ -15,8 +15,8 @@ public class PlantValueControllerImpl implements PlantValueController {
     }
 
     @Override
-    public void insertPlantValue(PlantValue brightnessValue) {
-        this.plantValueDatabase.insertPlantValue(brightnessValue);
+    public void insertPlantValue(PlantValue plantValue) {
+        this.plantValueDatabase.insertPlantValue(plantValue);
     }
 
     @Override

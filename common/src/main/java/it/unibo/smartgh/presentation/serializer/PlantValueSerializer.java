@@ -10,6 +10,9 @@ import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+/**
+ * Serializer of plant values
+ */
 public class PlantValueSerializer implements JsonSerializer<PlantValueImpl> {
 
     @Override

@@ -9,6 +9,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+/**
+ * Deserializer of plant values
+ */
 public class PlantValueDeserializer  extends GeneralDeserializer implements JsonDeserializer<PlantValue> {
 
     @Override

@@ -14,10 +14,20 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Implementation of the plant value database
+ */
 public class PlantValueDatabaseImpl implements PlantValueDatabase {
 
     private final MongoCollection<Document> collection;
 
+    /**
+     * Constructor of the plant value database
+     * @param dbName of the database
+     * @param collectionName collection name
+     * @param host of the database
+     * @param port of the database
+     */
     public PlantValueDatabaseImpl(String dbName, String collectionName, String host, int port) {
         MongoClient mongoClient = MongoClients.create("mongodb://" + host + ":" + port);
         MongoDatabase database = mongoClient.getDatabase(dbName);
