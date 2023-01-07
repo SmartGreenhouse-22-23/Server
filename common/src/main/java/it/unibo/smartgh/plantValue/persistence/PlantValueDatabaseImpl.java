@@ -5,8 +5,8 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import it.unibo.smartgh.customException.EmptyDatabaseException;
-import it.unibo.smartgh.entity.PlantValue;
-import it.unibo.smartgh.entity.PlantValueImpl;
+import it.unibo.smartgh.plantValue.entity.PlantValue;
+import it.unibo.smartgh.plantValue.entity.PlantValueImpl;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 

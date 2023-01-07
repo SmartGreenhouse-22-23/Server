@@ -1,8 +1,8 @@
 package it.unibo.smartgh.presentation.deserializer;
 
 import com.google.gson.*;
-import it.unibo.smartgh.entity.PlantValue;
-import it.unibo.smartgh.entity.PlantValueImpl;
+import it.unibo.smartgh.plantValue.entity.PlantValue;
+import it.unibo.smartgh.plantValue.entity.PlantValueImpl;
 
 import java.lang.reflect.Type;
 import java.text.DateFormat;

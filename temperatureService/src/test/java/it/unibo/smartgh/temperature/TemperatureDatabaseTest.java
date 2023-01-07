@@ -1,8 +1,8 @@
 package it.unibo.smartgh.temperature;
 
 import it.unibo.smartgh.customException.EmptyDatabaseException;
-import it.unibo.smartgh.entity.PlantValue;
-import it.unibo.smartgh.entity.PlantValueImpl;
+import it.unibo.smartgh.plantValue.entity.PlantValue;
+import it.unibo.smartgh.plantValue.entity.PlantValueImpl;
 import it.unibo.smartgh.plantValue.persistence.PlantValueDatabase;
 import it.unibo.smartgh.plantValue.persistence.PlantValueDatabaseImpl;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TemperatureDatabaseTest {
 

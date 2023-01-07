@@ -1,7 +1,7 @@
 package it.unibo.smartgh.plantValue.controller;
 
-import it.unibo.smartgh.entity.PlantValue;
 import it.unibo.smartgh.customException.EmptyDatabaseException;
+import it.unibo.smartgh.plantValue.entity.PlantValue;
 import it.unibo.smartgh.plantValue.persistence.PlantValueDatabase;
 
 import java.util.List;

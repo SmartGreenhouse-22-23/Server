@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import it.unibo.smartgh.entity.PlantValueImpl;
+import it.unibo.smartgh.plantValue.entity.PlantValueImpl;
 
 import java.lang.reflect.Type;
 import java.text.DateFormat;

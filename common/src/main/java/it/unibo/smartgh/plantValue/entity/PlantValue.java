@@ -1,4 +1,4 @@
-package it.unibo.smartgh.entity;
+package it.unibo.smartgh.plantValue.entity;
 
 import java.util.Date;
 

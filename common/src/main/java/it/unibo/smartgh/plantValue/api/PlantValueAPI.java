@@ -1,7 +1,7 @@
 package it.unibo.smartgh.plantValue.api;
 
 import io.vertx.core.Future;
-import it.unibo.smartgh.entity.PlantValue;
+import it.unibo.smartgh.plantValue.entity.PlantValue;
 
 import java.util.List;
 
