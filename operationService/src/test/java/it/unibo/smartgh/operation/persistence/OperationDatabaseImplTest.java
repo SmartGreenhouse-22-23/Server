@@ -13,6 +13,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class represents the unit tests for the {@link OperationDatabaseImpl} class.
+ * It tests the functionality of the methods for inserting and retrieving operations from the database.
+ */
 class OperationDatabaseImplTest {
 
     private static final String OPERATION_DB_NAME = "operation";

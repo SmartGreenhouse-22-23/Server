@@ -30,6 +30,11 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * This class represents a test for the {@link OperationHTTPAdapter} class.
+ * It checks the correct behavior of the HTTP adapter by sending requests to the corresponding uri and verifying
+ * the responses.
+ */
 @ExtendWith(VertxExtension.class)
 public class OperationHTTPAdapterTest {
 
