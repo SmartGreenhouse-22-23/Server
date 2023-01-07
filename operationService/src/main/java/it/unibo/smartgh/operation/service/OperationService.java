@@ -3,7 +3,6 @@ package it.unibo.smartgh.operation.service;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import io.vertx.core.Verticle;
 import it.unibo.smartgh.operation.adapter.AbstractAdapter;
 import it.unibo.smartgh.operation.adapter.OperationHTTPAdapter;
 import it.unibo.smartgh.operation.api.OperationAPI;
