@@ -40,8 +40,7 @@ public class OperationDatabaseImpl implements OperationDatabase {
                 .append("greenhouseId", operation.getGreenhouseId())
                 .append("date", operation.getDate())
                 .append("parameter", operation.getParameter())
-                .append("action", operation.getAction())
-                .append("value", operation.getValue().orElse(null));
+                .append("action", operation.getAction());
         collection.insertOne(operationObject);
     }
 
@@ -79,8 +78,7 @@ public class OperationDatabaseImpl implements OperationDatabase {
                     Modality.valueOf(document.get("modality", String.class).toUpperCase(Locale.ROOT)),
                     document.get("date", Date.class),
                     document.get("parameter", String.class),
-                    document.get("action", String.class),
-                    document.get("value", Double.class)));
+                    document.get("action", String.class)));
         }
         return operationList;
     }
