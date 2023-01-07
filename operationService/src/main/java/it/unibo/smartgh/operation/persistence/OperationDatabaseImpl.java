@@ -40,6 +40,7 @@ public class OperationDatabaseImpl implements OperationDatabase {
                 .append("greenhouseId", operation.getGreenhouseId())
                 .append("date", operation.getDate())
                 .append("parameter", operation.getParameter())
+                .append("modality", operation.getModality().modality())
                 .append("action", operation.getAction());
         collection.insertOne(operationObject);
     }
