@@ -2,10 +2,9 @@ package it.unibo.smartgh.presentation;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.unibo.smartgh.entity.PlantValueImpl;
-import java.util.Date;
-import it.unibo.smartgh.presentation.deserializer.*;
-import it.unibo.smartgh.presentation.serializer.*;
+import it.unibo.smartgh.plantValue.entity.PlantValueImpl;
+import it.unibo.smartgh.presentation.deserializer.PlantValueDeserializer;
+import it.unibo.smartgh.presentation.serializer.PlantValueSerializer;
 
 
 /**
