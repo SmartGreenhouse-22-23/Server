@@ -43,6 +43,10 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOYMENT_TOKEN }}

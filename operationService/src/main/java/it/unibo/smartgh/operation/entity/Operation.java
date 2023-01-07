@@ -69,15 +69,4 @@ public interface Operation {
      */
     void setAction(String action);
 
-    /**
-     * Returns the value of the operation, if present.
-     * @return the value of the operation, if present
-     */
-    Optional<Double> getValue();
-
-    /**
-     * Sets the value of the operation.
-     * @param value the value of the operation
-     */
-    void setValue(Double value);
 }
