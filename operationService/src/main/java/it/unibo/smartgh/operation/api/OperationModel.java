@@ -65,7 +65,6 @@ public class OperationModel implements OperationAPI {
         } catch (Exception e) {
             promise.fail(e);
         }
-        promise.complete();
         return promise.future();
     }
 
