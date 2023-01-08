@@ -25,7 +25,7 @@ public class OperationServiceLauncher {
         Vertx vertx = Vertx.vertx();
         OperationDatabase database = new OperationDatabaseImpl(OPERATION_DB_NAME, OPERATION_COLLECTION_NAME, MONGODB_HOST, MONGODB_PORT);
         OperationController controller = new OperationControllerImpl(database);
-        OperationAPI model = new OperationModel(controller);
+        OperationAPI model = new OperationModel(controller, vertx);
         vertx.deployVerticle(new OperationService(model, HOST, PORT));
     }
 }

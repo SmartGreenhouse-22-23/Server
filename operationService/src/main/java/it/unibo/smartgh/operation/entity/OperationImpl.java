@@ -2,7 +2,6 @@ package it.unibo.smartgh.operation.entity;
 
 import java.util.Date;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * This class is an implementation of the {@link Operation} interface.
@@ -14,14 +13,11 @@ public class OperationImpl implements Operation {
     private Date date;
     private String parameter;
     private String action;
-    private Optional<Double> value;
 
     /**
      * Constructs a new {@link OperationImpl} with no value associated with it.
      */
-    public OperationImpl() {
-        this.value = Optional.empty();
-    }
+    public OperationImpl() {}
 
     /**
      * Constructs a new {@link OperationImpl} with the given characteristics.
@@ -30,16 +26,13 @@ public class OperationImpl implements Operation {
      * @param date the date of the operation
      * @param parameter the parameter the operation refers to
      * @param action the action represented by the operation
-     * @param value the value associated with the operation, if any
      */
-    public OperationImpl(String greenhouseId, Modality modality, Date date, String parameter, String action,
-                         Double value) {
+    public OperationImpl(String greenhouseId, Modality modality, Date date, String parameter, String action) {
         this.greenhouseId = greenhouseId;
         this.modality = modality;
         this.date = date;
         this.parameter = parameter;
         this.action = action;
-        this.value = Optional.ofNullable(value);
     }
 
     @Override
@@ -93,30 +86,20 @@ public class OperationImpl implements Operation {
     }
 
     @Override
-    public Optional<Double> getValue() {
-        return value;
-    }
-
-    @Override
-    public void setValue(Double value) {
-        this.value = Optional.ofNullable(value);
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OperationImpl operation = (OperationImpl) o;
-        return greenhouseId.equals(operation.greenhouseId) && modality == operation.modality && date.equals(operation.date) && parameter.equals(operation.parameter) && action.equals(operation.action) && value.equals(operation.value);
+        return greenhouseId.equals(operation.greenhouseId) && modality == operation.modality && date.equals(operation.date) && parameter.equals(operation.parameter) && action.equals(operation.action);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(greenhouseId, modality, date, parameter, action, value);
+        return Objects.hash(greenhouseId, modality, date, parameter, action);
     }
 
     @Override
     public String toString() {
-        return "OperationImpl{" + "greenhouseId='" + greenhouseId + '\'' + ", modality=" + modality + ", date=" + date + ", parameter='" + parameter + '\'' + ", action='" + action + '\'' + ", value=" + value + '}';
+        return "OperationImpl{" + "greenhouseId='" + greenhouseId + '\'' + ", modality=" + modality + ", date=" + date + ", parameter='" + parameter + '\'' + ", action='" + action + '}';
     }
 }

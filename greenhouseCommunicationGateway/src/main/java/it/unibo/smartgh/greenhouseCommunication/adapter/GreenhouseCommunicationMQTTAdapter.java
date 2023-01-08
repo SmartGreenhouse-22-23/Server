@@ -12,6 +12,9 @@ import io.vertx.mqtt.messages.MqttPublishMessage;
 import it.unibo.smartgh.adapter.AbstractAdapter;
 import it.unibo.smartgh.greenhouseCommunication.api.mqtt.GreenhouseCommunicationMQTTAPI;
 
+/**
+ * Implementation of the greenhouse communication mqtt adapter
+ */
 public class GreenhouseCommunicationMQTTAdapter extends AbstractAdapter<GreenhouseCommunicationMQTTAPI> {
 
     private static final String GREENHOUSE_NEWDATA_TOPIC = "dataSG";
@@ -26,6 +29,13 @@ public class GreenhouseCommunicationMQTTAdapter extends AbstractAdapter<Greenhou
     private String host;
     private int port;
 
+    /**
+     * Constructor of the greenhouse communication mqtt adapter
+     * @param model of the service
+     * @param host of the mqtt server
+     * @param port of the mqtt server
+     * @param vertx the current instance
+     */
     public GreenhouseCommunicationMQTTAdapter(GreenhouseCommunicationMQTTAPI model, String host, int port, Vertx vertx){
         super(model, vertx);
         this.host = host;

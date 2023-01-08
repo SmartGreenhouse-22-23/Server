@@ -23,11 +23,6 @@ public class OperationSerializer implements JsonSerializer<OperationImpl> {
         object.addProperty("date", formatter.format(src.getDate()));
         object.addProperty("parameter", src.getParameter());
         object.addProperty("action", src.getAction());
-
-        if (src.getValue().isPresent()) {
-            object.addProperty("value", src.getValue().get());
-        }
-
         return object;
     }
 }

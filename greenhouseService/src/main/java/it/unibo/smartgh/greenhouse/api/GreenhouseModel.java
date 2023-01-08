@@ -115,7 +115,6 @@ public class GreenhouseModel implements GreenhouseAPI{
                                 .put("date", formatter.format(new Date()))
                                 .put("parameter", parameter)
                                 .put("action", action)
-                                .put("value", value)
                 );
 
     }

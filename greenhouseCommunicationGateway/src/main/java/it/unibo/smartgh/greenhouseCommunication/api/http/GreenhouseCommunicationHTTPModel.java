@@ -17,6 +17,10 @@ public class GreenhouseCommunicationHTTPModel implements GreenhouseCommunication
 
     private Vertx vertx;
 
+    /**
+     * Constructor for the greenhouse communication http model.
+     * @param vertx the current instance
+     */
     public GreenhouseCommunicationHTTPModel(Vertx vertx) {
         this.vertx = vertx;
     }

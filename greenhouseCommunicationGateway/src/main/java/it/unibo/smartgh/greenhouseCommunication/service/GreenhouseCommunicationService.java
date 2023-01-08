@@ -28,6 +28,15 @@ public class GreenhouseCommunicationService extends AbstractVerticle {
     private final int mqttPort;
     private final int httpPort;
 
+    /**
+     * Constructor for the greenhouse communication service
+     * @param httpModel http model of the service
+     * @param mqttModel mqtt model of the service
+     * @param mqttHost mqtt host of the service
+     * @param httpHost http host of the service
+     * @param mqttPort mqtt port of the service
+     * @param httpPort http port of the service
+     */
     public GreenhouseCommunicationService(GreenhouseCommunicationHTTPAPI httpModel, GreenhouseCommunicationMQTTAPI mqttModel,
                                           String mqttHost, String httpHost, int mqttPort, int httpPort) {
         this.adapters = new LinkedList<>();
