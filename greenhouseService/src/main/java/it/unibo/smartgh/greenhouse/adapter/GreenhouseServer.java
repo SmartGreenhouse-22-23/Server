@@ -1,11 +1,11 @@
 package it.unibo.smartgh.greenhouse.adapter;
 
-import io.vertx.core.*;
+import io.vertx.core.Future;
+import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.web.RequestBody;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
@@ -59,7 +59,7 @@ public class GreenhouseServer {
 
         try {
             router.get(BASE_PATH).handler(this::handleGetGreenhouse);
-            router.put(BASE_PATH).handler(this::handlePutModality);
+            router.patch(BASE_PATH).handler(this::handlePatchModality);
             router.post(BASE_PATH).handler(this::handlePostSensorData);
             router.get(MODALITY_PATH).handler(this::handleGetModality);
             router.get(PARAM_PATH).handler(this::handleGetParamValues);
@@ -135,7 +135,7 @@ public class GreenhouseServer {
 
     }
 
-    private void handlePutModality(RoutingContext routingContext) {
+    private void handlePatchModality(RoutingContext routingContext) {
         JsonObject body = routingContext.body().asJsonObject();
         String id = body.getString("id");
         String modality = body.getString("modality");
@@ -145,7 +145,7 @@ public class GreenhouseServer {
         } else {
             try{
                 res.putHeader("Content-Type", "application/json");
-                Future<Void> fut = this.model.putActualModality(id, Modality.valueOf(modality.toUpperCase()));
+                Future<Void> fut = this.model.patchActualModality(id, Modality.valueOf(modality.toUpperCase()));
                 fut.onSuccess(gh -> {
                     res.setStatusCode(STATUS_CODE_0K).end();
                 });

@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import static java.lang.Double.valueOf;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * Implementation of the Greenhouse service API
  */
@@ -50,7 +49,7 @@ public class GreenhouseModel implements GreenhouseAPI{
     }
 
     @Override
-    public Future<Void> putActualModality(String id, Modality modality) {
+    public Future<Void> patchActualModality(String id, Modality modality) {
         Promise<Void> promise = Promise.promise();
         try {
             greenhouseController.changeActualModality(id, modality);

@@ -43,7 +43,7 @@ public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommun
 
             router.get(GET_GREENHOUSE_INFO_PATH).handler(this.greenhousePathManager::handleGetGreenhouseInfo);
             router.patch(PATCH_GREENHOUSE_MODALITY_PATH).handler(this.greenhousePathManager::handlePatchGreenhouseModality);
-            router.get(GET_PARAMETER_CURRENT_VALUE_PATH).handler(this.parametersPathManager::handleGetParameterCurrentValue);
+            router.post(GET_PARAMETER_CURRENT_VALUE_PATH).handler(this.parametersPathManager::handlePostParameterCurrentValue);
             router.get(GET_PARAMETER_HISTORY_DATA_PATH).handler(this.parametersPathManager::handleGetParameterHistoryData);
 
             server.requestHandler(router).listen(port, host, http -> {

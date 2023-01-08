@@ -20,14 +20,23 @@ public class ParametersPathManagerImpl implements ParametersPathManager{
     }
 
     @Override
-    public void handleGetParameterCurrentValue(RoutingContext request) {
+    public void handlePostParameterCurrentValue(RoutingContext request) {
         HttpServerResponse response = request.response();
-        String greenhouseID = request.get("greenhouseID");
-        String parameterName = request.get("parameterName");
         response.putHeader("Content-Type", "application/json");
-        Future<JsonObject> future = this.model.getCurrentPlantValueData(greenhouseID, parameterName);
+        Future<Void> future = this.model.postCurrentPlantValueData(request.body().asJsonObject());
 
-        this.handleResponse(response, future);
+        future.onSuccess(result -> response.setStatusCode(201).end())
+                .onFailure(exception ->{
+                    if(exception instanceof ParameterNotFound){
+                        response.setStatusCode(409);
+                        response.setStatusMessage("Bad request: " + exception.getMessage());
+                    }else{
+                        response.setStatusCode(500);
+                        response.setStatusMessage("Internal Server error: cause" + exception.getMessage());
+                    }
+                    response.end();
+
+                });
     }
 
 

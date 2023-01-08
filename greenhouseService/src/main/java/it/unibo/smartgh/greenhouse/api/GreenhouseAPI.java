@@ -6,26 +6,26 @@ import it.unibo.smartgh.greenhouse.entity.Greenhouse;
 import it.unibo.smartgh.greenhouse.entity.Modality;
 
 /**
- * Interface of the Greenhouse service API
+ * Interface of the Greenhouse service API.
  */
 public interface GreenhouseAPI {
     /**
      * Get greenhouse.
-     * @param id greenhouse id
-     * @return the greenhouse
+     * @param id greenhouse id.
+     * @return the greenhouse.
      */
     Future<Greenhouse> getGreenhouse(String id);
 
     /**
-     * change the greenhouse management modality
-     * @param id greenhouse id
-     * @param modality new modality
+     * Change the greenhouse management modality.
+     * @param id greenhouse id.
+     * @param modality new modality.
      */
-    Future<Void> putActualModality(String id, Modality modality);
+    Future<Void> patchActualModality(String id, Modality modality);
     /**
-     * Store the new sensed values, check alarm situation and perform corrective actions
-     * @param id greenhouse id
-     * @param parameters the sensed values
+     * Store the new sensed values, check alarm situation and perform corrective actions.
+     * @param id greenhouse id.
+     * @param parameters the sensed values.
      */
     Future<Void> insertAndCheckParams(String id, JsonObject parameters);
 }

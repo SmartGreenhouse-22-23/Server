@@ -23,12 +23,11 @@ public interface ClientCommunicationAPI {
     Future<Void> patchGreenhouseModality(JsonObject newGreenhouseModality);
 
     /**
-     * Get the current value for the plant monitored.
-     * @param greenhouseID the id identifying the greenhouse.
-     * @param parameterName the name of the parameter of which you want to know the current value.
+     * Put the current value for the plant monitored.
+     * @param parameterInformation represents the data of the parameter.
      * @return a {@link JsonObject} containing the information of the current value and its status if it is in alarm or not.
      */
-    Future<JsonObject> getCurrentPlantValueData(String greenhouseID, String parameterName);
+    Future<Void> postCurrentPlantValueData(JsonObject parameterInformation);
 
     /**
      * Get the historical data for a specific parameter related to a certain greenhouse.

@@ -32,7 +32,7 @@ public class ClientCommunicationModel implements ClientCommunicationAPI{
     }
 
     @Override
-    public Future<JsonObject> getCurrentPlantValueData(String greenhouseID, String parameterName) {
+    public Future<Void> postCurrentPlantValueData(JsonObject parameterInformation) {
         return null;
     }
 

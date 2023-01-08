@@ -5,13 +5,13 @@ package it.unibo.smartgh.greenhouse.entity;
  */
 public interface Greenhouse {
     /**
-     * Get the greenhouse id
-     * @return the greenhouse id
+     * Get the greenhouse id.
+     * @return the greenhouse id.
      */
     String getId();
     /**
-     * Get the plant grown in the greenhouse
-     * @return the plant grown in the greenhouse
+     * Get the plant grown in the greenhouse.
+     * @return the plant grown in the greenhouse.
      */
     Plant getPlant();
     /**

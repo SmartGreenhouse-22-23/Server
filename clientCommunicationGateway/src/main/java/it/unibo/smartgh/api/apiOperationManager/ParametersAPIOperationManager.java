@@ -33,26 +33,13 @@ public class ParametersAPIOperationManager {
     }
 
     /**
-     * Send the request to the Parameter service dedicated, to get the current value registered.
-     * @param greenhouseID identifies the greenhouse of reference.
-     * @param parameterName the name of the parameter of reference.
+     * Receive the current value registered for a specific parameter related to a certain greenhouse.
+     * @param parameterInformation represents the data of the parameter.
      * @return the body of the response received.
      */
-    public Future<JsonObject> getCurrentPlantValueData(String greenhouseID, String parameterName) {
+    public Future<JsonObject> putCurrentPlantValueData(JsonObject parameterInformation) {
         Promise<JsonObject> p = Promise.promise();
-        switch (parameterName){
-            case "brightness":
-                return this.requestCurrentPlantValueData(BRIGHTNESS_BASE_PATH, HOST, BRIGHTNESS_SERVICE_PORT);
-            case "humidity":
-                return this.requestCurrentPlantValueData(AIR_HUMIDITY_BASE_PATH, HOST, AIR_HUMIDITY_SERVICE_PORT);
-            case "soilMoisture":
-                return this.requestCurrentPlantValueData(SOIL_MOISTURE_BASE_PATH, HOST, SOIL_MOISTURE_SERVICE_PORT);
-            case "temperature":
-                return this.requestCurrentPlantValueData(TEMPERATURE_BASE_PATH, HOST, TEMPERATURE_SERVICE_PORT);
-            default:
-                p.fail(new ParameterNotFound("The parameter: " + parameterName + "does not exist!"));
-                break;
-        }
+        //TODO inviare dati ai client
 
         return p.future();
     }
