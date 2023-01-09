@@ -73,7 +73,7 @@ public class ParameterClientCommunicationHTTPAdapterTest {
         Double valueRegistered = 90.0;
         PlantValue brightnessValue = new PlantValueImpl(greenhouseID, date, valueRegistered);
         history.add(brightnessValue);
-        int howManyData = 1;
+        int limit = 1;
 
         client.post(BRIGHTNESS_SERVICE_PORT, HOST, insertBrightnessValuePath)
                 .putHeader("content-type", "application/json")
@@ -82,7 +82,7 @@ public class ParameterClientCommunicationHTTPAdapterTest {
         client.get(CLIENT_COMMUNICATION_SERVICE_PORT, HOST, getHistoryDataPath)
                 .addQueryParam("id", greenhouseID)
                 .addQueryParam("parameterName",parameterName)
-                .addQueryParam("howMany", String.valueOf(howManyData))
+                .addQueryParam("limit", String.valueOf(limit))
                 .send(testContext.succeeding(response -> testContext.verify(() -> {
                     assertEquals(gson.toJson(history), response.body().toString());
                     testContext.completeNow();
