@@ -11,6 +11,8 @@ repositories {
 
 dependencies {
     implementation(project(":common"))
+    testImplementation(project(":greenhouseService"))
+    testImplementation(project(":brightnessService"))
 }
 
 tasks.getByName<Test>("test") {
