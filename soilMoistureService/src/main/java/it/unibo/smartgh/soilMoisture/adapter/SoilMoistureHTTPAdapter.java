@@ -5,6 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
@@ -23,7 +24,7 @@ import java.util.List;
 public class SoilMoistureHTTPAdapter extends AbstractAdapter<PlantValueAPI> {
 
     private static final String BASE_PATH = "/soilMoisture";
-    private static final String HISTORY_PATH = BASE_PATH + "/history/:howMany";
+    private static final String HISTORY_PATH = BASE_PATH + "/history";
     private static final String BAD_REQUEST_MESSAGE = "Bad request: some field is missing or invalid in the provided data.";
 
     private final String host;
@@ -80,12 +81,19 @@ public class SoilMoistureHTTPAdapter extends AbstractAdapter<PlantValueAPI> {
     }
 
     private void handleGetSoilMoistureHistoryData(RoutingContext ctx){
-        Integer howMany = ctx.get("howMany");
+        HttpServerRequest request = ctx.request();
         HttpServerResponse res = ctx.response();
-        res.putHeader("Content-Type", "application/json");
-        Future<List<PlantValue>> fut = this.getModel().getHistory(howMany);
-        fut.onSuccess(list -> res.end(gson.toJson(list)))
-                .onFailure(exception -> handleFailureInGetMethod(res, exception));
+        if(request.getParam("limit") == null) {
+            res.setStatusCode(400);
+            res.setStatusMessage(BAD_REQUEST_MESSAGE);
+            res.end();
+        } else {
+            int howMany = Integer.parseInt(request.getParam("limit"));
+            res.putHeader("Content-Type", "application/json");
+            Future<List<PlantValue>> fut = this.getModel().getHistory(howMany);
+            fut.onSuccess(list -> res.end(gson.toJson(list)))
+                    .onFailure(exception -> handleFailureInGetMethod(res, exception));
+        }
     }
 
     private void handlePostSoilMoistureValue(RoutingContext request) {
