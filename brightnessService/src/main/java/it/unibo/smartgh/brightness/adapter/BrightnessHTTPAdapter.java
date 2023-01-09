@@ -82,9 +82,9 @@ public class BrightnessHTTPAdapter extends AbstractAdapter<PlantValueAPI> {
     private void handleGetBrightnessHistoryData(RoutingContext ctx){
         HttpServerRequest request = ctx.request();
         HttpServerResponse response = ctx.response();
-        int howMany = Integer.parseInt(request.getParam("howMany"));
+        int limit = Integer.parseInt(request.getParam("limit"));
         response.putHeader("Content-Type", "application/json");
-        Future<List<PlantValue>> fut = this.getModel().getHistory(howMany);
+        Future<List<PlantValue>> fut = this.getModel().getHistory(limit);
         fut.onSuccess(list -> response.end(gson.toJson(list)))
                 .onFailure(exception -> handleFailureInGetMethod(response, exception));
     }
