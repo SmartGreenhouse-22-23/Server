@@ -1,4 +1,4 @@
-package it.unibo.smartgh.adapter;
+package it.unibo.smartgh.clientCommunication.adapter;
 
 import com.google.gson.Gson;
 import io.vertx.core.Promise;

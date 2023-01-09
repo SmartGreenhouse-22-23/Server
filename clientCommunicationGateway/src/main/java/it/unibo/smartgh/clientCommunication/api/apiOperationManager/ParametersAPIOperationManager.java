@@ -1,11 +1,12 @@
-package it.unibo.smartgh.api.apiOperationManager;
+package it.unibo.smartgh.clientCommunication.api.apiOperationManager;
 
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
-import it.unibo.smartgh.customException.ParameterNotFound;
+import it.unibo.smartgh.clientCommunication.customException.ParameterNotFound;
 
 /**
  * Utility class to handle the request to the Greenhouse service.
@@ -25,7 +26,7 @@ public class ParametersAPIOperationManager {
     private static final int TEMPERATURE_SERVICE_PORT = 8895;
 
     private static final String HOST = "localhost"; //todo cambiare con i nomi dei micro-servizi una volta fatto docker
-    private static final String HISTORY_PATH = "/history/";
+    private static final String HISTORY_PATH = "/history";
     private final WebClient httpClient;
 
     public ParametersAPIOperationManager(Vertx vertx){
@@ -34,11 +35,12 @@ public class ParametersAPIOperationManager {
 
     /**
      * Receive the current value registered for a specific parameter related to a certain greenhouse.
+     *
      * @param parameterInformation represents the data of the parameter.
      * @return the body of the response received.
      */
-    public Future<JsonObject> putCurrentPlantValueData(JsonObject parameterInformation) {
-        Promise<JsonObject> p = Promise.promise();
+    public Future<Void> postCurrentPlantValueData(JsonObject parameterInformation) {
+        Promise<Void> p = Promise.promise();
         //TODO inviare dati ai client
 
         return p.future();
@@ -46,13 +48,14 @@ public class ParametersAPIOperationManager {
 
     /**
      * Send the request to the Parameter service dedicated, to get historical data registered.
-     * @param greenhouseID identifies the greenhouse of reference.
+     *
+     * @param greenhouseID  identifies the greenhouse of reference.
      * @param parameterName identifies the name of the parameter.
-     * @param howMany specifies how much data to retrieve.
+     * @param howMany       specifies how much data to retrieve.
      * @return the body of the response received.
      */
-    public Future<JsonObject> getHistoricalData(String greenhouseID, String parameterName, int howMany) {
-        Promise<JsonObject> p = Promise.promise();
+    public Future<JsonArray> getHistoricalData(String greenhouseID, String parameterName, int howMany) {
+        Promise<JsonArray> p = Promise.promise();
         switch (parameterName){
             case "brightness":
                 return this.requestHistoricalData(BRIGHTNESS_BASE_PATH + HISTORY_PATH, howMany, HOST, BRIGHTNESS_SERVICE_PORT);
@@ -80,13 +83,13 @@ public class ParametersAPIOperationManager {
         return p.future();
     }
 
-    private Future<JsonObject> requestHistoricalData(String path, int howMany,  String host, int port){
-        Promise<JsonObject> p = Promise.promise();
+    private Future<JsonArray> requestHistoricalData(String path, int howMany,  String host, int port){
+        Promise<JsonArray> p = Promise.promise();
         httpClient.get(port, host, path)
-                .putHeader("content-type", "application/json")
                 .addQueryParam("howMany", String.valueOf(howMany))
+                .putHeader("content-type", "application/json")
                 .send()
-                .onSuccess(response -> p.complete(response.body().toJsonObject()))
+                .onSuccess(response -> p.complete(response.body().toJsonArray()))
                 .onFailure(p::fail);
         return p.future();
     }

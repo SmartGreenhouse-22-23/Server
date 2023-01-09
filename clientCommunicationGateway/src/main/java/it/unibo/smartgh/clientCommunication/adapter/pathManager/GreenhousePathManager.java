@@ -1,4 +1,4 @@
-package it.unibo.smartgh.adapter.pathManager;
+package it.unibo.smartgh.clientCommunication.adapter.pathManager;
 
 import io.vertx.ext.web.RoutingContext;
 
@@ -17,5 +17,5 @@ public interface GreenhousePathManager{
      * Handles the greenhouse patch modality request.
      * @param request the routing context of reference.
      */
-    void handlePatchGreenhouseModality(RoutingContext request);
+    void handlePostGreenhouseModality(RoutingContext request);
 }

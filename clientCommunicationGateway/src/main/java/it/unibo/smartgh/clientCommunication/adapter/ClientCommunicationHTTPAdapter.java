@@ -1,24 +1,24 @@
-package it.unibo.smartgh.adapter;
+package it.unibo.smartgh.clientCommunication.adapter;
 
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
-import it.unibo.smartgh.adapter.pathManager.GreenhousePathManager;
-import it.unibo.smartgh.adapter.pathManager.ParametersPathManager;
-import it.unibo.smartgh.adapter.pathManager.impl.GreenhousePathManagerImpl;
-import it.unibo.smartgh.adapter.pathManager.impl.ParametersPathManagerImpl;
-import it.unibo.smartgh.api.ClientCommunicationAPI;
+import it.unibo.smartgh.clientCommunication.adapter.pathManager.GreenhousePathManager;
+import it.unibo.smartgh.clientCommunication.adapter.pathManager.ParametersPathManager;
+import it.unibo.smartgh.clientCommunication.adapter.pathManager.impl.GreenhousePathManagerImpl;
+import it.unibo.smartgh.clientCommunication.adapter.pathManager.impl.ParametersPathManagerImpl;
+import it.unibo.smartgh.clientCommunication.api.ClientCommunicationAPI;
 
 public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommunicationAPI>{
 
     private static final String BASE_PATH = "/clientCommunication";
-    private static final String GET_GREENHOUSE_INFO_PATH = BASE_PATH + "/greenhouse/:greenhouseID";
+    private static final String GET_GREENHOUSE_INFO_PATH = BASE_PATH + "/greenhouse";
 
-    private static final String PATCH_GREENHOUSE_MODALITY_PATH = BASE_PATH + "/greenhouse/modality";
-    private static final String GET_PARAMETER_CURRENT_VALUE_PATH = BASE_PATH + "/parameter/:greenhouseID/:parameterName";
-    private static final String GET_PARAMETER_HISTORY_DATA_PATH = BASE_PATH + "/parameterHistory/:greenhouseID/:parameterName:howMany";
+    private static final String POST_GREENHOUSE_MODALITY_PATH = BASE_PATH + "/greenhouse/modality";
+    private static final String POST_PARAMETER_CURRENT_VALUE_PATH = BASE_PATH + "/parameter";
+    private static final String GET_PARAMETER_HISTORY_DATA_PATH = BASE_PATH + "/parameter/history";
 
     private final String host;
     private final int port;
@@ -34,7 +34,7 @@ public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommun
     }
 
     @Override
-    protected void setupAdapter(Promise<Void> startPromise) {
+    public void setupAdapter(Promise<Void> startPromise) {
         HttpServer server = getVertx().createHttpServer();
         Router router = Router.router(this.getVertx());
 
@@ -42,8 +42,8 @@ public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommun
             router.route().handler(BodyHandler.create());
 
             router.get(GET_GREENHOUSE_INFO_PATH).handler(this.greenhousePathManager::handleGetGreenhouseInfo);
-            router.patch(PATCH_GREENHOUSE_MODALITY_PATH).handler(this.greenhousePathManager::handlePatchGreenhouseModality);
-            router.post(GET_PARAMETER_CURRENT_VALUE_PATH).handler(this.parametersPathManager::handlePostParameterCurrentValue);
+            router.post(POST_GREENHOUSE_MODALITY_PATH).handler(this.greenhousePathManager::handlePostGreenhouseModality);
+            router.post(POST_PARAMETER_CURRENT_VALUE_PATH).handler(this.parametersPathManager::handlePostParameterCurrentValue);
             router.get(GET_PARAMETER_HISTORY_DATA_PATH).handler(this.parametersPathManager::handleGetParameterHistoryData);
 
             server.requestHandler(router).listen(port, host, http -> {
@@ -62,5 +62,7 @@ public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommun
             startPromise.fail("API setup failed - " + ex);
         }
     }
+
+
 
 }

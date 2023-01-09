@@ -1,11 +1,15 @@
-package it.unibo.smartgh.api;
+package it.unibo.smartgh.clientCommunication.api;
 
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import it.unibo.smartgh.api.apiOperationManager.GreenhouseAPIOperationManager;
-import it.unibo.smartgh.api.apiOperationManager.OperationAPIOperationManager;
-import it.unibo.smartgh.api.apiOperationManager.ParametersAPIOperationManager;
+import io.vertx.ext.web.client.HttpResponse;
+import it.unibo.smartgh.clientCommunication.api.apiOperationManager.GreenhouseAPIOperationManager;
+import it.unibo.smartgh.clientCommunication.api.apiOperationManager.OperationAPIOperationManager;
+import it.unibo.smartgh.clientCommunication.api.apiOperationManager.ParametersAPIOperationManager;
+
 
 public class ClientCommunicationModel implements ClientCommunicationAPI{
 
@@ -27,17 +31,17 @@ public class ClientCommunicationModel implements ClientCommunicationAPI{
     }
 
     @Override
-    public Future<Void> patchGreenhouseModality(JsonObject newGreenhouseModality) {
-        return this.greenhouseAPIOperationManager.patchGreenhouseModality(newGreenhouseModality);
+    public Future<HttpResponse<Buffer>> postGreenhouseModality(JsonObject newGreenhouseModality) {
+        return this.greenhouseAPIOperationManager.postGreenhouseModality(newGreenhouseModality);
     }
 
     @Override
     public Future<Void> postCurrentPlantValueData(JsonObject parameterInformation) {
-        return null;
+        return this.parametersAPIOperationManager.postCurrentPlantValueData(parameterInformation);
     }
 
     @Override
-    public Future<JsonObject> getHistoricalData(String greenhouseID, String parameterName, int howMany) {
-        return null;
+    public Future<JsonArray> getHistoricalData(String greenhouseID, String parameterName, int howMany) {
+        return this.parametersAPIOperationManager.getHistoricalData(greenhouseID, parameterName, howMany);
     }
 }

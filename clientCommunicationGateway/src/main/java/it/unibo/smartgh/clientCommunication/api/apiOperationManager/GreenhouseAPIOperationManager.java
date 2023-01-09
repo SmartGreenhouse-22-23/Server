@@ -1,10 +1,13 @@
-package it.unibo.smartgh.api.apiOperationManager;
+package it.unibo.smartgh.clientCommunication.api.apiOperationManager;
 
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
+
 
 /**
  * Utility class to handle the request to the Greenhouse service.
@@ -43,12 +46,12 @@ public class GreenhouseAPIOperationManager {
      * @param newGreenhouseModality represents the information to send for changing the modality.
      * @return a @{link io.vertx.core.Future} representing the operation performed.
      */
-    public Future<Void> patchGreenhouseModality(JsonObject newGreenhouseModality){
-        Promise<Void> p = Promise.promise();
-        httpClient.put(GREENHOUSE_SERVICE_PORT, GREENHOUSE_SERVICE_HOST, PATCH_GREENHOUSE_MODALITY)
+    public Future<HttpResponse<Buffer>> postGreenhouseModality(JsonObject newGreenhouseModality){
+        Promise<HttpResponse<Buffer>> p = Promise.promise();
+        httpClient.post(GREENHOUSE_SERVICE_PORT, GREENHOUSE_SERVICE_HOST, PATCH_GREENHOUSE_MODALITY)
                 .putHeader("content-type", "application/json")
                 .sendJsonObject(newGreenhouseModality)
-                .onSuccess(response -> p.complete())
+                .onSuccess(p::complete)
                 .onFailure(p::fail);
         return p.future();
     }

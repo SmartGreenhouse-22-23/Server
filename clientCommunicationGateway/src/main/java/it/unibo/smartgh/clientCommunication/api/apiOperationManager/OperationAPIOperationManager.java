@@ -1,4 +1,4 @@
-package it.unibo.smartgh.api.apiOperationManager;
+package it.unibo.smartgh.clientCommunication.api.apiOperationManager;
 
 import io.vertx.core.Vertx;
 import io.vertx.ext.web.client.WebClient;

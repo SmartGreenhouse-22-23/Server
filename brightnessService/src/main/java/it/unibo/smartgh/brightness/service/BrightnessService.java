@@ -3,8 +3,8 @@ package it.unibo.smartgh.brightness.service;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import it.unibo.smartgh.adapter.AbstractAdapter;
 import it.unibo.smartgh.brightness.adapter.BrightnessHTTPAdapter;
+import it.unibo.smartgh.clientCommunication.adapter.AbstractAdapter;
 import it.unibo.smartgh.plantValue.api.PlantValueAPI;
 
 import java.util.LinkedList;

@@ -1,19 +1,20 @@
-package it.unibo.smartgh.adapter.pathManager.impl;
+package it.unibo.smartgh.clientCommunication.adapter.pathManager.impl;
 
 import io.vertx.core.Future;
+import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.JsonObject;
+import io.vertx.core.json.JsonArray;
 import io.vertx.ext.web.RoutingContext;
-import it.unibo.smartgh.adapter.pathManager.ParametersPathManager;
-import it.unibo.smartgh.api.ClientCommunicationAPI;
-import it.unibo.smartgh.customException.ParameterNotFound;
+import it.unibo.smartgh.clientCommunication.adapter.pathManager.ParametersPathManager;
+import it.unibo.smartgh.clientCommunication.api.ClientCommunicationAPI;
+import it.unibo.smartgh.clientCommunication.customException.ParameterNotFound;
 
 /**
  *  Implementation of the related interface {@link ParametersPathManager}
  */
 public class ParametersPathManagerImpl implements ParametersPathManager{
 
-    private ClientCommunicationAPI model;
+    private final ClientCommunicationAPI model;
 
     public ParametersPathManagerImpl(ClientCommunicationAPI model) {
         this.model = model;
@@ -28,8 +29,8 @@ public class ParametersPathManagerImpl implements ParametersPathManager{
         future.onSuccess(result -> response.setStatusCode(201).end())
                 .onFailure(exception ->{
                     if(exception instanceof ParameterNotFound){
-                        response.setStatusCode(409);
-                        response.setStatusMessage("Bad request: " + exception.getMessage());
+                        response.setStatusCode(404);
+                        response.setStatusMessage("Not found: " + exception.getMessage());
                     }else{
                         response.setStatusCode(500);
                         response.setStatusMessage("Internal Server error: cause" + exception.getMessage());
@@ -41,23 +42,29 @@ public class ParametersPathManagerImpl implements ParametersPathManager{
 
 
     @Override
-    public void handleGetParameterHistoryData(RoutingContext request) {
-        HttpServerResponse response = request.response();
-        String greenhouseID = request.get("greenhouseID");
-        String parameterName = request.get("parameterName");
-        Integer howMany = request.get("howMany");
+    public void handleGetParameterHistoryData(RoutingContext ctx) {
+        HttpServerRequest request = ctx.request();
+        HttpServerResponse response = ctx.response();
+        String greenhouseID = request.getParam("id");
+        String parameterName = request.getParam("parameterName");
+        String howMany = request.getParam("howMany");
         response.putHeader("Content-Type", "application/json");
-        Future<JsonObject> future = this.model.getHistoricalData(greenhouseID, parameterName, howMany);
+        if(greenhouseID != null && parameterName != null && howMany != null){
+            Future<JsonArray> future = this.model.getHistoricalData(greenhouseID, parameterName, Integer.parseInt(howMany));
+            this.handleResponse(response, future);
+        }else {
+            response.setStatusCode(409);
+            response.setStatusMessage("Bad request: some filed is missing or invalid in the provided data.");
+        }
 
-        this.handleResponse(response, future);
     }
 
-    private void handleResponse(HttpServerResponse response, Future<JsonObject> future) {
+    private void handleResponse(HttpServerResponse response, Future<JsonArray> future) {
         future.onSuccess(currentValue -> response.end(currentValue.toBuffer()))
                 .onFailure(exception ->{
                     if(exception instanceof ParameterNotFound){
-                        response.setStatusCode(409);
-                        response.setStatusMessage("Bad request: " + exception.getMessage());
+                        response.setStatusCode(404);
+                        response.setStatusMessage("Not found: " + exception.getMessage());
                     }else{
                         response.setStatusCode(500);
                         response.setStatusMessage("Internal Server error: cause" + exception.getMessage());

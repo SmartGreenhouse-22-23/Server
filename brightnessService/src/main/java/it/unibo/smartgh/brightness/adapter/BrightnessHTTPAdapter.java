@@ -5,11 +5,12 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
-import it.unibo.smartgh.adapter.AbstractAdapter;
+import it.unibo.smartgh.clientCommunication.adapter.AbstractAdapter;
 import it.unibo.smartgh.customException.EmptyDatabaseException;
 import it.unibo.smartgh.plantValue.api.PlantValueAPI;
 import it.unibo.smartgh.plantValue.entity.PlantValue;
@@ -22,7 +23,7 @@ import java.util.List;
 public class BrightnessHTTPAdapter extends AbstractAdapter<PlantValueAPI> {
 
     private static final String BASE_PATH = "/brightness";
-    private static final String HISTORY_PATH = BASE_PATH + "/history/:howMany";
+    private static final String HISTORY_PATH = BASE_PATH + "/history";
     private static final String BAD_REQUEST_MESSAGE = "Bad request: some field is missing or invalid in the provided data.";
 
     private final String host;
@@ -79,20 +80,23 @@ public class BrightnessHTTPAdapter extends AbstractAdapter<PlantValueAPI> {
     }
 
     private void handleGetBrightnessHistoryData(RoutingContext ctx){
-        Integer howMany = ctx.get("howMany");
-        HttpServerResponse res = ctx.response();
-        res.putHeader("Content-Type", "application/json");
+        HttpServerRequest request = ctx.request();
+        HttpServerResponse response = ctx.response();
+        int howMany = Integer.parseInt(request.getParam("howMany"));
+        response.putHeader("Content-Type", "application/json");
         Future<List<PlantValue>> fut = this.getModel().getHistory(howMany);
-        fut.onSuccess(list -> res.end(gson.toJson(list)))
-                .onFailure(exception -> handleFailureInGetMethod(res, exception));
+        fut.onSuccess(list -> response.end(gson.toJson(list)))
+                .onFailure(exception -> handleFailureInGetMethod(response, exception));
     }
 
     private void handlePostBrightnessValue(RoutingContext request) {
         HttpServerResponse response = request.response();
+
         response.putHeader("content-type", "application/json");
 
         try {
             PlantValue brightnessValue = gson.fromJson(request.body().asString(), PlantValueImpl.class);
+            System.out.println("Value" + brightnessValue.toString());
             Future<Void> fut = this.getModel().postValue(brightnessValue);
 
             fut.onSuccess(res -> {

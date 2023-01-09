@@ -1,4 +1,4 @@
-package it.unibo.smartgh.customException;
+package it.unibo.smartgh.clientCommunication.customException;
 
 public class ParameterNotFound extends Exception{
 

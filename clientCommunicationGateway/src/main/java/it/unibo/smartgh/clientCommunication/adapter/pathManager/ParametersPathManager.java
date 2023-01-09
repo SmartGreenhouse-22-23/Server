@@ -1,4 +1,4 @@
-package it.unibo.smartgh.adapter.pathManager;
+package it.unibo.smartgh.clientCommunication.adapter.pathManager;
 
 import io.vertx.ext.web.RoutingContext;
 
