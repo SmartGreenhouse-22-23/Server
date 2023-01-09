@@ -20,8 +20,7 @@ import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.*;
  * Implementation of the greenhouse service server
  */
 public class GreenhouseServer {
-
-    private final static int STATUS_CODE_0K = 200;
+    private final static int STATUS_CODE_0K_NOTHING_RETURN = 201;
     private final static int STATUS_CODE_BAD_CONTENT = 400;
     private final static int STATUS_CODE_NOT_FOUND = 404;
     private static final String BASE_PATH = "/greenhouse";
@@ -59,7 +58,7 @@ public class GreenhouseServer {
 
         try {
             router.get(BASE_PATH).handler(this::handleGetGreenhouse);
-            router.patch(BASE_PATH).handler(this::handlePatchModality);
+            router.post(MODALITY_PATH).handler(this::handlePostModality);
             router.post(BASE_PATH).handler(this::handlePostSensorData);
             router.get(MODALITY_PATH).handler(this::handleGetModality);
             router.get(PARAM_PATH).handler(this::handleGetParamValues);
@@ -84,7 +83,7 @@ public class GreenhouseServer {
             try{
                 Future<Void> fut = this.model.insertAndCheckParams(id, parameters);
                 fut.onSuccess(gh -> {
-                    res.setStatusCode(STATUS_CODE_0K).end();
+                    res.setStatusCode(STATUS_CODE_0K_NOTHING_RETURN).end();
                 });
                 fut.onFailure(err -> res.setStatusCode(STATUS_CODE_NOT_FOUND).end());
             } catch (IllegalArgumentException ex) {
@@ -135,7 +134,7 @@ public class GreenhouseServer {
 
     }
 
-    private void handlePatchModality(RoutingContext routingContext) {
+    private void handlePostModality(RoutingContext routingContext) {
         JsonObject body = routingContext.body().asJsonObject();
         String id = body.getString("id");
         String modality = body.getString("modality");
@@ -147,7 +146,7 @@ public class GreenhouseServer {
                 res.putHeader("Content-Type", "application/json");
                 Future<Void> fut = this.model.patchActualModality(id, Modality.valueOf(modality.toUpperCase()));
                 fut.onSuccess(gh -> {
-                    res.setStatusCode(STATUS_CODE_0K).end();
+                    res.setStatusCode(STATUS_CODE_0K_NOTHING_RETURN).end();
                 });
                 fut.onFailure(err -> res.setStatusCode(STATUS_CODE_NOT_FOUND).end());
             } catch (IllegalArgumentException ex) {

@@ -5,13 +5,14 @@ import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
+import it.unibo.smartgh.adapter.AbstractAdapter;
 import it.unibo.smartgh.clientCommunication.adapter.pathManager.GreenhousePathManager;
 import it.unibo.smartgh.clientCommunication.adapter.pathManager.ParametersPathManager;
 import it.unibo.smartgh.clientCommunication.adapter.pathManager.impl.GreenhousePathManagerImpl;
 import it.unibo.smartgh.clientCommunication.adapter.pathManager.impl.ParametersPathManagerImpl;
 import it.unibo.smartgh.clientCommunication.api.ClientCommunicationAPI;
 
-public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommunicationAPI>{
+public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommunicationAPI> {
 
     private static final String BASE_PATH = "/clientCommunication";
     private static final String GET_GREENHOUSE_INFO_PATH = BASE_PATH + "/greenhouse";

@@ -1,30 +1,26 @@
-package it.unibo.smartgh.brightness.service;
+package it.unibo.smartgh.clientCommunication.service;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import it.unibo.smartgh.adapter.AbstractAdapter;
-import it.unibo.smartgh.brightness.adapter.BrightnessHTTPAdapter;
-import it.unibo.smartgh.plantValue.api.PlantValueAPI;
+import it.unibo.smartgh.clientCommunication.adapter.ClientCommunicationHTTPAdapter;
+import it.unibo.smartgh.clientCommunication.api.ClientCommunicationAPI;
 
 import java.util.LinkedList;
 import java.util.List;
-/**
- * Class that represent the Service, it extends the abstract class {@link AbstractVerticle} of Vertx.
- */
-public class BrightnessService extends AbstractVerticle {
 
+/**
+ * This class represents the Client Communication Service.
+ */
+public class ClientCommunicationService extends AbstractVerticle {
     private List<AbstractAdapter> adapters;
-    private final PlantValueAPI model;
+    private final ClientCommunicationAPI model;
+
     private final String host;
     private final int port;
-    /**
-     * Constructor of brightness service.
-     * @param model the brightness model.
-     * @param host the brightness service host.
-     * @param port the brightness service port.
-     */
-    public BrightnessService(PlantValueAPI model, String host, int port) {
+
+    public ClientCommunicationService(ClientCommunicationAPI model, String host, int port) {
         this.adapters = new LinkedList<>();
         this.model = model;
         this.host = host;
@@ -33,13 +29,13 @@ public class BrightnessService extends AbstractVerticle {
 
     @Override
     public void start(Promise<Void> startPromise) throws Exception {
-        System.out.println("BrightnessService started.");
+        System.out.println("Client Communication Service started.");
         installAdapters(startPromise);
     }
 
     private void installAdapters(Promise<Void> startPromise) {
         try {
-            BrightnessHTTPAdapter httpAdapter = new BrightnessHTTPAdapter(model, this.getVertx(), host, port);
+            ClientCommunicationHTTPAdapter httpAdapter = new ClientCommunicationHTTPAdapter(model, this.getVertx(), host, port);
             Promise<Void> promise = Promise.promise();
             httpAdapter.setupAdapter(promise);
             Future<Void> fut = promise.future();
@@ -57,5 +53,4 @@ public class BrightnessService extends AbstractVerticle {
             System.out.println("HTTP adapter installation failed.");
         }
     }
-
 }
