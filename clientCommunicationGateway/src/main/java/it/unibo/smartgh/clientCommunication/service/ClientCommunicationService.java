@@ -3,7 +3,7 @@ package it.unibo.smartgh.clientCommunication.service;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import it.unibo.smartgh.adapter.AbstractAdapter;
+import it.unibo.smartgh.clientCommunication.adapter.AbstractAdapter;
 import it.unibo.smartgh.clientCommunication.adapter.ClientCommunicationHTTPAdapter;
 import it.unibo.smartgh.clientCommunication.api.ClientCommunicationAPI;
 
