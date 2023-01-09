@@ -21,6 +21,10 @@ public class GreenhouseAPIOperationManager {
     private static final int GREENHOUSE_SERVICE_PORT = 8889;
     private final WebClient httpClient;
 
+    /**
+     * Public constructor of the class.
+     * @param vertx the program's instance of Vertx.
+     */
     public GreenhouseAPIOperationManager(Vertx vertx) {
         this.httpClient = WebClient.create(vertx);
     }

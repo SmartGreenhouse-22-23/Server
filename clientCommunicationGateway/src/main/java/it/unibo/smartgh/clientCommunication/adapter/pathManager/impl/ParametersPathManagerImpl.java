@@ -16,6 +16,10 @@ public class ParametersPathManagerImpl implements ParametersPathManager{
 
     private final ClientCommunicationAPI model;
 
+    /**
+     * Public constructor for the class.
+     * @param model the model of reference tha implements the API.
+     */
     public ParametersPathManagerImpl(ClientCommunicationAPI model) {
         this.model = model;
     }

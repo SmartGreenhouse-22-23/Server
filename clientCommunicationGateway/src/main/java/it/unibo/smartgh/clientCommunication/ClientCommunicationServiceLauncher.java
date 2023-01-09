@@ -5,6 +5,9 @@ import it.unibo.smartgh.clientCommunication.api.ClientCommunicationAPI;
 import it.unibo.smartgh.clientCommunication.api.ClientCommunicationModel;
 import it.unibo.smartgh.clientCommunication.service.ClientCommunicationService;
 
+/**
+ * Class the represents the entry point to run the Client Communication Service.
+ */
 public class ClientCommunicationServiceLauncher {
     private static final String HOST = "localhost";
     private static final int PORT = 8890;

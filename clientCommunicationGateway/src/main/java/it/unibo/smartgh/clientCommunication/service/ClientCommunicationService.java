@@ -20,6 +20,12 @@ public class ClientCommunicationService extends AbstractVerticle {
     private final String host;
     private final int port;
 
+    /**
+     * Public constructor of the class.
+     * @param model the model that implements the API.
+     * @param host the host address.
+     * @param port the port on which the service is listening.
+     */
     public ClientCommunicationService(ClientCommunicationAPI model, String host, int port) {
         this.adapters = new LinkedList<>();
         this.model = model;

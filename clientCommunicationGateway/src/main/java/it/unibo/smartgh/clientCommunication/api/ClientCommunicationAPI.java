@@ -17,7 +17,7 @@ public interface ClientCommunicationAPI {
     /**
      * Get the information of the greenhouse.
      * @param greenhouseID the id identifying the greenhouse.
-     * @return a {@link JsonObject} containing the greenhouse information required.
+     * @return a {@link io.vertx.core.Future} of {@link JsonObject} containing the greenhouse information required.
      */
     Future<JsonObject> getGreenhouseInformation(String greenhouseID);
 
@@ -25,7 +25,7 @@ public interface ClientCommunicationAPI {
      * Modify the actual greenhouse modality.
      *
      * @param newGreenhouseModality represents the data information you want to update.
-     * @return the future representing the patch operation.
+     * @return a {@link io.vertx.core.Future} of {@link HttpResponse} representing the operation.
      */
     Future<HttpResponse<Buffer>> postGreenhouseModality(JsonObject newGreenhouseModality);
 
@@ -33,7 +33,7 @@ public interface ClientCommunicationAPI {
      * Put the current value for the plant monitored.
      *
      * @param parameterInformation represents the data of the parameter.
-     * @return a {@link JsonObject} containing the information of the current value and its status if it is in alarm or not.
+     * @return a {@link io.vertx.core.Future} representing the operation performed.
      */
     Future<Void> postCurrentPlantValueData(JsonObject parameterInformation);
 
@@ -43,14 +43,37 @@ public interface ClientCommunicationAPI {
      * @param greenhouseID  the id identifying the greenhouse.
      * @param parameterName the parameter of which you want to get the data.
      * @param howMany       how many data you want to retrieve.
-     * @return a {@link JsonObject} containing the list of the data that you want to obtain.
+     * @return a {@link io.vertx.core.Future} of {@link JsonArray} containing the list of the data that you want to obtain.
      */
     Future<JsonArray> getHistoricalData(String greenhouseID, String parameterName, int howMany);
 
+    /**
+     * Get the operation performed on a specific greenhouse.
+     * @param greenhouseID the id identifying the greenhouse.
+     * @param limit the number of operations we want to retrieve.
+     * @return a {@link JsonArray} containing the operation required
+     */
     Future<JsonArray> getGreenhouseOperations(String greenhouseID, int limit);
 
+
+    /**
+     * Get the operation performed on a specific greenhouse for a specific parameter.
+     * @param greenhouseID the id identifying the greenhouse.
+     * @param parameterName the name of the parameter.
+     * @param limit the number of operations we want to retrieve.
+     * @return a {@link JsonArray} containing the operation required
+     */
     Future<JsonArray> getOperationsParameter(String greenhouseID, String parameterName, int limit);
 
+
+    /**
+     * Get the operation performed on a specific greenhouse for a certain period.
+     * @param greenhouseID the id identifying the greenhouse.
+     * @param from from the date of start.
+     * @param to the date of finish.
+     * @param limit the number of operations we want to retrieve.
+     * @return a {@link JsonArray} containing the operation required
+     */
     Future<JsonArray> getOperationsInDateRange(String greenhouseID, Date from, Date to, int limit);
 
 }

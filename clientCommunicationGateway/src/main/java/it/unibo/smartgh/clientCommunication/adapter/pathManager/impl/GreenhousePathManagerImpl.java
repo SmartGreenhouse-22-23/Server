@@ -19,6 +19,10 @@ public class GreenhousePathManagerImpl implements GreenhousePathManager{
 
     private final ClientCommunicationAPI model;
 
+    /**
+     * Public constructor for the class.
+     * @param model the model of reference tha implements the API.
+     */
     public GreenhousePathManagerImpl(ClientCommunicationAPI model) {
         this.model = model;
     }

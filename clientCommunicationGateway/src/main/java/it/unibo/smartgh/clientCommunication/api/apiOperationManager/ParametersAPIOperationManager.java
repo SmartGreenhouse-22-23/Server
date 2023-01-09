@@ -29,6 +29,10 @@ public class ParametersAPIOperationManager {
     private static final String HISTORY_PATH = "/history";
     private final WebClient httpClient;
 
+    /**
+     * Public constructor of the class.
+     * @param vertx the program's instance of Vertx.
+     */
     public ParametersAPIOperationManager(Vertx vertx){
         this.httpClient = WebClient.create(vertx);
     }

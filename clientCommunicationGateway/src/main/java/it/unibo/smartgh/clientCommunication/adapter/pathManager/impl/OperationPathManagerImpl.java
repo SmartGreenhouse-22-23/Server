@@ -5,14 +5,22 @@ import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonArray;
 import io.vertx.ext.web.RoutingContext;
+import it.unibo.smartgh.clientCommunication.adapter.pathManager.GreenhousePathManager;
 import it.unibo.smartgh.clientCommunication.adapter.pathManager.OperationPathManager;
 import it.unibo.smartgh.clientCommunication.api.ClientCommunicationAPI;
 
 import java.sql.Date;
 
+/**
+ * Implementation of the related interface {@link GreenhousePathManager}.
+ */
 public class OperationPathManagerImpl implements OperationPathManager {
     private final ClientCommunicationAPI model;
 
+    /**
+     * Public constructor for the class.
+     * @param model the model of reference tha implements the API.
+     */
     public OperationPathManagerImpl(ClientCommunicationAPI model) {
         this.model = model;
     }

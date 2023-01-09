@@ -14,6 +14,9 @@ import it.unibo.smartgh.clientCommunication.adapter.pathManager.impl.OperationPa
 import it.unibo.smartgh.clientCommunication.adapter.pathManager.impl.ParametersPathManagerImpl;
 import it.unibo.smartgh.clientCommunication.api.ClientCommunicationAPI;
 
+/**
+ * Represents the HTTP Adapter for the Client Communication service.
+ */
 public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommunicationAPI> {
 
     private static final String BASE_PATH = "/clientCommunication";
@@ -35,6 +38,13 @@ public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommun
     private final ParametersPathManager parametersPathManager;
     private final OperationPathManager operationPathManager;
 
+    /**
+     * Public constructor of the class.
+     * @param model the model that implements the API.
+     * @param vertx the program's instance of Vertx.
+     * @param host the host address.
+     * @param port the port on which the service is listening.
+     */
     public ClientCommunicationHTTPAdapter(ClientCommunicationAPI model, Vertx vertx, String host, int port){
         super(model, vertx);
         this.host = host;

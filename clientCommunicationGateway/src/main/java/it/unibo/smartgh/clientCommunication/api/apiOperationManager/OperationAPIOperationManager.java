@@ -8,6 +8,9 @@ import io.vertx.ext.web.client.WebClient;
 
 import java.util.Date;
 
+/**
+ * Utility class to handle the request to the Operation service.
+ */
 public class OperationAPIOperationManager {
 
     private static final String OPERATION_BASE_PATH = "/operations";
@@ -18,10 +21,20 @@ public class OperationAPIOperationManager {
     private static final int OPERATION_SERVICE_PORT = 8896;
     private final WebClient httpClient;
 
+    /**
+     * Public constructor of the class.
+     * @param vertx the program's instance of Vertx.
+     */
     public OperationAPIOperationManager(Vertx vertx){
         this.httpClient = WebClient.create(vertx);
     }
 
+    /**
+     * Send the request to the Operation service, to gets the operations performed on a specific greenhouse.
+     * @param greenhouseID the greenhouse identifier.
+     * @param limit the number of operations we want to retrieve.
+     * @return a {@link io.vertx.core.Future}, containing the operations required.
+     */
     public Future<JsonArray> getGreenhouseOperations(String greenhouseID, int limit){
         Promise<JsonArray> p = Promise.promise();
         httpClient.get(OPERATION_SERVICE_PORT, OPERATION_SERVICE_HOST, OPERATION_BASE_PATH)
@@ -34,6 +47,13 @@ public class OperationAPIOperationManager {
         return p.future();
     }
 
+    /**
+     * Send the request to the Operation service, to gets the operations performed on a specific greenhouse for a specific parameter.
+     * @param greenhouseID the greenhouse identifier.
+     * @param parameterName the parameter name in which we are interested.
+     * @param limit the number of operations we want to retrieve.
+     * @return a {@link io.vertx.core.Future}, containing the operations required.
+     */
     public Future<JsonArray> getOperationsParameter(String greenhouseID, String parameterName, int limit){
         Promise<JsonArray> p = Promise.promise();
         httpClient.get(OPERATION_SERVICE_PORT, OPERATION_SERVICE_HOST, GET_OPERATION_PARAMETER)
@@ -47,6 +67,12 @@ public class OperationAPIOperationManager {
         return p.future();
     }
 
+    /**
+     * Send the request to the Operation service, to gets the operations performed on a specific greenhouse in a certain period of time.
+     * @param greenhouseID the greenhouse identifier.
+     * @param limit the number of operations we want to retrieve.
+     * @return a {@link io.vertx.core.Future}, containing the operations required.
+     */
     public Future<JsonArray> getOperationsInDateRange(String greenhouseID, Date from, Date to, int limit){
         Promise<JsonArray> p = Promise.promise();
         httpClient.get(OPERATION_SERVICE_PORT, OPERATION_SERVICE_HOST, GET_OPERATION_IN_DATE_RANGE)

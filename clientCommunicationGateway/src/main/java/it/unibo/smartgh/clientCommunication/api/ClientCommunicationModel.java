@@ -13,12 +13,19 @@ import it.unibo.smartgh.clientCommunication.api.apiOperationManager.ParametersAP
 import java.util.Date;
 
 
+/**
+ * This class represnt the implementation of the interface {@link ClientCommunicationAPI}
+ */
 public class ClientCommunicationModel implements ClientCommunicationAPI{
 
     private final GreenhouseAPIOperationManager greenhouseAPIOperationManager;
     private final ParametersAPIOperationManager parametersAPIOperationManager;
     private final OperationAPIOperationManager operationAPIOperationManager;
 
+    /**
+     * The public constructor of the class.
+     * @param vertx the program's instance of Vertx.
+     */
     public ClientCommunicationModel(Vertx vertx) {
         this.greenhouseAPIOperationManager = new GreenhouseAPIOperationManager(vertx);
         this.parametersAPIOperationManager = new ParametersAPIOperationManager(vertx);
