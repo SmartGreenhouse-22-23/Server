@@ -58,7 +58,7 @@ public class GreenhouseServer {
 
         try {
             router.get(BASE_PATH).handler(this::handleGetGreenhouse);
-            router.post(MODALITY_PATH).handler(this::handlePostModality);
+            router.put(BASE_PATH).handler(this::handlePutModality);
             router.post(BASE_PATH).handler(this::handlePostSensorData);
             router.get(MODALITY_PATH).handler(this::handleGetModality);
             router.get(PARAM_PATH).handler(this::handleGetParamValues);
@@ -134,7 +134,7 @@ public class GreenhouseServer {
 
     }
 
-    private void handlePostModality(RoutingContext routingContext) {
+    private void handlePutModality(RoutingContext routingContext) {
         JsonObject body = routingContext.body().asJsonObject();
         String id = body.getString("id");
         String modality = body.getString("modality");

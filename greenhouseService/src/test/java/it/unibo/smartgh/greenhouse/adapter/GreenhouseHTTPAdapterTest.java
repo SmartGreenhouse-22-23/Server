@@ -73,7 +73,7 @@ public class GreenhouseHTTPAdapterTest {
                         .put("id", ID)
                         .put("modality", "MANUAL"))
                 .onSuccess(response -> {
-                    assertEquals(200, response.statusCode());
+                    assertEquals(201, response.statusCode());
                     testContext.completeNow();
                 });
     }

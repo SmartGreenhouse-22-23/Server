@@ -4,7 +4,7 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
-import it.unibo.smartgh.adapter.AbstractAdapter;
+import it.unibo.smartgh.greenhouseCommunication.adapter.AbstractAdapter;
 import it.unibo.smartgh.greenhouseCommunication.adapter.GreenhouseCommunicationHTTPAdapter;
 import it.unibo.smartgh.greenhouseCommunication.adapter.GreenhouseCommunicationMQTTAdapter;
 import it.unibo.smartgh.greenhouseCommunication.api.http.GreenhouseCommunicationHTTPAPI;
