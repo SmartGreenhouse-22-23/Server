@@ -13,6 +13,7 @@ dependencies {
     implementation(project(":common"))
     testImplementation(project(":greenhouseService"))
     testImplementation(project(":brightnessService"))
+    testImplementation(project(":operationService"))
 }
 
 tasks.getByName<Test>("test") {
