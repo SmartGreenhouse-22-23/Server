@@ -9,10 +9,6 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    implementation(project(":common"))
-}
-
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
