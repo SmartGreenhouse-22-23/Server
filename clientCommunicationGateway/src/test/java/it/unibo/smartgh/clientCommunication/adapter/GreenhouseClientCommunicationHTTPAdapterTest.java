@@ -21,6 +21,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.greenhouseToJSON;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Tests to verify the correct behaviour of the service related to the greenhouse operations.
+ */
 @ExtendWith(VertxExtension.class)
 public class GreenhouseClientCommunicationHTTPAdapterTest {
 

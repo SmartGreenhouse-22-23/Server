@@ -28,6 +28,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Tests to verify the correct behaviour of the service related to the parameters operations.
+ */
 @ExtendWith(VertxExtension.class)
 public class ParameterClientCommunicationHTTPAdapterTest {
 

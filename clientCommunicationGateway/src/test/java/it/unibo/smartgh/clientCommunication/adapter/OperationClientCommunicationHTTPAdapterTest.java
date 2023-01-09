@@ -32,6 +32,9 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Tests to verify the correct behaviour of the service related to the greenhouse operation operations.
+ */
 @ExtendWith(VertxExtension.class)
 public class OperationClientCommunicationHTTPAdapterTest {
 
