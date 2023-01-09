@@ -23,6 +23,8 @@ import java.util.List;
 public class OperationHTTPAdapter extends AbstractAdapter<OperationAPI> {
 
     private static final String BASE_PATH = "/operations";
+    private static final String GET_OPERATION_PARAMETER = BASE_PATH + "/parameter";
+    private static final String GET_OPERATION_IN_DATE_RANGE = BASE_PATH + "/date";
     private static final String BAD_REQUEST_MESSAGE = "Bad request: some field is missing or invalid in the provided data.";
     private static final String INTERNAL_SERVER_ERROR = "Internal Server error: cause ";
 
@@ -50,8 +52,8 @@ public class OperationHTTPAdapter extends AbstractAdapter<OperationAPI> {
             router.route().handler(BodyHandler.create());
 
             router.get(BASE_PATH).handler(this::handleGetOperationsInGreenhouse);
-            router.get(BASE_PATH).handler(this::handleGetParameterOperations);
-            router.get(BASE_PATH).handler(this::handleGetOperationsInDateRange);
+            router.get(GET_OPERATION_PARAMETER).handler(this::handleGetParameterOperations);
+            router.get(GET_OPERATION_IN_DATE_RANGE).handler(this::handleGetOperationsInDateRange);
 
             router.post(BASE_PATH).handler(this::handlePostOperationInGreenhouse);
 
@@ -92,9 +94,10 @@ public class OperationHTTPAdapter extends AbstractAdapter<OperationAPI> {
     private void handleGetParameterOperations(RoutingContext ctx) {
         HttpServerRequest request = ctx.request();
         HttpServerResponse response = ctx.response();
+        System.out.println("Request ok");
         response.putHeader("Content-Type", "application/json");
         String greenhouseId = request.getParam("id");
-        String param = request.getParam("param");
+        String param = request.getParam("parameterName");
         if (greenhouseId.isEmpty() || param.isEmpty()) {
             handleBadRequestResponse(response);
         }
@@ -110,6 +113,7 @@ public class OperationHTTPAdapter extends AbstractAdapter<OperationAPI> {
     private void handleGetOperationsInDateRange(RoutingContext ctx) {
         HttpServerRequest request = ctx.request();
         HttpServerResponse response = ctx.response();
+        System.out.println("Operation service, request arrived");
         response.putHeader("Content-Type", "application/json");
         String greenhouseId = request.getParam("id");
         if (greenhouseId.isEmpty()) {

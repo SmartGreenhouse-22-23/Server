@@ -33,7 +33,7 @@ public class GreenhousePathManagerImpl implements GreenhousePathManager{
             future.onSuccess(greenhouseInformation -> response.end(greenhouseInformation.toBuffer()))
                     .onFailure(exception ->{
                         response.setStatusCode(500);
-                        response.setStatusMessage("Internal Server error: cause" + exception.getMessage());
+                        response.setStatusMessage("Internal Server error: cause " + exception.getMessage());
                         response.end();
                     });
         }else {
@@ -52,7 +52,7 @@ public class GreenhousePathManagerImpl implements GreenhousePathManager{
             response.end();
         }).onFailure(exception -> {
             response.setStatusCode(500);
-            response.setStatusMessage("Internal Server error: cause" + exception.getMessage());
+            response.setStatusMessage("Internal Server error: cause " + exception.getMessage());
             response.end();
         });
     }

@@ -27,12 +27,12 @@ public class GreenhouseClientCommunicationHTTPAdapterTest {
     private static final String HOST = "localhost";
     private static final int CLIENT_COMMUNICATION_SERVICE_PORT = 8890;
 
-    private static final String GREENHOUSE_ID =  "63af0ae025d55e9840cbc1fa";
+    private static final String GREENHOUSE_ID =  "63b29b0a3792e15bae3229a7";
 
-    private final Plant plant = new PlantBuilder("lemon")
+    private final Plant plant = new PlantBuilder("lemon AUTOMATIC")
             .description("is a species of small evergreen trees in the flowering plant family " +
                     "Rutaceae, native to Asia, primarily Northeast India (Assam), Northern Myanmar or China.")
-            .image(null)
+            .image("https://www.burkesbackyard.com.au/wp-content/uploads/2014/01/945001_399422270172619_1279327806_n.jpg")
             .minTemperature(8.0)
             .maxTemperature(35.0)
             .minBrightness(4200.0)

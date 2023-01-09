@@ -6,6 +6,8 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.HttpResponse;
 
+import java.util.Date;
+
 
 /**
  * This interface represents the HTTP API for the Client Communication service.
@@ -45,7 +47,10 @@ public interface ClientCommunicationAPI {
      */
     Future<JsonArray> getHistoricalData(String greenhouseID, String parameterName, int howMany);
 
-    //todo PostOperation
+    Future<JsonArray> getGreenhouseOperations(String greenhouseID, int limit);
 
-    //todo getHistoryOperation
+    Future<JsonArray> getOperationsParameter(String greenhouseID, String parameterName, int limit);
+
+    Future<JsonArray> getOperationsInDateRange(String greenhouseID, Date from, Date to, int limit);
+
 }

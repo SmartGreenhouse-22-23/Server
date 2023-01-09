@@ -73,16 +73,6 @@ public class ParametersAPIOperationManager {
         return p.future();
     }
 
-    private Future<JsonObject> requestCurrentPlantValueData(String path, String host, int port){
-        Promise<JsonObject> p = Promise.promise();
-        httpClient.get(port, host, path)
-                .putHeader("content-type", "application/json")
-                .send()
-                .onSuccess(response -> p.complete(response.body().toJsonObject()))
-                .onFailure(p::fail);
-        return p.future();
-    }
-
     private Future<JsonArray> requestHistoricalData(String path, int howMany,  String host, int port){
         Promise<JsonArray> p = Promise.promise();
         httpClient.get(port, host, path)

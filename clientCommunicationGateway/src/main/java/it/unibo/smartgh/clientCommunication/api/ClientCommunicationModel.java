@@ -10,16 +10,16 @@ import it.unibo.smartgh.clientCommunication.api.apiOperationManager.GreenhouseAP
 import it.unibo.smartgh.clientCommunication.api.apiOperationManager.OperationAPIOperationManager;
 import it.unibo.smartgh.clientCommunication.api.apiOperationManager.ParametersAPIOperationManager;
 
+import java.util.Date;
+
 
 public class ClientCommunicationModel implements ClientCommunicationAPI{
 
-    private Vertx vertx;
-    private GreenhouseAPIOperationManager greenhouseAPIOperationManager;
-    private ParametersAPIOperationManager parametersAPIOperationManager;
-    private OperationAPIOperationManager operationAPIOperationManager;
+    private final GreenhouseAPIOperationManager greenhouseAPIOperationManager;
+    private final ParametersAPIOperationManager parametersAPIOperationManager;
+    private final OperationAPIOperationManager operationAPIOperationManager;
 
     public ClientCommunicationModel(Vertx vertx) {
-        this.vertx = vertx;
         this.greenhouseAPIOperationManager = new GreenhouseAPIOperationManager(vertx);
         this.parametersAPIOperationManager = new ParametersAPIOperationManager(vertx);
         this.operationAPIOperationManager = new OperationAPIOperationManager(vertx);
@@ -43,5 +43,20 @@ public class ClientCommunicationModel implements ClientCommunicationAPI{
     @Override
     public Future<JsonArray> getHistoricalData(String greenhouseID, String parameterName, int howMany) {
         return this.parametersAPIOperationManager.getHistoricalData(greenhouseID, parameterName, howMany);
+    }
+
+    @Override
+    public Future<JsonArray> getGreenhouseOperations(String greenhouseID, int limit) {
+        return this.operationAPIOperationManager.getGreenhouseOperations(greenhouseID, limit);
+    }
+
+    @Override
+    public Future<JsonArray> getOperationsParameter(String greenhouseID, String parameterName, int limit) {
+        return this.operationAPIOperationManager.getOperationsParameter(greenhouseID, parameterName, limit);
+    }
+
+    @Override
+    public Future<JsonArray> getOperationsInDateRange(String greenhouseID, Date from, Date to, int limit) {
+        return this.operationAPIOperationManager.getOperationsInDateRange(greenhouseID, from, to, limit);
     }
 }
