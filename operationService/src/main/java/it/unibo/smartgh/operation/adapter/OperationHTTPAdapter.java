@@ -23,9 +23,6 @@ import java.util.List;
 public class OperationHTTPAdapter extends AbstractAdapter<OperationAPI> {
 
     private static final String BASE_PATH = "/operations";
-    private static final String OPERATION_PATH = BASE_PATH + "/:id/:limit";
-    private static final String OPERATION_PARAM_PATH = BASE_PATH + "/:id/:param/:limit";
-    private static final String OPERATION_DATA_RANGE_PATH = BASE_PATH + "/:id/:from/:to/:limit";
     private static final String BAD_REQUEST_MESSAGE = "Bad request: some field is missing or invalid in the provided data.";
     private static final String INTERNAL_SERVER_ERROR = "Internal Server error: cause ";
 
@@ -52,9 +49,9 @@ public class OperationHTTPAdapter extends AbstractAdapter<OperationAPI> {
         try{
             router.route().handler(BodyHandler.create());
 
-            router.get(OPERATION_PATH).handler(this::handleGetOperationsInGreenhouse);
-            router.get(OPERATION_PARAM_PATH).handler(this::handleGetParameterOperations);
-            router.get(OPERATION_DATA_RANGE_PATH).handler(this::handleGetOperationsInDateRange);
+            router.get(BASE_PATH).handler(this::handleGetOperationsInGreenhouse);
+            router.get(BASE_PATH).handler(this::handleGetParameterOperations);
+            router.get(BASE_PATH).handler(this::handleGetOperationsInDateRange);
 
             router.post(BASE_PATH).handler(this::handlePostOperationInGreenhouse);
 
