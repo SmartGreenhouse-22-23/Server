@@ -51,10 +51,10 @@ public class ParametersPathManagerImpl implements ParametersPathManager{
         HttpServerResponse response = ctx.response();
         String greenhouseID = request.getParam("id");
         String parameterName = request.getParam("parameterName");
-        String howMany = request.getParam("howMany");
+        String limit = request.getParam("limit");
         response.putHeader("Content-Type", "application/json");
-        if(greenhouseID != null && parameterName != null && howMany != null){
-            Future<JsonArray> future = this.model.getHistoricalData(greenhouseID, parameterName, Integer.parseInt(howMany));
+        if(greenhouseID != null && parameterName != null && limit != null){
+            Future<JsonArray> future = this.model.getHistoricalData(greenhouseID, parameterName, Integer.parseInt(limit));
             this.handleResponse(response, future);
         }else {
             response.setStatusCode(409);

@@ -48,8 +48,8 @@ public class ClientCommunicationModel implements ClientCommunicationAPI{
     }
 
     @Override
-    public Future<JsonArray> getHistoricalData(String greenhouseID, String parameterName, int howMany) {
-        return this.parametersAPIOperationManager.getHistoricalData(greenhouseID, parameterName, howMany);
+    public Future<JsonArray> getHistoricalData(String greenhouseID, String parameterName, int limit) {
+        return this.parametersAPIOperationManager.getHistoricalData(greenhouseID, parameterName, limit);
     }
 
     @Override

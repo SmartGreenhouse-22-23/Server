@@ -42,10 +42,10 @@ public interface ClientCommunicationAPI {
      *
      * @param greenhouseID  the id identifying the greenhouse.
      * @param parameterName the parameter of which you want to get the data.
-     * @param howMany       how many data you want to retrieve.
+     * @param limit       how many data you want to retrieve.
      * @return a {@link io.vertx.core.Future} of {@link JsonArray} containing the list of the data that you want to obtain.
      */
-    Future<JsonArray> getHistoricalData(String greenhouseID, String parameterName, int howMany);
+    Future<JsonArray> getHistoricalData(String greenhouseID, String parameterName, int limit);
 
     /**
      * Get the operation performed on a specific greenhouse.

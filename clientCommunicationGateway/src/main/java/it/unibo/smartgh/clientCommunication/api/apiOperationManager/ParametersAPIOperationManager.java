@@ -55,20 +55,20 @@ public class ParametersAPIOperationManager {
      *
      * @param greenhouseID  identifies the greenhouse of reference.
      * @param parameterName identifies the name of the parameter.
-     * @param howMany       specifies how much data to retrieve.
+     * @param limit         specifies how much data to retrieve.
      * @return the body of the response received.
      */
-    public Future<JsonArray> getHistoricalData(String greenhouseID, String parameterName, int howMany) {
+    public Future<JsonArray> getHistoricalData(String greenhouseID, String parameterName, int limit) {
         Promise<JsonArray> p = Promise.promise();
         switch (parameterName){
             case "brightness":
-                return this.requestHistoricalData(BRIGHTNESS_BASE_PATH + HISTORY_PATH, howMany, HOST, BRIGHTNESS_SERVICE_PORT);
+                return this.requestHistoricalData(BRIGHTNESS_BASE_PATH + HISTORY_PATH, limit, HOST, BRIGHTNESS_SERVICE_PORT);
             case "humidity":
-                return this.requestHistoricalData(AIR_HUMIDITY_BASE_PATH + HISTORY_PATH, howMany, HOST, AIR_HUMIDITY_SERVICE_PORT);
+                return this.requestHistoricalData(AIR_HUMIDITY_BASE_PATH + HISTORY_PATH, limit, HOST, AIR_HUMIDITY_SERVICE_PORT);
             case "soilMoisture":
-                return this.requestHistoricalData(SOIL_MOISTURE_BASE_PATH + HISTORY_PATH, howMany, HOST, SOIL_MOISTURE_SERVICE_PORT);
+                return this.requestHistoricalData(SOIL_MOISTURE_BASE_PATH + HISTORY_PATH, limit, HOST, SOIL_MOISTURE_SERVICE_PORT);
             case "temperature":
-                return this.requestHistoricalData(TEMPERATURE_BASE_PATH + HISTORY_PATH, howMany, HOST, TEMPERATURE_SERVICE_PORT);
+                return this.requestHistoricalData(TEMPERATURE_BASE_PATH + HISTORY_PATH, limit, HOST, TEMPERATURE_SERVICE_PORT);
             default:
                 p.fail(new ParameterNotFound("The parameter: " + parameterName + "does not exist!"));
                 break;
@@ -77,10 +77,10 @@ public class ParametersAPIOperationManager {
         return p.future();
     }
 
-    private Future<JsonArray> requestHistoricalData(String path, int howMany,  String host, int port){
+    private Future<JsonArray> requestHistoricalData(String path, int limit,  String host, int port){
         Promise<JsonArray> p = Promise.promise();
         httpClient.get(port, host, path)
-                .addQueryParam("howMany", String.valueOf(howMany))
+                .addQueryParam("limit", String.valueOf(limit))
                 .putHeader("content-type", "application/json")
                 .send()
                 .onSuccess(response -> p.complete(response.body().toJsonArray()))
