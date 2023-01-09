@@ -5,6 +5,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.http.HttpServerRequest;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
@@ -74,54 +75,57 @@ public class OperationHTTPAdapter extends AbstractAdapter<OperationAPI> {
     }
 
     private void handleGetOperationsInGreenhouse(RoutingContext ctx) {
-        HttpServerResponse res = ctx.response();
-        res.putHeader("Content-Type", "application/json");
-        String greenhouseId = ctx.pathParam("id");
+        HttpServerRequest request = ctx.request();
+        HttpServerResponse response = ctx.response();
+        response.putHeader("Content-Type", "application/json");
+        String greenhouseId = request.getParam("id");
         if (greenhouseId.isEmpty()) {
-            handleBadRequestResponse(res);
+            handleBadRequestResponse(response);
         }
         try {
-            int limit = Integer.parseInt(ctx.pathParam("limit"));
+            int limit = Integer.parseInt(request.getParam("limit"));
             Future<List<Operation>> fut = this.getModel().getOperationsInGreenhouse(greenhouseId, limit);
-            fut.onSuccess(list -> res.end(gson.toJson(list)))
-                    .onFailure(exception -> handleInternalServerErrorResponse(res, exception));
+            fut.onSuccess(list -> response.end(gson.toJson(list)))
+                    .onFailure(exception -> handleInternalServerErrorResponse(response, exception));
         } catch (NumberFormatException e) {
-            handleBadRequestResponse(res);
+            handleBadRequestResponse(response);
         }
     }
 
     private void handleGetParameterOperations(RoutingContext ctx) {
-        HttpServerResponse res = ctx.response();
-        res.putHeader("Content-Type", "application/json");
-        String greenhouseId = ctx.pathParam("id");
-        String param = ctx.pathParam("param");
+        HttpServerRequest request = ctx.request();
+        HttpServerResponse response = ctx.response();
+        response.putHeader("Content-Type", "application/json");
+        String greenhouseId = request.getParam("id");
+        String param = request.getParam("param");
         if (greenhouseId.isEmpty() || param.isEmpty()) {
-            handleBadRequestResponse(res);
+            handleBadRequestResponse(response);
         }
         try {
-            int limit = Integer.parseInt(ctx.pathParam("limit"));
+            int limit = Integer.parseInt(request.getParam("limit"));
             Future<List<Operation>> fut = this.getModel().getParameterOperations(greenhouseId, param, limit);
-            fut.onSuccess(list -> res.end(gson.toJson(list))).onFailure(exception -> handleInternalServerErrorResponse(res, exception));
+            fut.onSuccess(list -> response.end(gson.toJson(list))).onFailure(exception -> handleInternalServerErrorResponse(response, exception));
         } catch (NumberFormatException e) {
-            handleBadRequestResponse(res);
+            handleBadRequestResponse(response);
         }
     }
 
     private void handleGetOperationsInDateRange(RoutingContext ctx) {
-        HttpServerResponse res = ctx.response();
-        res.putHeader("Content-Type", "application/json");
-        String greenhouseId = ctx.pathParam("id");
+        HttpServerRequest request = ctx.request();
+        HttpServerResponse response = ctx.response();
+        response.putHeader("Content-Type", "application/json");
+        String greenhouseId = request.getParam("id");
         if (greenhouseId.isEmpty()) {
-            handleBadRequestResponse(res);
+            handleBadRequestResponse(response);
         }
         try {
-            Date from = Date.valueOf(ctx.pathParam("from"));
-            Date to = Date.valueOf(ctx.pathParam("to"));
-            int limit = Integer.parseInt(ctx.pathParam("limit"));
+            Date from = Date.valueOf(request.getParam("from"));
+            Date to = Date.valueOf(request.getParam("to"));
+            int limit = Integer.parseInt(request.getParam("limit"));
             Future<List<Operation>> fut = this.getModel().getOperationsInDateRange(greenhouseId, from, to, limit);
-            fut.onSuccess(list -> res.end(gson.toJson(list))).onFailure(exception -> handleInternalServerErrorResponse(res, exception));
+            fut.onSuccess(list -> response.end(gson.toJson(list))).onFailure(exception -> handleInternalServerErrorResponse(response, exception));
         } catch (Exception e) {
-            handleBadRequestResponse(res);
+            handleBadRequestResponse(response);
         }
     }
 
