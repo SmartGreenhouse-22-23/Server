@@ -58,6 +58,7 @@ public class GreenhouseHTTPAdapterTest {
                 .addQueryParam("id", ID_AUTOMATIC)
                 .as(BodyCodec.string())
                 .send(testContext.succeeding(response -> testContext.verify(() -> {
+                    System.out.println(response.body());
                     assertEquals(greenhouseToJSON(greenhouse).toString(), response.body());
                     testContext.completeNow();
                 })));
@@ -72,7 +73,7 @@ public class GreenhouseHTTPAdapterTest {
                         .put("id", ID)
                         .put("modality", "MANUAL"))
                 .onSuccess(response -> {
-                    assertEquals(200, response.statusCode());
+                    assertEquals(201, response.statusCode());
                     testContext.completeNow();
                 });
     }

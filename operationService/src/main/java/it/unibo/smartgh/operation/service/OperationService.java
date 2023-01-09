@@ -35,7 +35,7 @@ public class OperationService extends AbstractVerticle {
 
     @Override
     public void start(Promise<Void> startPromise) {
-        System.out.println("BrightnessService started.");
+        System.out.println("OperationService started.");
         installAdapters(startPromise);
     }
 

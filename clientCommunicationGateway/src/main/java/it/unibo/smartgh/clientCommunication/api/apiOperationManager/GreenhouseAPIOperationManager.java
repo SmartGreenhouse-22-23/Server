@@ -15,7 +15,6 @@ import io.vertx.ext.web.client.WebClient;
 public class GreenhouseAPIOperationManager {
 
     private static final String GREENHOUSE_BASE_PATH = "/greenhouse";
-    private static final String POST_GREENHOUSE_MODALITY = GREENHOUSE_BASE_PATH + "/modality";
 
     private static final String GREENHOUSE_SERVICE_HOST = "localhost";
     private static final int GREENHOUSE_SERVICE_PORT = 8889;
@@ -52,7 +51,7 @@ public class GreenhouseAPIOperationManager {
      */
     public Future<HttpResponse<Buffer>> postGreenhouseModality(JsonObject newGreenhouseModality){
         Promise<HttpResponse<Buffer>> p = Promise.promise();
-        httpClient.post(GREENHOUSE_SERVICE_PORT, GREENHOUSE_SERVICE_HOST, POST_GREENHOUSE_MODALITY)
+        httpClient.put(GREENHOUSE_SERVICE_PORT, GREENHOUSE_SERVICE_HOST, GREENHOUSE_BASE_PATH)
                 .putHeader("content-type", "application/json")
                 .sendJsonObject(newGreenhouseModality)
                 .onSuccess(p::complete)
