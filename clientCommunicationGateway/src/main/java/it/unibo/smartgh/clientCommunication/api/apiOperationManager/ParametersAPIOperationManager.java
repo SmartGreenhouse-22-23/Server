@@ -3,6 +3,8 @@ package it.unibo.smartgh.clientCommunication.api.apiOperationManager;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpClient;
+import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
@@ -28,12 +30,14 @@ public class ParametersAPIOperationManager {
     private static final String HOST = "localhost"; //todo cambiare con i nomi dei micro-servizi una volta fatto docker
     private static final String HISTORY_PATH = "/history";
     private final WebClient httpClient;
+    private final HttpClient socketClient;
 
     /**
      * Public constructor of the class.
      * @param vertx the program's instance of Vertx.
      */
     public ParametersAPIOperationManager(Vertx vertx){
+        this.socketClient = vertx.createHttpClient();
         this.httpClient = WebClient.create(vertx);
     }
 
@@ -45,8 +49,13 @@ public class ParametersAPIOperationManager {
      */
     public Future<Void> postCurrentPlantValueData(JsonObject parameterInformation) {
         Promise<Void> p = Promise.promise();
-        //TODO inviare dati ai client
-
+        socketClient.webSocket(1234,
+                "localhost",
+                "/",
+                wsC -> {
+                    var ctx = wsC.result();
+                    ctx.writeTextMessage(parameterInformation.toString(), h -> ctx.close());
+                });
         return p.future();
     }
 
