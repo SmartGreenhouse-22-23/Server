@@ -56,7 +56,7 @@ public class GreenhouseCommunicationHTTPAdapterTest {
     public void postAirHumidityOperationTest(Vertx vertx, VertxTestContext testContext) {
         WebClient client = WebClient.create(vertx);
         JsonObject body = new JsonObject();
-        String operationPath = "/greenhouseCommunication/airHumidityOperation";
+        String operationPath = "/greenhouseCommunication/humidityOperation";
         int expectedStatusCode = 201;
 
         body.put("message", "VENTILATION on");

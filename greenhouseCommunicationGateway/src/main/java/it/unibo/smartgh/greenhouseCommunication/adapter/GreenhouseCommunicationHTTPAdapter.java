@@ -18,7 +18,7 @@ public class GreenhouseCommunicationHTTPAdapter extends AbstractAdapter<Greenhou
     private static final String BASE_PATH = "/greenhouseCommunication";
     private static final String BRIGHTNESS_OPERATION_PATH  = BASE_PATH + "/brightnessOperation";
     private static final String SOIL_MOISTURE_OPERATION_PATH  = BASE_PATH + "/soilMoistureOperation";
-    private static final String AIR_HUMIDITY_OPERATION_PATH  = BASE_PATH + "/airHumidityOperation";
+    private static final String AIR_HUMIDITY_OPERATION_PATH  = BASE_PATH + "/humidityOperation";
     private static final String TEMPERATURE_OPERATION_PATH  = BASE_PATH + "/temperatureOperation";
 
     private static final String JSON_MESSAGE_PROPERTY = "message";
