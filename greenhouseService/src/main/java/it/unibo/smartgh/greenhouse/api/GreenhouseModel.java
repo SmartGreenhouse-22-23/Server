@@ -49,7 +49,7 @@ public class GreenhouseModel implements GreenhouseAPI{
     }
 
     @Override
-    public Future<Void> patchActualModality(String id, Modality modality) {
+    public Future<Void> putActualModality(String id, Modality modality) {
         Promise<Void> promise = Promise.promise();
         try {
             greenhouseController.changeActualModality(id, modality);
@@ -65,7 +65,7 @@ public class GreenhouseModel implements GreenhouseAPI{
         Promise<Void> promise = Promise.promise();
         try {
             Greenhouse greenhouse = greenhouseController.getGreenhouse(id);
-            storeParameters(id, parameters);//.onFailure(e -> promise.fail("parameter post error"));
+            storeParameters(id, parameters);//.onFailure(e -> promise.fail("parameter post error")); TODO add comment
             checkAlarm(greenhouse, parameters);
         } catch (NoSuchElementException ex) {
             promise.fail("No greenhouse");
@@ -102,7 +102,7 @@ public class GreenhouseModel implements GreenhouseAPI{
                 greenhouse.getActualModality() == Modality.AUTOMATIC);
     }
 
-    private void insertOperation (String ghId, String parameter, String action, String modality, Double value){
+    private void insertOperation (String ghId, String parameter, String action, String modality){
         WebClient client = WebClient.create(vertx);
         String host = "localhost";
         int port = 8896;
@@ -125,11 +125,11 @@ public class GreenhouseModel implements GreenhouseAPI{
         if (hum.compareTo(max) > 0){
             status = "alarm";
             if (automatic) {
-                insertOperation(gh.getId(), parameter, "VENTILATION on", gh.getActualModality().toString(), hum);
+                insertOperation(gh.getId(), parameter, "VENTILATION on", gh.getActualModality().toString());
             }
         } else {
             if (automatic) {
-                insertOperation(gh.getId(), parameter, "VENTILATION off", gh.getActualModality().toString(), hum);
+                insertOperation(gh.getId(), parameter, "VENTILATION off", gh.getActualModality().toString());
             }
         }
         sendToClient(gh.getId(), parameter, hum, status);
@@ -141,11 +141,11 @@ public class GreenhouseModel implements GreenhouseAPI{
         if (soil.compareTo(min) < 0){
             status = "alarm";
             if (automatic) {
-                insertOperation(gh.getId(), parameter, "IRRIGATION on", gh.getActualModality().toString(), soil);
+                insertOperation(gh.getId(), parameter, "IRRIGATION on", gh.getActualModality().toString());
             }
         } else {
             if (automatic) {
-                insertOperation(gh.getId(), parameter, "IRRIGATION off", gh.getActualModality().toString(), soil);
+                insertOperation(gh.getId(), parameter, "IRRIGATION off", gh.getActualModality().toString());
             }
         }
         sendToClient(gh.getId(), parameter, soil, status);
@@ -158,13 +158,13 @@ public class GreenhouseModel implements GreenhouseAPI{
             status = "alarm";
             if (automatic) {
                 int newBrigh = brigh.compareTo(255.0) >= 0 ? 255 : brigh.intValue() + 5;
-                insertOperation(gh.getId(), parameter, "LUMINOSITY " + newBrigh, gh.getActualModality().toString(), brigh);
+                insertOperation(gh.getId(), parameter, "LUMINOSITY " + newBrigh, gh.getActualModality().toString());
             }
         }  else if (brigh.compareTo(max) > 0) {
             status = "alarm";
             if (automatic) {
                 int newBrigh = brigh.compareTo(0.0) <= 0 ? 0 : brigh.intValue() - 5;
-                insertOperation(gh.getId(), parameter, "LUMINOSITY " + newBrigh, gh.getActualModality().toString(), brigh);
+                insertOperation(gh.getId(), parameter, "LUMINOSITY " + newBrigh, gh.getActualModality().toString());
             }
         }
         sendToClient(gh.getId(), parameter, brigh, status);
@@ -176,16 +176,16 @@ public class GreenhouseModel implements GreenhouseAPI{
         if (temp.compareTo(min) < 0){
             status = "alarm";
             if (automatic) {
-                insertOperation(gh.getId(), parameter, "TEMPERATURE increase", gh.getActualModality().toString(), temp);
+                insertOperation(gh.getId(), parameter, "TEMPERATURE increase", gh.getActualModality().toString());
             }
         } else if (temp.compareTo(max) > 0) {
             status = "alarm";
             if (automatic) {
-                insertOperation(gh.getId(), parameter, "TEMPERATURE decrease", gh.getActualModality().toString(), temp);
+                insertOperation(gh.getId(), parameter, "TEMPERATURE decrease", gh.getActualModality().toString());
             }
         } else {
             if (temp.compareTo(min + 5.0) >= 0 || temp.compareTo(max - 5.0) <= 0) {
-                insertOperation(gh.getId(), parameter, "TEMPERATURE off", gh.getActualModality().toString(), temp);
+                insertOperation(gh.getId(), parameter, "TEMPERATURE off", gh.getActualModality().toString());
             }
         }
         sendToClient(gh.getId(), parameter, temp, status);

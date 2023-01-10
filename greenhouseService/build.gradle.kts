@@ -5,6 +5,16 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    testImplementation(project(":common"))
+    testImplementation(project(":clientCommunicationGateway"))
+    testImplementation(project(":brightnessService"))
+    testImplementation(project(":humidityService"))
+    testImplementation(project(":soilMoistureService"))
+    testImplementation(project(":temperatureService"))
+    testImplementation(project(":operationService"))
+}
+
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
