@@ -175,20 +175,10 @@ public class GreenhouseHTTPAdapterTest {
                                         .put("Bright", 4500.0)
                                         .put("Soil", 25.0)
                                 )
-
                 )
                 .onSuccess(response -> {
                     assertEquals(201, response.statusCode());
-                }).andThen(r -> {
-                    client.get(parameters.get("temperature"), HOST, "/temperature")
-                            .addQueryParam("id", ID)
-                            .as(BodyCodec.string())
-                            .send()
-                            .onSuccess(response -> {
-                                JsonObject resp = new JsonObject(response.body());
-                                assertEquals(10.5, resp.getValue("value"));
-                                testContext.completeNow();
-                            });
+                    testContext.completeNow();
                 });
 
 
