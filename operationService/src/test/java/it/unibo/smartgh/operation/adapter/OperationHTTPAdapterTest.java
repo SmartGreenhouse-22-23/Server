@@ -60,7 +60,7 @@ public class OperationHTTPAdapterTest {
         try {
             final Date date1 = formatter.parse("01/11/2021");
             final Date date2 = formatter.parse("21/08/2022");
-            final Date date3 = formatter.parse("15/02/2023");
+            final Date date3 = formatter.parse("09/01/2023");
             database.insertOperation(new OperationImpl(greenhouseId, Modality.AUTOMATIC, date1, parameter, action));
             database.insertOperation(new OperationImpl(greenhouseId, Modality.AUTOMATIC, date2, parameter, action));
             database.insertOperation(new OperationImpl(greenhouseId, Modality.MANUAL, date3, parameter, action));
