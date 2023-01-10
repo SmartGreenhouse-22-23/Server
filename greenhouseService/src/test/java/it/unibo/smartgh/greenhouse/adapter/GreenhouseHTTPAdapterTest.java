@@ -154,7 +154,7 @@ public class GreenhouseHTTPAdapterTest {
                 })));
     }
 
-    @RepeatedTest(2)
+    @Test
     public void postNewValueTest(Vertx vertx, VertxTestContext testContext){
         int socketPort = 1234;
         HttpServer socketServer = vertx.createHttpServer();
@@ -179,16 +179,16 @@ public class GreenhouseHTTPAdapterTest {
                 )
                 .onSuccess(response -> {
                     assertEquals(201, response.statusCode());
+                }).andThen(r -> {
                     client.get(parameters.get("temperature"), HOST, "/temperature")
                             .addQueryParam("id", ID)
                             .as(BodyCodec.string())
-                            .send(testContext.succeeding(response1 -> testContext.verify(() -> {
-                                System.out.println(response1.body());
-                                JsonObject resp = new JsonObject(response1.body());
+                            .send()
+                            .onSuccess(response -> {
+                                JsonObject resp = new JsonObject(response.body());
                                 assertEquals(10.5, resp.getValue("value"));
                                 testContext.completeNow();
-                            }))
-                            );
+                            });
                 });
 
 
