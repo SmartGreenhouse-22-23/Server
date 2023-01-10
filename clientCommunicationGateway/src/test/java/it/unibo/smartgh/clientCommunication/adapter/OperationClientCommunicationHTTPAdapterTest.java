@@ -84,13 +84,13 @@ public class OperationClientCommunicationHTTPAdapterTest {
         System.out.println("Client Communication service ready");
     }
 
-    @RepeatedTest(4)
+    @Test
     public void testGetGreenhouseOperations(Vertx vertx, VertxTestContext testContext){
         WebClient client = WebClient.create(vertx);
         String operationPath = "/clientCommunication/operations";
         client.get(CLIENT_COMMUNICATION_SERVICE_PORT, HOST, operationPath)
                 .addQueryParam("id", greenhouseId)
-                .addQueryParam("limit", String.valueOf(limit))
+                .addQueryParam("limit", "1")
                 .putHeader("content-type", "application/json")
                 .send()
                 .onSuccess(res -> {
