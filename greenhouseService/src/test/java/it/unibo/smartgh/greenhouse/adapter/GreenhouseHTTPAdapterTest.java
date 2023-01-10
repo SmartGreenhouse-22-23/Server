@@ -154,7 +154,7 @@ public class GreenhouseHTTPAdapterTest {
                 })));
     }
 
-    @Test
+    @RepeatedTest(2)
     public void postNewValueTest(Vertx vertx, VertxTestContext testContext){
         int socketPort = 1234;
         HttpServer socketServer = vertx.createHttpServer();
