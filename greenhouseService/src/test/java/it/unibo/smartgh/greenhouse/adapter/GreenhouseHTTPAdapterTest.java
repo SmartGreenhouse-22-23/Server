@@ -111,7 +111,6 @@ public class GreenhouseHTTPAdapterTest {
                 .addQueryParam("id", ID_AUTOMATIC)
                 .as(BodyCodec.string())
                 .send(testContext.succeeding(response -> testContext.verify(() -> {
-                    System.out.println(response.body());
                     assertEquals(greenhouseToJSON(greenhouse).toString(), response.body());
                     testContext.completeNow();
                 })));
@@ -155,7 +154,7 @@ public class GreenhouseHTTPAdapterTest {
                 })));
     }
 
-    @Test
+    @RepeatedTest(2)
     public void postNewValueTest(Vertx vertx, VertxTestContext testContext){
         int socketPort = 1234;
         HttpServer socketServer = vertx.createHttpServer();
@@ -184,6 +183,7 @@ public class GreenhouseHTTPAdapterTest {
                             .addQueryParam("id", ID)
                             .as(BodyCodec.string())
                             .send(testContext.succeeding(response1 -> testContext.verify(() -> {
+                                System.out.println(response1.body());
                                 JsonObject resp = new JsonObject(response1.body());
                                 assertEquals(10.5, resp.getValue("value"));
                                 testContext.completeNow();
