@@ -1,0 +1,1035 @@
+openapi: 3.0.0
+info:
+  title: "SmartGreenhouse API"
+  version: 1.0.0
+  description:
+    "This is the SmartGreenhouse application API."
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: MIT License
+    url: https://mit-license.org/
+tags:
+  - name: "greenhouse"
+    description: "Everything about greenhouse information like plant and optimal parameters"
+  - name: "clientCommunication"
+    description: "Everything referring the comunication with the clients."
+  - name: "operations"
+    description: "Everything regarding operations performed automatically/manually."
+  - name: "greenhouseCommunication"
+    description: "Everything regarding the comunication with the automated system in the greenhouse."
+  - name: "temperature"
+    description: "Operations about the temperature param."
+  - name: "soilMoisture"
+    description: "Operations about the soilMoisture param."
+  - name: "humidity"
+    description: "Operations about the air humidity param."
+  - name: "brightness"
+    description: "Operations about the brightness param."
+paths:
+  /greenhouse:
+    put:
+      tags:
+        - greenhouse
+      summary: "Updates the greenhouse actual modality."
+      description: "Chenges the greenhouse actual modality based on the information given."
+      operationId: putGreenhouse
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Modality"
+        required: true
+      responses:
+        '201':
+          description: "Modality correctly changed. Nothing return."
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+    post:
+      tags:
+        - greenhouse
+      summary: "Posts sensor data."
+      description: "Posts sensor data registered by the automation system."
+      operationId: postSensorData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SensorData"
+        required: true
+      responses:
+        '201':
+          description: "Data correctly received. Nothing return."
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /greenhouse/{id}:
+    get:
+      tags:
+        - greenhouse
+      summary: "Gets the greenhouse information."
+      description: "Gets the information for a specific greenhouse."
+      operationId: getGreenhouse
+      parameters:
+        - name: "id"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Greenhouse correctly found."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Greenhouse"
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /greenhouse/modality/{id}:
+    get:
+      tags:
+        - greenhouse
+      summary: "Gets the greenhouse information."
+      description: "Gets the information for a specific greenhouse."
+      operationId: getGreenhouseModality
+      parameters:
+        - name: "id"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Greenhouse correctly found, Modality returned."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Modality"
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /brightness:
+    post:
+      tags:
+        - brightness
+      summary: "Posts the new registered value of the brightness."
+      description: "Posts a new value for the parameter brightness registered for a specific greenhouse."
+      operationId: postBrighntess
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlantValue"
+        required: true
+      responses:
+        '201':
+          description: "Data correctly received. Nothing return."
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /brightness/{id}:
+    get:
+      tags:
+        - brightness
+      summary: "Gets the brightness current value."
+      description: "Gets the current value registered for the brightness parameter."
+      operationId: getBrightness
+      parameters:
+        - name: "id"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Current value correctly found, thus returned."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlantValue"
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /brightness/history/{id}/{limit}:
+    get:
+      tags:
+        - brightness
+      summary: "Gets the brightness values."
+      description: "Gets a certain amount of values registered for the brightness."
+      operationId: getBrightnessHistory
+      parameters:
+        - name: "id"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: string
+        - name: "limit"
+          in: path
+          description: "How many data you want to retrieve."
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Historical value correctly found, thus returned."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PlantValue"
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /temperature:
+    post:
+      tags:
+        - temperature
+      summary: "Posts the new registered value of the brightness."
+      description: "Posts a new value for the parameter temperature registered for a specific greenhouse."
+      operationId: postTemperature
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlantValue"
+        required: true
+      responses:
+        '201':
+          description: "Data correctly received. Nothing return."
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /temperature/{id}:
+    get:
+      tags:
+        - temperature
+      summary: "Gets the temperature current value."
+      description: "Gets the current value registered for the temperature parameter."
+      operationId: getTemperature
+      parameters:
+        - name: "id"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Current value correctly found, thus returned."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlantValue"
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /temperature/history/{id}/{limit}:
+    get:
+      tags:
+        - temperature
+      summary: "Gets the temperature values."
+      description: "Gets a certain amount of values registered for the temperature."
+      operationId: getTemperatureHistory
+      parameters:
+        - name: "id"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: string
+        - name: "limit"
+          in: path
+          description: "How many data you want to retrieve."
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Historical value correctly found, thus returned."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PlantValue"
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /humidity:
+    post:
+      tags:
+        - humidity
+      summary: "Posts the new registered value of the humidity."
+      description: "Posts a new value for the parameter humidity registered for a specific greenhouse."
+      operationId: postHumidity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlantValue"
+        required: true
+      responses:
+        '201':
+          description: "Data correctly received. Nothing return."
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /humidity/{id}:
+    get:
+      tags:
+        - humidity
+      summary: "Gets the humidity current value."
+      description: "Gets the current value registered for the humidity parameter."
+      operationId: getHumidity
+      parameters:
+        - name: "id"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Current value correctly found, thus returned."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlantValue"
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /humidity/history/{id}/{limit}:
+    get:
+      tags:
+        - humidity
+      summary: "Gets the humidity values."
+      description: "Gets a certain amount of values registered for the humidity."
+      operationId: getHumidityHistory
+      parameters:
+        - name: "id"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: string
+        - name: "limit"
+          in: path
+          description: "How many data you want to retrieve."
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Historical value correctly found, thus returned."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PlantValue"
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /soilMoisture:
+    post:
+      tags:
+        - soilMoisture
+      summary: "Posts the new registered value of the soil moisture."
+      description: "Posts a new value for the parameter soil moisture registered for a specific greenhouse."
+      operationId: postSoilMoisture
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlantValue"
+        required: true
+      responses:
+        '201':
+          description: "Data correctly received. Nothing return."
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /soilMoisture/{id}:
+    get:
+      tags:
+        - soilMoisture
+      summary: "Gets the soil moisture current value."
+      description: "Gets the current value registered for the soil moisture parameter."
+      operationId: getSoilMoisture
+      parameters:
+        - name: "id"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Current value correctly found, thus returned."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlantValue"
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /soilMoisture/history/{id}/{limit}:
+    get:
+      tags:
+        - soilMoisture
+      summary: "Gets the soil moisture values."
+      description: "Gets a certain amount of values registered for the soil moisture."
+      operationId: getSoilMoistureHistory
+      parameters:
+        - name: "id"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: string
+        - name: "limit"
+          in: path
+          description: "How many data you want to retrieve."
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Historical value correctly found, thus returned."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PlantValue"
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /greenhouseCommunication/brightnessOperation:
+    post:
+      tags:
+        - greenhouseCommunication
+      summary: "Posts a new operation for the brightness param."
+      description: "Posts a new operation that effect the brightness in the greenhouse."
+      operationId: postGreenhouseCommunicationBright
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                message:
+                  type: string
+        required: true
+      responses:
+        '201':
+          description: "Data correctly received. Nothing return."
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /greenhouseCommunication/soilMoistureOperation:
+    post:
+      tags:
+        - greenhouseCommunication
+      summary: "Posts a new operation for the soil moisture param."
+      description: "Posts a new operation that effect the soil moisture in the greenhouse."
+      operationId: postGreenhouseCommunicationSoil
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                message:
+                  type: string
+        required: true
+      responses:
+        '201':
+          description: "Data correctly received. Nothing return."
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /greenhouseCommunication/humidityOperation:
+    post:
+      tags:
+        - greenhouseCommunication
+      summary: "Posts a new operation for the humidity param."
+      description: "Posts a new operation that effect the humidity in the greenhouse."
+      operationId: postGreenhouseCommunicationHum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                message:
+                  type: string
+        required: true
+      responses:
+        '201':
+          description: "Data correctly received. Nothing return."
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /greenhouseCommunication/temperatureOperation:
+    post:
+      tags:
+        - greenhouseCommunication
+      summary: "Posts a new operation for the temperature param."
+      description: "Posts a new operation that effect the temperature in the greenhouse."
+      operationId: postGreenhouseCommunicationTemp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                message:
+                  type: string
+        required: true
+      responses:
+        '201':
+          description: "Data correctly received. Nothing return."
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /operations/{id}/{limit}:
+    get:
+      tags:
+        - operations
+      summary: "Gets operation for a greenhouse."
+      description: "Gets a certain numebr of operation for a specific greenhouse."
+      operationId: getOperationGreenhouse
+      parameters:
+        - name: "id"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: string
+        - name: "limit"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Operations correctly found, thus returned."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Operation"
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /operations/{id}/{parameter}/{limit}:
+    get:
+      tags:
+        - operations
+      summary: "Gets operation for a greenhouse."
+      description: "Gets a certain numebr of operation for a specific greenhouse."
+      operationId: getOperationGreenhouseParam
+      parameters:
+        - name: "id"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: string
+        - name: "parameter"
+          in: path
+          description: "The name of the parameter."
+          required: true
+          schema:
+            type: string
+        - name: "limit"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Operations correctly found, thus returned."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Operation"
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /operations/{id}/{from}/{to}/{limit}:
+    get:
+      tags:
+        - operations
+      summary: "Gets operation for a greenhouse."
+      description: "Gets a certain numebr of operation for a specific greenhouse."
+      operationId: getOperationGreenhouseInRange
+      parameters:
+        - name: "id"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: string
+        - name: "from"
+          in: path
+          description: "The name of the parameter."
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: "to"
+          in: path
+          description: "The name of the parameter."
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: "limit"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Operations correctly found, thus returned."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Operation"
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /clientCommunication/greenhouse/{id}:
+    get:
+      tags:
+        - clientCommunication
+      summary: "Gets the greenhouse information."
+      description: "Gets the information for a specific greenhouse."
+      operationId: getClientCommunicationGreenhouse
+      parameters:
+        - name: "id"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Greenhouse correctly found."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Greenhouse"
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /clientCommunication/greenhouse/modality:
+    post:
+      tags:
+        - greenhouse
+      summary: "Updates the greenhouse actual modality."
+      description: "Chenges the greenhouse actual modality based on the information given."
+      operationId: postClientCommunicationGreenhouseMod
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Modality"
+        required: true
+      responses:
+        '201':
+          description: "Modality correctly changed. Nothing return."
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /clientCommunication/parameter:
+    post:
+      tags:
+        - clientCommunication
+      summary: "Posts sensor data."
+      description: "Posts sensor data registered by the automation system."
+      operationId: postClientCommunicationSensorData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SensorData"
+        required: true
+      responses:
+        '201':
+          description: "Data correctly received. Nothing return."
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /clientCommunication/parameter/history/{id}/{parameterName}/{limit}:
+    get:
+      tags:
+        - temperature
+      summary: "Gets the parameter history."
+      description: "Gets a certain amount of values registered for a specific parameter."
+      operationId: getClientCOmmunicationParameterHistory
+      parameters:
+        - name: "id"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: string
+        - name: "parameterName"
+          in: path
+          description: "Thename of the parameter."
+          required: true
+          schema:
+            type: string
+        - name: "limit"
+          in: path
+          description: "How many data you want to retrieve."
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Historical value correctly found, thus returned."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PlantValue"
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /clientCommunication/operations/{id}/{limit}:
+    get:
+      tags:
+        - clientCommunication
+      summary: "Gets operation for a greenhouse."
+      description: "Gets a certain numebr of operation for a specific greenhouse."
+      operationId: getClientCommunicationOperationGreenhouse
+      parameters:
+        - name: "id"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: string
+        - name: "limit"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Operations correctly found, thus returned."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Operation"
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /clientCommunication/operation/{id}/{parameter}/{limit}:
+    get:
+      tags:
+        - clientCommunication
+      summary: "Gets operation for a greenhouse."
+      description: "Gets a certain numebr of operation for a specific greenhouse."
+      operationId: getClientCommunicationOperationGreenhouseParam
+      parameters:
+        - name: "id"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: string
+        - name: "parameter"
+          in: path
+          description: "The name of the parameter."
+          required: true
+          schema:
+            type: string
+        - name: "limit"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Operations correctly found, thus returned."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Operation"
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+  /clientCommunication/operation/{id}/{from}/{to}/{limit}:
+    get:
+      tags:
+        - clientCommunication
+      summary: "Gets operation for a greenhouse."
+      description: "Gets a certain numebr of operation for a specific greenhouse."
+      operationId: getClientCommunicationOperationGreenhouseInRange
+      parameters:
+        - name: "id"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: string
+        - name: "from"
+          in: path
+          description: "The name of the parameter."
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: "to"
+          in: path
+          description: "The name of the parameter."
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: "limit"
+          in: path
+          description: "The id of the greenhouse."
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Operations correctly found, thus returned."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Operation"
+        '409':
+          description: "Bad Content: some field is missing or invalid in the porvided data."
+        '404':
+          description: "Not Found: the porvided resorse does not exist."
+        '500':
+          description: "Internal Server Error: something went wrong with the operation."
+components:
+  schemas:
+    Operation:
+      type: object
+      properties:
+        greenhouseId:
+          type: string
+        modality:
+          $ref: "#/components/schemas/Modality"
+        date:
+          type: string
+          format: date-time
+        parameter:
+          type: string
+        action:
+          type: string
+    PlantValue:
+      type: object
+      properties:
+        greenhouseId:
+          type: string
+        date:
+          type: string
+          format: date-time
+        value:
+          type: integer
+          format: double
+    SensorData:
+      type: object
+      properties:
+        id:
+          type: string
+        parameters:
+          $ref: "#/components/schemas/Parameters"
+    Parameters:
+      type: object
+      properties:
+        Temp:
+          type: integer
+          format: double
+        Hum:
+          type: integer
+          format: double
+        Brigh:
+          type: integer
+          format: double
+        Soil:
+          type: integer
+          format: double
+    Plant:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        image:
+          type: string
+        minTemperature:
+          type: integer
+          format: double
+        maxTemperature:
+          type: integer
+          format: double
+        minBrightness:
+          type: integer
+          format: double
+        maxBrightness:
+          type: integer
+          format: double
+        minSoilMoisture:
+          type: integer
+          format: double
+        maxSoilMoisture:
+          type: integer
+          format: double
+        minHumidity:
+          type: integer
+          format: double
+        maxHumidity:
+          type: integer
+          format: double
+    Greenhouse:
+      type: object
+      properties:
+        id:
+          type: string
+        plant:
+          $ref: "#/components/schemas/Plant"
+    Modality:
+      type: object
+      properties:
+        id:
+          type: string
+        modality:
+          type: string
+
+servers:
+  - url: http://loacalhost:8889
+    description: "Greenhouse Service."
+  - url: http://localhost:8893
+    description: "Brightness Service."
+  - url: http://localhost:8891
+    description: "Humidity Service."
+  - url: http://localhost:8894
+    description: "Soil moisture Service."
+  - url: http://localhost:8895
+    description: "Temperature Service."
+  - url: http://localhost:8896
+    description: "Operations Service."
+  - url: http://localhost:8892
+    description: "Greenhouse Communication Service."
+  - url: http://localhost:8890
+    description: "Client Communication Service."
