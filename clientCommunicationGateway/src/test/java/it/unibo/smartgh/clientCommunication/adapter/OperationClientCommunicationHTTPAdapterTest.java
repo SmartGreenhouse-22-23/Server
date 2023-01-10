@@ -90,7 +90,7 @@ public class OperationClientCommunicationHTTPAdapterTest {
         String operationPath = "/clientCommunication/operations";
         client.get(CLIENT_COMMUNICATION_SERVICE_PORT, HOST, operationPath)
                 .addQueryParam("id", greenhouseId)
-                .addQueryParam("limit", "1")
+                .addQueryParam("limit", String.valueOf(limit))
                 .putHeader("content-type", "application/json")
                 .send()
                 .onSuccess(res -> {
