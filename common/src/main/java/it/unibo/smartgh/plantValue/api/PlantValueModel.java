@@ -24,10 +24,10 @@ public class PlantValueModel implements PlantValueAPI {
     }
 
     @Override
-    public Future<PlantValue> getCurrentValue() {
+    public Future<PlantValue> getCurrentValue(String greenhouseId) {
         Promise<PlantValue> promise = Promise.promise();
         try {
-            PlantValue brightnessValue = plantValueController.getCurrentValue();
+            PlantValue brightnessValue = plantValueController.getCurrentValue(greenhouseId);
             promise.complete(brightnessValue);
         } catch (EmptyDatabaseException e) {
             promise.fail(e);
@@ -48,10 +48,10 @@ public class PlantValueModel implements PlantValueAPI {
     }
 
     @Override
-    public Future<List<PlantValue>> getHistory(int howMany) {
+    public Future<List<PlantValue>> getHistory(String greenhouseId, int limit) {
         Promise<List<PlantValue>> promise = Promise.promise();
         try {
-            promise.complete(plantValueController.getHistoryData(howMany));
+            promise.complete(plantValueController.getHistoryData(greenhouseId, limit));
         } catch (Exception e) {
             promise.fail(e);
         }

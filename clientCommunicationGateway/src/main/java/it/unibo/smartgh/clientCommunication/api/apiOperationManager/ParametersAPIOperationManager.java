@@ -62,13 +62,13 @@ public class ParametersAPIOperationManager {
         Promise<JsonArray> p = Promise.promise();
         switch (parameterName){
             case "brightness":
-                return this.requestHistoricalData(BRIGHTNESS_BASE_PATH + HISTORY_PATH, limit, HOST, BRIGHTNESS_SERVICE_PORT);
+                return this.requestHistoricalData(BRIGHTNESS_BASE_PATH + HISTORY_PATH, greenhouseID, limit, BRIGHTNESS_SERVICE_PORT);
             case "humidity":
-                return this.requestHistoricalData(AIR_HUMIDITY_BASE_PATH + HISTORY_PATH, limit, HOST, AIR_HUMIDITY_SERVICE_PORT);
+                return this.requestHistoricalData(AIR_HUMIDITY_BASE_PATH + HISTORY_PATH, greenhouseID, limit, AIR_HUMIDITY_SERVICE_PORT);
             case "soilMoisture":
-                return this.requestHistoricalData(SOIL_MOISTURE_BASE_PATH + HISTORY_PATH, limit, HOST, SOIL_MOISTURE_SERVICE_PORT);
+                return this.requestHistoricalData(SOIL_MOISTURE_BASE_PATH + HISTORY_PATH, greenhouseID, limit, SOIL_MOISTURE_SERVICE_PORT);
             case "temperature":
-                return this.requestHistoricalData(TEMPERATURE_BASE_PATH + HISTORY_PATH, limit, HOST, TEMPERATURE_SERVICE_PORT);
+                return this.requestHistoricalData(TEMPERATURE_BASE_PATH + HISTORY_PATH, greenhouseID, limit, TEMPERATURE_SERVICE_PORT);
             default:
                 p.fail(new ParameterNotFound("The parameter: " + parameterName + "does not exist!"));
                 break;
@@ -77,9 +77,10 @@ public class ParametersAPIOperationManager {
         return p.future();
     }
 
-    private Future<JsonArray> requestHistoricalData(String path, int limit,  String host, int port){
+    private Future<JsonArray> requestHistoricalData(String path, String greenhouseId, int limit, int port){
         Promise<JsonArray> p = Promise.promise();
-        httpClient.get(port, host, path)
+        httpClient.get(port, ParametersAPIOperationManager.HOST, path)
+                .addQueryParam("id", greenhouseId)
                 .addQueryParam("limit", String.valueOf(limit))
                 .putHeader("content-type", "application/json")
                 .send()

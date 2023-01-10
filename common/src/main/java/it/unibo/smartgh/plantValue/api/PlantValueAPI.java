@@ -14,7 +14,7 @@ public interface PlantValueAPI {
      * Get the future representing the current value
      * @return the future representing the current value
      */
-    Future<PlantValue> getCurrentValue();
+    Future<PlantValue> getCurrentValue(String greenhouseId);
 
     /**
      * Insert the new plant value
@@ -24,8 +24,10 @@ public interface PlantValueAPI {
 
     /**
      * Get the future representing the history of plant values
-     * @param howMany entry will be selected in the history
+     *
+     * @param greenhouseId the id of the greenhouse.
+     * @param limit      entry will be selected in the history
      * @return the future representing list of values
      */
-    Future<List<PlantValue>> getHistory(int howMany);
+    Future<List<PlantValue>> getHistory(String greenhouseId, int limit);
 }

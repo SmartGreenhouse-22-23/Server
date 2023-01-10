@@ -71,25 +71,33 @@ public class HumidityHTTPAdapter extends AbstractAdapter<PlantValueAPI> {
     }
 
     private void handleGetHumidityCurrentValue(RoutingContext ctx) {
+        HttpServerRequest request = ctx.request();
         HttpServerResponse res = ctx.response();
         res.putHeader("Content-Type", "application/json");
-        Future<PlantValue> fut = this.getModel().getCurrentValue();
-
-        fut.onSuccess(humidityValue -> res.end(gson.toJson(humidityValue, PlantValueImpl.class)))
-                .onFailure(exception -> handleFailureInGetMethod(res, exception));
+        String greenhouseId = request.getParam("id");
+        if(greenhouseId == null){
+            res.setStatusCode(409);
+            res.setStatusMessage(BAD_REQUEST_MESSAGE);
+            res.end();
+        }else {
+            Future<PlantValue> fut = this.getModel().getCurrentValue(greenhouseId);
+            fut.onSuccess(brightnessValue -> res.end(gson.toJson(brightnessValue, PlantValueImpl.class)))
+                    .onFailure(exception -> handleFailureInGetMethod(res, exception));
+        }
     }
 
     private void handleGetHumidityHistoryData(RoutingContext ctx){
         HttpServerRequest request = ctx.request();
         HttpServerResponse res = ctx.response();
-        if(request.getParam("limit") == null) {
-            res.setStatusCode(400);
+        String greenhouseId = request.getParam("id");
+        String limit = request.getParam("limit");
+        if(greenhouseId == null || limit == null) {
+            res.setStatusCode(409);
             res.setStatusMessage(BAD_REQUEST_MESSAGE);
             res.end();
         } else {
-            int howMany = Integer.parseInt(request.getParam("limit"));
             res.putHeader("Content-Type", "application/json");
-            Future<List<PlantValue>> fut = this.getModel().getHistory(howMany);
+            Future<List<PlantValue>> fut = this.getModel().getHistory(greenhouseId, Integer.parseInt(limit));
             fut.onSuccess(list -> res.end(gson.toJson(list)))
                     .onFailure(exception -> handleFailureInGetMethod(res, exception));
         }

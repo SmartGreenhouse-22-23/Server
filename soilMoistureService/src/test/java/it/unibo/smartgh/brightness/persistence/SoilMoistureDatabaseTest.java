@@ -23,17 +23,17 @@ class SoilMoistureDatabaseTest {
     private static final String HOST = "localhost";
     private static final int PORT = 27017;
     private static final PlantValueDatabase brightnessDatabase = new PlantValueDatabaseImpl(SOIL_MOISTURE_DB_NAME, SOIL_MOISTURE_COLLECTION_NAME, HOST, PORT);
+    private final String greenhouseId = "1";
 
     @Test
     public void testInsertAndGetCurrentBrightnessValue() {
-        String greenHouseId = "1";
         Date date = new Date();
         Double valueRegistered = 30.0;
-        PlantValue brightnessValue = new PlantValueImpl(greenHouseId, date, valueRegistered);
+        PlantValue brightnessValue = new PlantValueImpl(greenhouseId, date, valueRegistered);
         brightnessDatabase.insertPlantValue(brightnessValue);
 
         try {
-            assertEquals(brightnessValue, brightnessDatabase.getPlantCurrentValue());
+            assertEquals(brightnessValue, brightnessDatabase.getPlantCurrentValue(greenhouseId));
         } catch (EmptyDatabaseException e) {
             e.printStackTrace();
             fail();
@@ -43,7 +43,7 @@ class SoilMoistureDatabaseTest {
     @Test
     public void testGetHistoryData() {
         int howMany = 5;
-        List<PlantValue> list = brightnessDatabase.getHistoryData(howMany);
+        List<PlantValue> list = brightnessDatabase.getHistoryData(greenhouseId, howMany);
         assertNotNull(list);
         assertTrue(list.size() <= howMany);
     }

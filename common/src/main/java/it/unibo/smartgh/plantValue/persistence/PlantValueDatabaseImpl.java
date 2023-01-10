@@ -50,9 +50,9 @@ public class PlantValueDatabaseImpl implements PlantValueDatabase {
     }
 
     @Override
-    public PlantValue getPlantCurrentValue() throws EmptyDatabaseException {
+    public PlantValue getPlantCurrentValue(String greenhouseId) throws EmptyDatabaseException {
         MongoCollection<Document> collection = connect();
-        Document document = collection.find().sort(new Document("_id", -1)).first();
+        Document document = collection.find(new Document("greenhouseId", greenhouseId)).sort(new Document("_id", -1)).first();
         if (document != null) {
             return new PlantValueImpl(document.get("greenhouseId", String.class), document.get("date", Date.class), document.get("value", Double.class));
         } else {
@@ -61,10 +61,10 @@ public class PlantValueDatabaseImpl implements PlantValueDatabase {
     }
 
     @Override
-    public List<PlantValue> getHistoryData(int howMany) {
+    public List<PlantValue> getHistoryData(String greenhouseId, int limit) {
         MongoCollection<Document> collection = connect();
         List<PlantValue> plantValueList = new LinkedList<>();
-        for (Document document : collection.find().sort(new Document("_id", -1)).limit(howMany)) {
+        for (Document document : collection.find(new Document("greenhouseId", greenhouseId)).sort(new Document("_id", -1)).limit(limit)) {
             plantValueList.add(new PlantValueImpl(document.get("greenhouseId", String.class), document.get("date", Date.class), document.get("value", Double.class)));
         }
         return plantValueList;

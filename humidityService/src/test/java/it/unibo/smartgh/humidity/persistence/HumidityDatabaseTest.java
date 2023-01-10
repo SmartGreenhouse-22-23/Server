@@ -19,17 +19,17 @@ class HumidityDatabaseTest {
     private static final String HOST = "localhost";
     private static final int PORT = 27017;
     private static final PlantValueDatabase humidityDatabase = new PlantValueDatabaseImpl(HUMIDITY_DB_NAME, HUMIDITY_COLLECTION_NAME, HOST, PORT);
+    private final String greenhouseId = "1";
 
     @Test
     public void testInsertAndGetCurrentHumidityValue() {
-        String greenHouseId = "1";
         Date date = new Date();
         Double valueRegistered = 1000.0;
-        PlantValue humidityValue = new PlantValueImpl(greenHouseId, date, valueRegistered);
+        PlantValue humidityValue = new PlantValueImpl(greenhouseId, date, valueRegistered);
         humidityDatabase.insertPlantValue(humidityValue);
 
         try {
-            assertEquals(humidityValue, humidityDatabase.getPlantCurrentValue());
+            assertEquals(humidityValue, humidityDatabase.getPlantCurrentValue(greenhouseId));
         } catch (EmptyDatabaseException e) {
             e.printStackTrace();
             fail();
@@ -39,7 +39,7 @@ class HumidityDatabaseTest {
     @Test
     public void testGetHistoryData() {
         int howMany = 5;
-        List<PlantValue> list = humidityDatabase.getHistoryData(howMany);
+        List<PlantValue> list = humidityDatabase.getHistoryData(greenhouseId, howMany);
         assertNotNull(list);
         assertTrue(list.size() <= howMany);
     }

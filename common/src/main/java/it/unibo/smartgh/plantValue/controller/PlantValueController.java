@@ -17,15 +17,18 @@ public interface PlantValueController {
 
     /**
      * Get the current plant value
+     * @param greenhouseId the id of the greenhouse.
      * @return Get the current plant value
      * @throws EmptyDatabaseException database empty
      */
-    PlantValue getCurrentValue() throws EmptyDatabaseException;
+    PlantValue getCurrentValue(String greenhouseId) throws EmptyDatabaseException;
 
     /**
      * Get the plant value history
-     * @param howMany how many entry will be selected
+     *
+     * @param greenhouseId the id of the greenhouse.
+     * @param limit        how many entry will be selected
      * @return the plant value history
      */
-    List<PlantValue> getHistoryData(int howMany);
+    List<PlantValue> getHistoryData(String greenhouseId, int limit);
 }

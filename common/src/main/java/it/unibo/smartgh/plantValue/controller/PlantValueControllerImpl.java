@@ -20,13 +20,13 @@ public class PlantValueControllerImpl implements PlantValueController {
     }
 
     @Override
-    public PlantValue getCurrentValue() throws EmptyDatabaseException {
-        return this.plantValueDatabase.getPlantCurrentValue();
+    public PlantValue getCurrentValue(String greenhouseId) throws EmptyDatabaseException {
+        return this.plantValueDatabase.getPlantCurrentValue(greenhouseId);
 
     }
 
     @Override
-    public List<PlantValue> getHistoryData(int howMany) {
-        return this.plantValueDatabase.getHistoryData(howMany);
+    public List<PlantValue> getHistoryData(String greenhouseId, int limit) {
+        return this.plantValueDatabase.getHistoryData(greenhouseId, limit);
     }
 }

@@ -20,16 +20,17 @@ public class TemperatureDatabaseTest {
     private static final int PORT = 27017;
     private static final PlantValueDatabase temperatureDatabase = new PlantValueDatabaseImpl(TEMPERATURE_DB_NAME, TEMPERATURE_COLLECTION_NAME, HOST, PORT);
 
+    private final String greenhouseId = "1";
+
     @Test
     public void testInsertAndGetCurrentBrightnessValue() {
-        String greenHouseId = "1";
         Date date = new Date();
         Double valueRegistered = 25.1;
-        PlantValue temperatureValue = new PlantValueImpl(greenHouseId, date, valueRegistered);
+        PlantValue temperatureValue = new PlantValueImpl(greenhouseId, date, valueRegistered);
         temperatureDatabase.insertPlantValue(temperatureValue);
 
         try {
-            assertEquals(temperatureValue, temperatureDatabase.getPlantCurrentValue());
+            assertEquals(temperatureValue, temperatureDatabase.getPlantCurrentValue(greenhouseId));
         } catch (EmptyDatabaseException e) {
             e.printStackTrace();
             fail();
@@ -39,7 +40,7 @@ public class TemperatureDatabaseTest {
     @Test
     public void testGetHistoryData() {
         int howMany = 5;
-        List<PlantValue> list = temperatureDatabase.getHistoryData(howMany);
+        List<PlantValue> list = temperatureDatabase.getHistoryData(greenhouseId, howMany);
         assertNotNull(list);
         assertTrue(list.size() <= howMany);
     }

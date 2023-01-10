@@ -20,16 +20,17 @@ class BrightnessDatabaseTest {
     private static final int PORT = 27017;
     private static final PlantValueDatabase brightnessDatabase = new PlantValueDatabaseImpl(BRIGHTNESS_DB_NAME, BRIGHTNESS_COLLECTION_NAME, HOST, PORT);
 
+    private final String greenhouseId = "1";
+
     @Test
     public void testInsertAndGetCurrentBrightnessValue() {
-        String greenHouseId = "1";
         Date date = new Date();
         Double valueRegistered = 1000.0;
-        PlantValue brightnessValue = new PlantValueImpl(greenHouseId, date, valueRegistered);
+        PlantValue brightnessValue = new PlantValueImpl(greenhouseId, date, valueRegistered);
         brightnessDatabase.insertPlantValue(brightnessValue);
 
         try {
-            assertEquals(brightnessValue, brightnessDatabase.getPlantCurrentValue());
+            assertEquals(brightnessValue, brightnessDatabase.getPlantCurrentValue(greenhouseId));
         } catch (EmptyDatabaseException e) {
             e.printStackTrace();
             fail();
@@ -39,7 +40,7 @@ class BrightnessDatabaseTest {
     @Test
     public void testGetHistoryData() {
         int howMany = 5;
-        List<PlantValue> list = brightnessDatabase.getHistoryData(howMany);
+        List<PlantValue> list = brightnessDatabase.getHistoryData(greenhouseId, howMany);
         assertNotNull(list);
         assertTrue(list.size() <= howMany);
     }
