@@ -120,79 +120,94 @@ public class GreenhouseModel implements GreenhouseAPI{
     }
 
     private void checkHumidity(Greenhouse gh, Double min, Double max, Double hum, boolean automatic) {
-        //TODO communicate with client
+        String parameter = "humidity";
+        String status = "normal";
         if (hum.compareTo(max) > 0){
-            System.out.println("Notify client high humidity => operation ventilation on");
-
+            status = "alarm";
             if (automatic) {
-                insertOperation(gh.getId(), "humidity", "VENTILATION on", gh.getActualModality().toString(), hum);
+                insertOperation(gh.getId(), parameter, "VENTILATION on", gh.getActualModality().toString(), hum);
             }
         } else {
-            System.out.println("Notify client humidity ok or low nothing to do");
-
             if (automatic) {
-                insertOperation(gh.getId(), "humidity", "VENTILATION off", gh.getActualModality().toString(), hum);
+                insertOperation(gh.getId(), parameter, "VENTILATION off", gh.getActualModality().toString(), hum);
             }
         }
+        sendToClient(gh.getId(), parameter, hum, status);
     }
 
     private void checkSoilMoisture(Greenhouse gh, Double min, Double max, Double soil, boolean automatic) {
-        //TODO communicate with client
+        String parameter = "soilMoisture";
+        String status = "normal";
         if (soil.compareTo(min) < 0){
-            System.out.println("Notify client low soil humidity => operation irrigation on");
-
+            status = "alarm";
             if (automatic) {
-                insertOperation(gh.getId(), "soilMoisture", "IRRIGATION on", gh.getActualModality().toString(), soil);
+                insertOperation(gh.getId(), parameter, "IRRIGATION on", gh.getActualModality().toString(), soil);
             }
         } else {
-            System.out.println("Notify client brightness ok or high nothing to do");
-
             if (automatic) {
-                insertOperation(gh.getId(), "soilMoisture", "IRRIGATION off", gh.getActualModality().toString(), soil);
+                insertOperation(gh.getId(), parameter, "IRRIGATION off", gh.getActualModality().toString(), soil);
             }
         }
+        sendToClient(gh.getId(), parameter, soil, status);
     }
 
     private void checkBrightness(Greenhouse gh, Double min, Double max, Double brigh, boolean automatic) {
-        //TODO communicate with client
+        String parameter = "brightness";
+        String status = "normal";
         if (brigh.compareTo(min) < 0){
-            System.out.println("Notify client low brightness => operation brigh + 5");
-
+            status = "alarm";
             if (automatic) {
                 int newBrigh = brigh.compareTo(255.0) >= 0 ? 255 : brigh.intValue() + 5;
-                insertOperation(gh.getId(), "brightness", "LUMINOSITY " + newBrigh, gh.getActualModality().toString(), brigh);
+                insertOperation(gh.getId(), parameter, "LUMINOSITY " + newBrigh, gh.getActualModality().toString(), brigh);
             }
         }  else if (brigh.compareTo(max) > 0) {
+            status = "alarm";
             if (automatic) {
                 int newBrigh = brigh.compareTo(0.0) <= 0 ? 0 : brigh.intValue() - 5;
-                insertOperation(gh.getId(), "brightness", "LUMINOSITY " + newBrigh, gh.getActualModality().toString(), brigh);
+                insertOperation(gh.getId(), parameter, "LUMINOSITY " + newBrigh, gh.getActualModality().toString(), brigh);
             }
-        } else {
-            System.out.println("Notify client brightness ok nothing to do");
         }
+        sendToClient(gh.getId(), parameter, brigh, status);
     }
 
     private void checkTemperature(Greenhouse gh, Double min, Double max, Double temp, boolean automatic) {
-        //TODO communicate with client
+        String parameter = "temperature";
+        String status = "normal";
         if (temp.compareTo(min) < 0){
-            System.out.println("Notify client low temperature => operation term lamp On");
-
+            status = "alarm";
             if (automatic) {
-                insertOperation(gh.getId(), "temperature", "TEMPERATURE increase", gh.getActualModality().toString(), temp);
+                insertOperation(gh.getId(), parameter, "TEMPERATURE increase", gh.getActualModality().toString(), temp);
             }
         } else if (temp.compareTo(max) > 0) {
-            System.out.println("Notify client high temperature => operation ventilation on");
-
+            status = "alarm";
             if (automatic) {
-                insertOperation(gh.getId(), "temperature", "TEMPERATURE decrease", gh.getActualModality().toString(), temp);
+                insertOperation(gh.getId(), parameter, "TEMPERATURE decrease", gh.getActualModality().toString(), temp);
             }
         } else {
             if (temp.compareTo(min + 5.0) >= 0 || temp.compareTo(max - 5.0) <= 0) {
-                insertOperation(gh.getId(), "temperature", "TEMPERATURE off", gh.getActualModality().toString(), temp);
+                insertOperation(gh.getId(), parameter, "TEMPERATURE off", gh.getActualModality().toString(), temp);
             }
-
-            System.out.println("Notify client temperature ok => off operation");
         }
+        sendToClient(gh.getId(), parameter, temp, status);
+    }
+
+    private Future<Void> sendToClient(String id, String parameter, Double value, String status){
+        WebClient client = WebClient.create(vertx);
+        String host = "localhost"; //TODO change with docker host
+        int port = 8890;
+        Promise<Void> promise = Promise.promise();
+        List<Future> futures = new ArrayList<>();
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+            futures.add(client.post(port, host, "/clientCommunication/parameter")
+                    .sendJsonObject(
+                            new JsonObject()
+                                    .put("greenhouseId", id)
+                                    .put("parameterName", parameter)
+                                    .put("value", value)
+                                    .put("date", formatter.format(new Date()))
+                                    .put("status", status)
+                    ));
+        return promise.future();
     }
 
     private Future<Void> storeParameters(String id, JsonObject parameters) {
