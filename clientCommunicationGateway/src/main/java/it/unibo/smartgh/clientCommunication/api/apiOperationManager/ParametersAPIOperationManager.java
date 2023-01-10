@@ -4,6 +4,7 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpClient;
+import io.vertx.core.http.WebSocket;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
@@ -52,8 +53,8 @@ public class ParametersAPIOperationManager {
                 "localhost",
                 "/",
                 wsC -> {
-                    var ctx = wsC.result();
-                    ctx.writeTextMessage(parameterInformation.toString(), h -> ctx.close());
+                    WebSocket ctx = wsC.result();
+                    if (ctx != null) ctx.writeTextMessage(parameterInformation.toString(), h -> ctx.close());
                 });
         return p.future();
     }

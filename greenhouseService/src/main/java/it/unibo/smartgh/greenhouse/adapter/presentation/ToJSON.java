@@ -32,9 +32,12 @@ public class ToJSON {
      */
     private static JsonObject plantToJSON(Plant p) {
         JsonObject plant = new JsonObject();
+        JsonObject unit = new JsonObject();
+        p.getUnitMap().forEach(unit::put);
         plant.put("name", p.getName());
         plant.put("description", p.getDescription());
         plant.put("img", p.getImg());
+        plant.put("unit", unit);
         plant.put("minTemperature", p.getMinTemperature());
         plant.put("maxTemperature", p.getMaxTemperature());
         plant.put("minBrightness", p.getMinBrightness());

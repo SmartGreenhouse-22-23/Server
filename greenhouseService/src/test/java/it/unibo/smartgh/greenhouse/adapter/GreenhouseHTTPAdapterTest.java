@@ -48,11 +48,17 @@ public class GreenhouseHTTPAdapterTest {
     private static final String ID = "63af0ae025d55e9840cbc1fa";
     private static final String ID_AUTOMATIC =  "63b29b0a3792e15bae3229a7";
     private static final int MONGODB_PORT = 27017;
-
+    private static final Map<String,String> units = new HashMap<>(){{
+        put("temperature", "° C");
+        put("humidity", "%");
+        put("soilMoisture", "%");
+        put("brightness", "Lux");
+    }};
     private final Plant plant = new PlantBuilder("lemon AUTOMATIC")
                 .description("is a species of small evergreen trees in the flowering plant family " +
                                      "Rutaceae, native to Asia, primarily Northeast India (Assam), Northern Myanmar or China.")
-                .image("https://www.burkesbackyard.com.au/wp-content/uploads/2014/01/945001_399422270172619_1279327806_n.jpg")
+                .image("http://www.burkesbackyard.com.au/wp-content/uploads/2014/01/945001_399422270172619_1279327806_n.jpg")
+                .units(units)
                 .minTemperature(8.0)
                 .maxTemperature(35.0)
                 .minBrightness(4200.0)

@@ -3,13 +3,16 @@ package it.unibo.smartgh.greenhouse.persistence;
 import com.mongodb.*;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
+import io.vertx.core.json.JsonObject;
 import it.unibo.smartgh.greenhouse.entity.*;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.lang.Double.valueOf;
 
@@ -47,9 +50,17 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
         Document doc = documents.iterator().next();
         List list = new ArrayList(doc.values());
         Document plantDoc = (Document) list.get(1);
+        Document respUnit = (Document) plantDoc.get("unit");
+        Map<String, String> unit = new HashMap<>(){{
+            put("temperature", respUnit.getString("temperature"));
+            put("humidity", respUnit.getString("humidity"));
+            put("soilMoisture", respUnit.getString("soilMoisture"));
+            put("brightness", respUnit.getString("brightness"));
+        }};
         Plant plant = new PlantBuilder(plantDoc.get("name", String.class))
                 .description(plantDoc.get("description", String.class))
                 .image(plantDoc.get("img", String.class))
+                .units(unit)
                 .minTemperature(valueOf(plantDoc.get("minTemperature").toString()))
                 .maxTemperature(valueOf(plantDoc.get("maxTemperature").toString()))
                 .minBrightness(valueOf(plantDoc.get("minBrightness").toString()))
