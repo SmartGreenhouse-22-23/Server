@@ -48,6 +48,15 @@ public interface ClientCommunicationAPI {
     Future<JsonArray> getHistoricalData(String greenhouseID, String parameterName, int limit);
 
     /**
+     * Get the current value for a specific parameter related to a certain greenhouse.
+     *
+     * @param greenhouseID  the id identifying the greenhouse.
+     * @param parameterName the parameter of which you want to get the data.
+     * @return a {@link io.vertx.core.Future} of {@link JsonArray} containing the list of the data that you want to obtain.
+     */
+    Future<JsonObject> getParameterCurrentValue(String greenhouseID, String parameterName);
+
+    /**
      * Get the operation performed on a specific greenhouse.
      * @param greenhouseID the id identifying the greenhouse.
      * @param limit the number of operations we want to retrieve.

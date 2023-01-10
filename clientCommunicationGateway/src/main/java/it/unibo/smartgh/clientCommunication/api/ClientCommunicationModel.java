@@ -53,6 +53,11 @@ public class ClientCommunicationModel implements ClientCommunicationAPI{
     }
 
     @Override
+    public Future<JsonObject> getParameterCurrentValue(String greenhouseID, String parameterName) {
+        return this.parametersAPIOperationManager.getParameterCurrentValue(greenhouseID, parameterName);
+    }
+
+    @Override
     public Future<JsonArray> getGreenhouseOperations(String greenhouseID, int limit) {
         return this.operationAPIOperationManager.getGreenhouseOperations(greenhouseID, limit);
     }

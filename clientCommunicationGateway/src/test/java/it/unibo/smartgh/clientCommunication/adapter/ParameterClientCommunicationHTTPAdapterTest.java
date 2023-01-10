@@ -62,6 +62,31 @@ public class ParameterClientCommunicationHTTPAdapterTest {
 
 
     @Test
+    public void testGetParameterCurrentValue(Vertx vertx, VertxTestContext testContext){
+        WebClient client = WebClient.create(vertx);
+        String getCurrentValueDataPath = "/clientCommunication/parameter";
+        String greenhouseID = "63af0ae025d55e9840cbc1fa";
+        String parameterName = "brightness";
+        String insertBrightnessValuePath = "/brightness";
+        Date date = new Date();
+        Double valueRegistered = 90.0;
+        PlantValue brightnessValue = new PlantValueImpl(greenhouseID, date, valueRegistered);
+
+        client.post(BRIGHTNESS_SERVICE_PORT, HOST, insertBrightnessValuePath)
+                .putHeader("content-type", "application/json")
+                .sendBuffer(Buffer.buffer(gson.toJson(brightnessValue, PlantValueImpl.class)));
+
+        client.get(CLIENT_COMMUNICATION_SERVICE_PORT, HOST, getCurrentValueDataPath)
+                .addQueryParam("id", greenhouseID)
+                .addQueryParam("parameterName",parameterName)
+                .send(testContext.succeeding(response -> testContext.verify(() -> {
+                    assertEquals(gson.toJson(brightnessValue), response.body().toString());
+                    testContext.completeNow();
+                })));
+    }
+
+
+    @Test
     public void testGetParameterHistoryData(Vertx vertx, VertxTestContext testContext){
         WebClient client = WebClient.create(vertx);
         String getHistoryDataPath = "/clientCommunication/parameter/history";

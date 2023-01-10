@@ -75,6 +75,7 @@ public class BrightnessHTTPAdapter extends AbstractAdapter<PlantValueAPI> {
         HttpServerResponse res = ctx.response();
         res.putHeader("Content-Type", "application/json");
         String greenhouseId = request.getParam("id");
+        System.out.println("Request arrived");
         if(greenhouseId == null){
             res.setStatusCode(409);
             res.setStatusMessage(BAD_REQUEST_MESSAGE);
@@ -105,12 +106,9 @@ public class BrightnessHTTPAdapter extends AbstractAdapter<PlantValueAPI> {
 
     private void handlePostBrightnessValue(RoutingContext request) {
         HttpServerResponse response = request.response();
-
         response.putHeader("content-type", "application/json");
-
         try {
             PlantValue brightnessValue = gson.fromJson(request.body().asString(), PlantValueImpl.class);
-            System.out.println("Value" + brightnessValue.toString());
             Future<Void> fut = this.getModel().postValue(brightnessValue);
 
             fut.onSuccess(res -> {

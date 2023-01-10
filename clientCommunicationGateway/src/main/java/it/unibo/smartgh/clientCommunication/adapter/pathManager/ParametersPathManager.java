@@ -18,4 +18,10 @@ public interface ParametersPathManager {
      * @param request the routing context of reference.
      */
     void handleGetParameterHistoryData(RoutingContext request);
+
+    /**
+     * Handles the parameter get current value request.
+     * @param request the routing context of reference.
+     */
+    void handleGetParameterCurrentValue(RoutingContext request);
 }

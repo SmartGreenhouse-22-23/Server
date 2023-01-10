@@ -22,7 +22,7 @@ public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommun
     private static final String GET_GREENHOUSE_INFO_PATH = BASE_PATH + "/greenhouse";
 
     private static final String POST_GREENHOUSE_MODALITY_PATH = BASE_PATH + "/greenhouse/modality";
-    private static final String POST_PARAMETER_CURRENT_VALUE_PATH = BASE_PATH + "/parameter";
+    private static final String PARAMETER_CURRENT_VALUE_PATH = BASE_PATH + "/parameter";
     private static final String GET_PARAMETER_HISTORY_DATA_PATH = BASE_PATH + "/parameter/history";
 
     private static final String GET_OPERATION_GREENHOUSE = BASE_PATH +"/operations" ;
@@ -63,7 +63,8 @@ public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommun
 
             router.get(GET_GREENHOUSE_INFO_PATH).handler(this.greenhousePathManager::handleGetGreenhouseInfo);
             router.post(POST_GREENHOUSE_MODALITY_PATH).handler(this.greenhousePathManager::handlePostGreenhouseModality);
-            router.post(POST_PARAMETER_CURRENT_VALUE_PATH).handler(this.parametersPathManager::handlePostParameterCurrentValue);
+            router.post(PARAMETER_CURRENT_VALUE_PATH).handler(this.parametersPathManager::handlePostParameterCurrentValue);
+            router.get(PARAMETER_CURRENT_VALUE_PATH).handler(this.parametersPathManager::handleGetParameterCurrentValue);
             router.get(GET_PARAMETER_HISTORY_DATA_PATH).handler(this.parametersPathManager::handleGetParameterHistoryData);
             router.get(GET_OPERATION_GREENHOUSE).handler(this.operationPathManager::handleGetOperationsGreenhouse);
             router.get(GET_OPERATION_PARAMETER).handler(this.operationPathManager::handleGetOperationsParameter);

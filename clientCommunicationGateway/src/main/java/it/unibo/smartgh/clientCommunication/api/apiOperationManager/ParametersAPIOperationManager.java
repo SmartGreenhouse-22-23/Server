@@ -4,7 +4,6 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpClient;
-import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
@@ -86,6 +85,27 @@ public class ParametersAPIOperationManager {
         return p.future();
     }
 
+
+
+    public Future<JsonObject> getParameterCurrentValue(String greenhouseID, String parameterName) {
+        Promise<JsonObject> p = Promise.promise();
+        switch (parameterName){
+            case "brightness":
+                return this.requestCurrentValue(BRIGHTNESS_BASE_PATH, greenhouseID, BRIGHTNESS_SERVICE_PORT);
+            case "humidity":
+                return this.requestCurrentValue(AIR_HUMIDITY_BASE_PATH, greenhouseID, AIR_HUMIDITY_SERVICE_PORT);
+            case "soilMoisture":
+                return this.requestCurrentValue(SOIL_MOISTURE_BASE_PATH, greenhouseID, SOIL_MOISTURE_SERVICE_PORT);
+            case "temperature":
+                return this.requestCurrentValue(TEMPERATURE_BASE_PATH, greenhouseID, TEMPERATURE_SERVICE_PORT);
+            default:
+                p.fail(new ParameterNotFound("The parameter: " + parameterName + "does not exist!"));
+                break;
+        }
+
+        return p.future();
+    }
+
     private Future<JsonArray> requestHistoricalData(String path, String greenhouseId, int limit, int port){
         Promise<JsonArray> p = Promise.promise();
         httpClient.get(port, ParametersAPIOperationManager.HOST, path)
@@ -94,6 +114,17 @@ public class ParametersAPIOperationManager {
                 .putHeader("content-type", "application/json")
                 .send()
                 .onSuccess(response -> p.complete(response.body().toJsonArray()))
+                .onFailure(p::fail);
+        return p.future();
+    }
+
+    private Future<JsonObject> requestCurrentValue(String path, String greenhouseId, int port){
+        Promise<JsonObject> p = Promise.promise();
+        httpClient.get(port, ParametersAPIOperationManager.HOST, path)
+                .addQueryParam("id", greenhouseId)
+                .putHeader("content-type", "application/json")
+                .send()
+                .onSuccess(response -> p.complete(response.body().toJsonObject()))
                 .onFailure(p::fail);
         return p.future();
     }
