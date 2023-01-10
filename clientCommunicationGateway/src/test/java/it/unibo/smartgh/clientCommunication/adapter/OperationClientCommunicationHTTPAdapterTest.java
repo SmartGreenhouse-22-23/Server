@@ -84,7 +84,7 @@ public class OperationClientCommunicationHTTPAdapterTest {
         System.out.println("Client Communication service ready");
     }
 
-    @RepeatedTest(2)
+    @RepeatedTest(4)
     public void testGetGreenhouseOperations(Vertx vertx, VertxTestContext testContext){
         WebClient client = WebClient.create(vertx);
         String operationPath = "/clientCommunication/operations";

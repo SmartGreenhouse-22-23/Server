@@ -180,7 +180,5 @@ public class GreenhouseHTTPAdapterTest {
                     assertEquals(201, response.statusCode());
                     testContext.completeNow();
                 });
-
-
     }
 }
