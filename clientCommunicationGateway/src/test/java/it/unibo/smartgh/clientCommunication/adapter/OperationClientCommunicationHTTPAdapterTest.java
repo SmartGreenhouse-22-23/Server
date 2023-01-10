@@ -92,15 +92,16 @@ public class OperationClientCommunicationHTTPAdapterTest {
                 .addQueryParam("id", greenhouseId)
                 .addQueryParam("limit", String.valueOf(limit))
                 .putHeader("content-type", "application/json")
-                .send(testContext.succeeding(res -> testContext.verify(() -> {
-                    JsonArray array = res.body().toJsonArray();
-                    assertTrue(array.size() <= limit);
-                    array.forEach(o -> {
-                        Operation op = gson.fromJson(o.toString(), OperationImpl.class);
-                        assertEquals(greenhouseId, op.getGreenhouseId());
+                .send()
+                .onSuccess(res -> {
+                        JsonArray array = res.body().toJsonArray();
+                        assertTrue(array.size() <= limit);
+                        array.forEach(o -> {
+                            Operation op = gson.fromJson(o.toString(), OperationImpl.class);
+                            assertEquals(greenhouseId, op.getGreenhouseId());
+                        });
+                        testContext.completeNow();
                     });
-                    testContext.completeNow();
-                })));
     }
 
     @Test
