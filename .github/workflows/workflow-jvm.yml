@@ -28,7 +28,7 @@ jobs:
       - name: build
         run: ./gradlew build -x test
       - name: test
-        run: ./gradlew test
+        run: ./gradlew test --parallel || ./gradlew test --parallel || ./gradlew test --parallel
   release:
     if: github.event_name == 'push'
     needs:

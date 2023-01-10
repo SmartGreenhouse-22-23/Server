@@ -21,7 +21,7 @@ public interface GreenhouseAPI {
      * @param id greenhouse id.
      * @param modality new modality.
      */
-    Future<Void> patchActualModality(String id, Modality modality);
+    Future<Void> putActualModality(String id, Modality modality);
     /**
      * Store the new sensed values, check alarm situation and perform corrective actions.
      * @param id greenhouse id.

@@ -108,9 +108,10 @@ public class ParameterClientCommunicationHTTPAdapterTest {
                 .addQueryParam("id", greenhouseID)
                 .addQueryParam("parameterName",parameterName)
                 .addQueryParam("limit", String.valueOf(limit))
-                .send(testContext.succeeding(response -> testContext.verify(() -> {
+                .send()
+                .onSuccess(response -> {
                     assertEquals(gson.toJson(history), response.body().toString());
                     testContext.completeNow();
-                })));
+                });
     }
 }

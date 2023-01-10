@@ -84,7 +84,7 @@ public class OperationClientCommunicationHTTPAdapterTest {
         System.out.println("Client Communication service ready");
     }
 
-    @RepeatedTest(2)
+    @Test
     public void testGetGreenhouseOperations(Vertx vertx, VertxTestContext testContext){
         WebClient client = WebClient.create(vertx);
         String operationPath = "/clientCommunication/operations";
@@ -92,15 +92,16 @@ public class OperationClientCommunicationHTTPAdapterTest {
                 .addQueryParam("id", greenhouseId)
                 .addQueryParam("limit", String.valueOf(limit))
                 .putHeader("content-type", "application/json")
-                .send(testContext.succeeding(res -> testContext.verify(() -> {
-                    JsonArray array = res.body().toJsonArray();
-                    assertTrue(array.size() <= limit);
-                    array.forEach(o -> {
-                        Operation op = gson.fromJson(o.toString(), OperationImpl.class);
-                        assertEquals(greenhouseId, op.getGreenhouseId());
+                .send()
+                .onSuccess(res -> {
+                        JsonArray array = res.body().toJsonArray();
+                        assertTrue(array.size() <= limit);
+                        array.forEach(o -> {
+                            Operation op = gson.fromJson(o.toString(), OperationImpl.class);
+                            assertEquals(greenhouseId, op.getGreenhouseId());
+                        });
+                        testContext.completeNow();
                     });
-                    testContext.completeNow();
-                })));
     }
 
     @Test

@@ -144,7 +144,7 @@ public class GreenhouseServer {
         } else {
             try{
                 res.putHeader("Content-Type", "application/json");
-                Future<Void> fut = this.model.patchActualModality(id, Modality.valueOf(modality.toUpperCase()));
+                Future<Void> fut = this.model.putActualModality(id, Modality.valueOf(modality.toUpperCase()));
                 fut.onSuccess(gh -> {
                     res.setStatusCode(STATUS_CODE_0K_NOTHING_RETURN).end();
                 });
