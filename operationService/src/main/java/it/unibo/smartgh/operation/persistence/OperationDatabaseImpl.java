@@ -17,7 +17,7 @@ import java.util.Locale;
  * This class is an implementation of the {@link OperationDatabase} interface that stores operations in a MongoDB database.
  */
 public class OperationDatabaseImpl implements OperationDatabase {
-    
+    private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
     private final MongoCollection<Document> collection;
 
     /**
@@ -63,11 +63,10 @@ public class OperationDatabaseImpl implements OperationDatabase {
 
     @Override
     public List<Operation> getOperationsInDateRange(String greenhouseId, Date from, Date to, int limit) {
-        BasicDBObject query = new BasicDBObject("date", new BasicDBObject("$gte", from).append("$lte", to));
         return getOperationsAsList(collection
                 .find(new Document()
                         .append("greenhouseId", greenhouseId)
-                        .append("date", new BasicDBObject("$gte", from).append("$lte", to)))
+                        .append("date", new BasicDBObject("$gte", from).append("$lte", new Date(to.getTime() + MILLIS_IN_A_DAY))))
                 .sort(new Document("date", -1))
                 .limit(limit));
     }
