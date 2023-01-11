@@ -71,4 +71,9 @@ public class ClientCommunicationModel implements ClientCommunicationAPI{
     public Future<JsonArray> getOperationsInDateRange(String greenhouseID, Date from, Date to, int limit) {
         return this.operationAPIOperationManager.getOperationsInDateRange(greenhouseID, from, to, limit);
     }
+
+    @Override
+    public Future<Void> postNotifyNewOperation(JsonObject operationInformation) {
+        return this.operationAPIOperationManager.postNotifyNewOperation(operationInformation);
+    }
 }

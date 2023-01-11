@@ -24,4 +24,10 @@ public interface OperationPathManager {
      * @param request the routing context of reference.
      */
     void handleGetOperationInDateRange(RoutingContext request);
+
+    /**
+     * Handles the operation related to a new operation notification.
+     * @param request the routing context of reference.
+     */
+    void handlePostNotifyNewOperation(RoutingContext request);
 }

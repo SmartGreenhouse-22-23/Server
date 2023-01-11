@@ -8,6 +8,7 @@ import io.vertx.ext.web.RoutingContext;
 import it.unibo.smartgh.clientCommunication.adapter.pathManager.GreenhousePathManager;
 import it.unibo.smartgh.clientCommunication.adapter.pathManager.OperationPathManager;
 import it.unibo.smartgh.clientCommunication.api.ClientCommunicationAPI;
+import it.unibo.smartgh.clientCommunication.customException.ParameterNotFound;
 
 import java.sql.Date;
 
@@ -84,5 +85,25 @@ public class OperationPathManagerImpl implements OperationPathManager {
             response.setStatusCode(409);
             response.setStatusMessage("Bad request: some filed is missing or invalid in the provided data.");
         }
+    }
+
+    @Override
+    public void handlePostNotifyNewOperation(RoutingContext request) {
+        HttpServerResponse response = request.response();
+        response.putHeader("Content-Type", "application/json");
+        Future<Void> future = this.model.postNotifyNewOperation(request.body().asJsonObject());
+
+        future.onSuccess(result -> response.setStatusCode(201).end())
+                .onFailure(exception ->{
+                    if(exception instanceof ParameterNotFound){
+                        response.setStatusCode(404);
+                        response.setStatusMessage("Not found: " + exception.getMessage());
+                    }else{
+                        response.setStatusCode(500);
+                        response.setStatusMessage("Internal Server error: cause" + exception.getMessage());
+                    }
+                    response.end();
+
+                });
     }
 }

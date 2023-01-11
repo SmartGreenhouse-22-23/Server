@@ -17,8 +17,11 @@ import java.util.List;
 public class OperationModel implements OperationAPI {
 
     private static final int COMM_SERVICE_PORT = 8892;
+    private static final int CLIENT_SERVICE_PORT = 8890;
     private static final String COMM_SERVICE_HOST = "localhost";
     private static final String COMM_BASE_PATH = "/greenhouseCommunication";
+
+    private static final String CLIENT_BASE_PATH = "/clientCommunication/operations/notify";
     private final OperationController operationController;
     private final Vertx vertx;
 
@@ -84,7 +87,13 @@ public class OperationModel implements OperationAPI {
         WebClient client = WebClient.create(vertx);
         client.post(COMM_SERVICE_PORT, COMM_SERVICE_HOST, COMM_BASE_PATH + "/" + operation.getParameter() + "Operation")
                 .sendJsonObject(new JsonObject().put("message", operation.getAction()))
-                .onSuccess(h -> promise.complete())
+                .andThen(h -> {
+                    System.out.println(operation.getParameter());
+                    client.post(CLIENT_SERVICE_PORT, COMM_SERVICE_HOST, CLIENT_BASE_PATH)
+                            .sendJsonObject(new JsonObject().put("greenhouseId", operation.getGreenhouseId()))
+                            .onSuccess(h2 -> promise.complete())
+                            .onFailure(promise::fail);
+                })
                 .onFailure(promise::fail);
         return promise.future();
     }
