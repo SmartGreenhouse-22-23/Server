@@ -1,5 +1,6 @@
 package it.unibo.smartgh.greenhouse.adapter;
 
+import com.google.gson.Gson;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
@@ -16,8 +17,13 @@ import it.unibo.smartgh.greenhouse.GreenhouseService;
 import it.unibo.smartgh.greenhouse.api.GreenhouseAPI;
 import it.unibo.smartgh.greenhouse.api.GreenhouseModel;
 import it.unibo.smartgh.greenhouse.controller.GreenhouseControllerImpl;
-import it.unibo.smartgh.greenhouse.entity.*;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.GreenhouseImpl;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
+import it.unibo.smartgh.greenhouse.entity.plant.Plant;
+import it.unibo.smartgh.greenhouse.entity.plant.PlantBuilder;
 import it.unibo.smartgh.greenhouse.persistence.GreenhouseDatabaseImpl;
+import it.unibo.smartgh.greenhouse.presentation.GsonUtils;
 import it.unibo.smartgh.humidity.service.HumidityService;
 import it.unibo.smartgh.plantValue.api.PlantValueModel;
 import it.unibo.smartgh.plantValue.controller.PlantValueController;
@@ -31,13 +37,11 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.*;
+import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.modalityToJSON;
+import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.paramToJSON;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -48,7 +52,7 @@ public class GreenhouseHTTPAdapterTest {
     private static final String ID = "63af0ae025d55e9840cbc1fa";
     private static final String ID_AUTOMATIC =  "63b29b0a3792e15bae3229a7";
     private static final int MONGODB_PORT = 27017;
-    private static final Map<String,String> units = new HashMap<>(){{
+    private final Map<String,String> units = new HashMap<>(){{
         put("temperature", "° C");
         put("humidity", "%");
         put("soilMoisture", "%");
@@ -58,7 +62,6 @@ public class GreenhouseHTTPAdapterTest {
                 .description("is a species of small evergreen trees in the flowering plant family " +
                                      "Rutaceae, native to Asia, primarily Northeast India (Assam), Northern Myanmar or China.")
                 .image("http://www.burkesbackyard.com.au/wp-content/uploads/2014/01/945001_399422270172619_1279327806_n.jpg")
-                .units(units)
                 .minTemperature(8.0)
                 .maxTemperature(35.0)
                 .minBrightness(4200.0)
@@ -67,16 +70,18 @@ public class GreenhouseHTTPAdapterTest {
                 .maxSoilMoisture(65.0)
                 .minHumidity(30.0)
                 .maxHumidity(80.0)
+                .units(units)
                 .build();
+
     private final Greenhouse greenhouse = new GreenhouseImpl(ID_AUTOMATIC, plant, Modality.AUTOMATIC);
 
-    private static Map<String, Integer> parameters;
+    private final Gson gson = GsonUtils.createGson();
 
     @BeforeAll
     public static void start(Vertx vertx, VertxTestContext testContext){
         System.out.println("Greenhouse service initializing");
         GreenhouseAPI model = new GreenhouseModel(vertx, new GreenhouseControllerImpl(new GreenhouseDatabaseImpl()));
-        GreenhouseService service = new GreenhouseService(model);
+        GreenhouseService service = new GreenhouseService(HOST, PORT, model);
         vertx.deployVerticle(service, testContext.succeedingThenComplete());
         System.out.println("Greenhouse service ready");
 
@@ -86,12 +91,12 @@ public class GreenhouseHTTPAdapterTest {
         vertx.deployVerticle(clientCommunicationService, testContext.succeedingThenComplete());
         System.out.println("Client Communication service ready");
 
-        parameters = new HashMap<>();
+        Map<String, Integer> parameters = new HashMap<>();
         parameters.put("brightness", 8893);
         parameters.put("temperature", 8895);
         parameters.put("humidity", 8891);
         parameters.put("soilMoisture", 8894);
-        parameters.forEach((k,v) -> {
+        parameters.forEach((k, v) -> {
             System.out.println(k + " service initializing");
             PlantValueDatabase database = new PlantValueDatabaseImpl(k, k + "Values", HOST, MONGODB_PORT);
             PlantValueController controller = new PlantValueControllerImpl(database);
@@ -117,7 +122,7 @@ public class GreenhouseHTTPAdapterTest {
                 .addQueryParam("id", ID_AUTOMATIC)
                 .as(BodyCodec.string())
                 .send(testContext.succeeding(response -> testContext.verify(() -> {
-                    assertEquals(greenhouseToJSON(greenhouse).toString(), response.body());
+                    assertEquals(gson.toJson(greenhouse), response.body());
                     testContext.completeNow();
                 })));
     }

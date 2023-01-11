@@ -12,7 +12,11 @@ import it.unibo.smartgh.greenhouse.GreenhouseService;
 import it.unibo.smartgh.greenhouse.api.GreenhouseAPI;
 import it.unibo.smartgh.greenhouse.api.GreenhouseModel;
 import it.unibo.smartgh.greenhouse.controller.GreenhouseControllerImpl;
-import it.unibo.smartgh.greenhouse.entity.*;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.GreenhouseImpl;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
+import it.unibo.smartgh.greenhouse.entity.plant.Plant;
+import it.unibo.smartgh.greenhouse.entity.plant.PlantBuilder;
 import it.unibo.smartgh.greenhouse.persistence.GreenhouseDatabaseImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -32,6 +36,7 @@ public class GreenhouseClientCommunicationHTTPAdapterTest {
 
     private static final String HOST = "localhost";
     private static final int CLIENT_COMMUNICATION_SERVICE_PORT = 8890;
+    private static final int GREENHOUSE_PORT = 8889;
 
     private static final String GREENHOUSE_ID =  "63af0ae025d55e9840cbc1fa";
 
@@ -63,7 +68,7 @@ public class GreenhouseClientCommunicationHTTPAdapterTest {
     public static void start(Vertx vertx, VertxTestContext testContext){
         System.out.println("Greenhouse service initializing");
         GreenhouseAPI greenhouseModel = new GreenhouseModel(vertx, new GreenhouseControllerImpl(new GreenhouseDatabaseImpl()));
-        GreenhouseService greenhouseService = new GreenhouseService(greenhouseModel);
+        GreenhouseService greenhouseService = new GreenhouseService(HOST, GREENHOUSE_PORT, greenhouseModel);
         vertx.deployVerticle(greenhouseService, testContext.succeedingThenComplete());
         System.out.println("Greenhouse service ready");
         System.out.println("Client Communication service initializing");
