@@ -12,6 +12,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test to verify the correct behaviour of the database operations.
+ */
 public class TemperatureDatabaseTest {
 
     private static final String TEMPERATURE_DB_NAME = "temperature";

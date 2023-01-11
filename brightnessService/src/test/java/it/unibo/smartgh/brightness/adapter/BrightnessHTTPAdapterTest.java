@@ -31,6 +31,9 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test to verify the correct behaviour of the HTTP adapter.
+ */
 @ExtendWith(VertxExtension.class)
 public class BrightnessHTTPAdapterTest {
     private static final String BRIGHTNESS_DB_NAME = "brightness";

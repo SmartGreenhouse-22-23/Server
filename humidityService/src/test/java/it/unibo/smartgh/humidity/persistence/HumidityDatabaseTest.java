@@ -12,6 +12,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test to verify the correct behaviour of the database operations.
+ */
 class HumidityDatabaseTest {
 
     private static final String HUMIDITY_DB_NAME = "humidity";

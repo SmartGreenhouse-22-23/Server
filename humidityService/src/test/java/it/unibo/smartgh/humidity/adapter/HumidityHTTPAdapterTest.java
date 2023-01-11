@@ -31,6 +31,9 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test to verify the correct behaviour of the HTTP adapter.
+ */
 @ExtendWith(VertxExtension.class)
 public class HumidityHTTPAdapterTest {
     private static final String HUMIDITY_DB_NAME = "humidity";

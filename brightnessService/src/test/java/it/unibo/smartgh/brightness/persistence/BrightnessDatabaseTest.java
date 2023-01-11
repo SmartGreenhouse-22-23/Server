@@ -12,6 +12,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test to verify the correct behaviour of the database operations.
+ */
 class BrightnessDatabaseTest {
 
     private static final String BRIGHTNESS_DB_NAME = "brightness";

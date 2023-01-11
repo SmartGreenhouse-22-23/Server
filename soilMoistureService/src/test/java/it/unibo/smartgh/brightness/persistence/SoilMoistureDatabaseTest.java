@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test to verify the connection with the database and the correct behavior of the operation executed.
+ * Test to verify the correct behaviour of the database operations.
  */
 class SoilMoistureDatabaseTest {
 
