@@ -86,6 +86,9 @@ public class GreenhouseClientCommunicationHTTPAdapterTest {
         client.get(CLIENT_COMMUNICATION_SERVICE_PORT, HOST, operationPath)
                 .addQueryParam("id", GREENHOUSE_ID)
                 .send(testContext.succeeding(response -> testContext.verify(() -> {
+                    System.out.println(greenhouseToJSON(greenhouse));
+                    System.out.println();
+                    System.out.println(response.body().toJsonObject());
                     assertEquals(greenhouseToJSON(greenhouse), response.body().toJsonObject());
                     testContext.completeNow();
                 })));
