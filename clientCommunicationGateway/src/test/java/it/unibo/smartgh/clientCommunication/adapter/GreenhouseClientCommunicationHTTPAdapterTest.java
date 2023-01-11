@@ -22,6 +22,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +42,7 @@ public class GreenhouseClientCommunicationHTTPAdapterTest {
     private static final String GREENHOUSE_ID =  "63af0ae025d55e9840cbc1fa";
 
     private static final Map<String,String> units = new HashMap<>(){{
-        put("temperature", "° C");
+        put("temperature", new String("° C".getBytes(), StandardCharsets.UTF_8));
         put("humidity", "%");
         put("soilMoisture", "%");
         put("brightness", "Lux");
