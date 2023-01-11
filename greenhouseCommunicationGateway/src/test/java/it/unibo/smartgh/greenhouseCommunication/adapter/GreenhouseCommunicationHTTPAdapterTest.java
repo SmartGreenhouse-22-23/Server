@@ -14,6 +14,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.concurrent.TimeUnit;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(VertxExtension.class)
@@ -50,6 +52,12 @@ public class GreenhouseCommunicationHTTPAdapterTest {
                     assertEquals(response.statusCode(), expectedStatusCode);
                     testContext.completeNow();
                 }));
+        try {
+            testContext.awaitCompletion(10, TimeUnit.SECONDS);
+            System.out.println("wait");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

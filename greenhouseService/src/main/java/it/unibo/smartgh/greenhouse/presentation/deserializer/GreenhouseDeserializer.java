@@ -5,6 +5,7 @@ import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.GreenhouseImpl;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
 import it.unibo.smartgh.greenhouse.entity.plant.Plant;
+import it.unibo.smartgh.greenhouse.entity.plant.PlantImpl;
 
 import java.lang.reflect.Type;
 
@@ -19,7 +20,7 @@ public class GreenhouseDeserializer extends GeneralDeserializer implements JsonD
             JsonObject object = (JsonObject) json;
             String id = this.getPropertyAsString(object, "id");
             String modalityAsString = this.getPropertyAsString(object, "modality");
-            Plant plant = this.getPropertyAs(object, "plant", Plant.class, context);
+            Plant plant = this.getPropertyAs(object, "plant", PlantImpl.class, context);
 
             return new GreenhouseImpl(id, plant, this.setModality(modalityAsString));
         }else {

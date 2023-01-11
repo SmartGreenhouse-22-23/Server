@@ -5,7 +5,6 @@ import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import it.unibo.smartgh.adapter.AbstractAdapter;
 import it.unibo.smartgh.plantValue.api.PlantValueAPI;
-import it.unibo.smartgh.plantValue.api.PlantValueModel;
 import it.unibo.smartgh.temperature.adapter.TemperatureHTTPAdapter;
 
 import java.util.LinkedList;
@@ -27,7 +26,7 @@ public class TemperatureService extends AbstractVerticle {
      * @param host the temperature service host.
      * @param port the temperature service port.
      */
-    public TemperatureService(PlantValueModel model, String host, int port) {
+    public TemperatureService(PlantValueAPI model, String host, int port) {
         this.adapters = new LinkedList<>();
         this.model = model;
         this.host = host;

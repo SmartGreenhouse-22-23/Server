@@ -37,6 +37,7 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,7 +54,7 @@ public class GreenhouseHTTPAdapterTest {
     private static final String ID_AUTOMATIC =  "63b29b0a3792e15bae3229a7";
     private static final int MONGODB_PORT = 27017;
     private final Map<String,String> units = new HashMap<>(){{
-        put("temperature", "° C");
+        put("temperature", new String("° C".getBytes(), StandardCharsets.UTF_8));
         put("humidity", "%");
         put("soilMoisture", "%");
         put("brightness", "Lux");
@@ -122,6 +123,7 @@ public class GreenhouseHTTPAdapterTest {
                 .addQueryParam("id", ID_AUTOMATIC)
                 .as(BodyCodec.string())
                 .send(testContext.succeeding(response -> testContext.verify(() -> {
+                    System.out.println(response.body());
                     assertEquals(gson.toJson(greenhouse), response.body());
                     testContext.completeNow();
                 })));
