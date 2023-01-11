@@ -1,4 +1,4 @@
-package it.unibo.smartgh.greenhouse.entity;
+package it.unibo.smartgh.greenhouse.entity.plant;
 
 import java.util.Map;
 

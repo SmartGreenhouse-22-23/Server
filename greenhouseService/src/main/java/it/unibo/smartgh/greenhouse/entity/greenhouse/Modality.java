@@ -1,4 +1,4 @@
-package it.unibo.smartgh.greenhouse.entity;
+package it.unibo.smartgh.greenhouse.entity.greenhouse;
 
 /**
  * The possible management modality of a greenhouse.

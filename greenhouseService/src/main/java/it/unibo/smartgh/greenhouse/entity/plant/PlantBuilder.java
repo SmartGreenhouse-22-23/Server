@@ -1,4 +1,4 @@
-package it.unibo.smartgh.greenhouse.entity;
+package it.unibo.smartgh.greenhouse.entity.plant;
 
 import java.util.Map;
 
@@ -6,7 +6,7 @@ import java.util.Map;
  * Builder for the plant entity.
  */
 public final class PlantBuilder {
-    private String name;
+    private final String name;
     private String description;
     private Double minTemperature;
     private Double maxTemperature;

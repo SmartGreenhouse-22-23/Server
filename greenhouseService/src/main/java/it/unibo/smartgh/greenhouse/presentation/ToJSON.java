@@ -1,9 +1,9 @@
 package it.unibo.smartgh.greenhouse.adapter.presentation;
 
 import io.vertx.core.json.JsonObject;
-import it.unibo.smartgh.greenhouse.entity.Greenhouse;
-import it.unibo.smartgh.greenhouse.entity.Modality;
-import it.unibo.smartgh.greenhouse.entity.Plant;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
+import it.unibo.smartgh.greenhouse.entity.plant.Plant;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -37,7 +37,6 @@ public class ToJSON {
         plant.put("name", p.getName());
         plant.put("description", p.getDescription());
         plant.put("img", p.getImg());
-        plant.put("unit", unit);
         plant.put("minTemperature", p.getMinTemperature());
         plant.put("maxTemperature", p.getMaxTemperature());
         plant.put("minBrightness", p.getMinBrightness());
@@ -46,6 +45,7 @@ public class ToJSON {
         plant.put("maxSoilMoisture", p.getMaxSoilMoisture());
         plant.put("minHumidity", p.getMinHumidity());
         plant.put("maxHumidity", p.getMaxHumidity());
+        plant.put("unit", unit);
         return plant;
     }
 
