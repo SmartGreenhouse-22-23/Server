@@ -29,6 +29,7 @@ public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommun
 
     private static final String GET_OPERATION_PARAMETER = BASE_PATH + "/operations/parameter";
     private static final String GET_OPERATION_IN_DATE_RANGE = BASE_PATH + "/operations/date";
+    private static final String POST_NOTIFY_OPERATION = BASE_PATH + "/operations/notify";
 
 
     private final String host;
@@ -69,6 +70,7 @@ public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommun
             router.get(GET_OPERATION_GREENHOUSE).handler(this.operationPathManager::handleGetOperationsGreenhouse);
             router.get(GET_OPERATION_PARAMETER).handler(this.operationPathManager::handleGetOperationsParameter);
             router.get(GET_OPERATION_IN_DATE_RANGE).handler(this.operationPathManager::handleGetOperationInDateRange);
+            router.post(POST_NOTIFY_OPERATION).handler(this.operationPathManager::handlePostNotifyNewOperation);
 
             server.requestHandler(router).listen(port, host, http -> {
                 if (http.succeeded()) {

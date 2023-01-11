@@ -3,7 +3,10 @@ package it.unibo.smartgh.clientCommunication.api.apiOperationManager;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpClient;
+import io.vertx.core.http.WebSocket;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
 
 import java.util.Date;
@@ -20,6 +23,7 @@ public class OperationAPIOperationManager {
     private static final String OPERATION_SERVICE_HOST = "localhost";
     private static final int OPERATION_SERVICE_PORT = 8896;
     private final WebClient httpClient;
+    private final HttpClient socketClient;
 
     /**
      * Public constructor of the class.
@@ -27,6 +31,7 @@ public class OperationAPIOperationManager {
      */
     public OperationAPIOperationManager(Vertx vertx){
         this.httpClient = WebClient.create(vertx);
+        this.socketClient = vertx.createHttpClient();
     }
 
     /**
@@ -84,6 +89,18 @@ public class OperationAPIOperationManager {
                 .send()
                 .onSuccess(response -> p.complete(response.body().toJsonArray()))
                 .onFailure(p::fail);
+        return p.future();
+    }
+
+    public Future<Void> postNotifyNewOperation(JsonObject operationInformation) {
+        Promise<Void> p = Promise.promise();
+        socketClient.webSocket(1235,
+                "localhost",
+                "/",
+                wsC -> {
+                    WebSocket ctx = wsC.result();
+                    if (ctx != null) ctx.writeTextMessage(operationInformation.toString(), h -> ctx.close());
+                });
         return p.future();
     }
 }

@@ -85,4 +85,11 @@ public interface ClientCommunicationAPI {
      */
     Future<JsonArray> getOperationsInDateRange(String greenhouseID, Date from, Date to, int limit);
 
+    /**
+     * Notify clients of a new operation is performed
+     * @param operationInformation about the new operation
+     * @return a {@link io.vertx.core.Future} representing the operation performed.
+     */
+    Future<Void> postNotifyNewOperation(JsonObject operationInformation);
+
 }
