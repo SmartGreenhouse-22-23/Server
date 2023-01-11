@@ -1,6 +1,7 @@
 package it.unibo.smartgh.greenhouse.entity.plant;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Implementation of the plant entity
@@ -118,5 +119,19 @@ public class PlantImpl implements Plant{
     @Override
     public Map<String, String> getUnitMap() {
         return this.units;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlantImpl plant = (PlantImpl) o;
+        return name.equals(plant.name) && description.equals(plant.description) && img.equals(plant.img) && minTemperature.equals(plant.minTemperature) && maxTemperature.equals(plant.maxTemperature) && minBrightness.equals(plant.minBrightness) && maxBrightness.equals(plant.maxBrightness) && minSoilMoisture.equals(plant.minSoilMoisture) && maxSoilMoisture.equals(plant.maxSoilMoisture) && minHumidity.equals(plant.minHumidity) && maxHumidity.equals(plant.maxHumidity) && units.equals(plant.units);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, img, minTemperature, maxTemperature, minBrightness, maxBrightness,
+                minSoilMoisture, maxSoilMoisture, minHumidity, maxHumidity, units);
     }
 }

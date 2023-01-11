@@ -2,6 +2,8 @@ package it.unibo.smartgh.greenhouse.entity.greenhouse;
 
 import it.unibo.smartgh.greenhouse.entity.plant.Plant;
 
+import java.util.Objects;
+
 /**
  * Implementation of the greenhouse entity.
  */
@@ -34,5 +36,18 @@ public class GreenhouseImpl implements Greenhouse{
     @Override
     public Modality getActualModality() {
         return this.modality;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GreenhouseImpl that = (GreenhouseImpl) o;
+        return plant.equals(that.plant) && modality == that.modality;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(plant, modality);
     }
 }

@@ -1,5 +1,6 @@
 package it.unibo.smartgh.clientCommunication.adapter;
 
+import com.google.gson.Gson;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
@@ -18,6 +19,7 @@ import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
 import it.unibo.smartgh.greenhouse.entity.plant.Plant;
 import it.unibo.smartgh.greenhouse.entity.plant.PlantBuilder;
 import it.unibo.smartgh.greenhouse.persistence.GreenhouseDatabaseImpl;
+import it.unibo.smartgh.greenhouse.presentation.GsonUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -63,6 +65,7 @@ public class GreenhouseClientCommunicationHTTPAdapterTest {
             .build();
 
     private final Greenhouse greenhouse = new GreenhouseImpl(GREENHOUSE_ID, plant, Modality.MANUAL);
+    private final Gson gson = GsonUtils.createGson();
 
 
     @BeforeAll
@@ -86,10 +89,7 @@ public class GreenhouseClientCommunicationHTTPAdapterTest {
         client.get(CLIENT_COMMUNICATION_SERVICE_PORT, HOST, operationPath)
                 .addQueryParam("id", GREENHOUSE_ID)
                 .send(testContext.succeeding(response -> testContext.verify(() -> {
-                    System.out.println(greenhouseToJSON(greenhouse));
-                    System.out.println();
-                    System.out.println(response.body().toJsonObject());
-                    assertEquals(greenhouseToJSON(greenhouse), response.body().toJsonObject());
+                    assertEquals(greenhouse, gson.fromJson(response.body().toString(), GreenhouseImpl.class));
                     testContext.completeNow();
                 })));
     }
