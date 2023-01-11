@@ -1,4 +1,4 @@
-package it.unibo.smartgh.temperature;
+package it.unibo.smartgh.temperature.persistence;
 
 import it.unibo.smartgh.customException.EmptyDatabaseException;
 import it.unibo.smartgh.plantValue.entity.PlantValue;
