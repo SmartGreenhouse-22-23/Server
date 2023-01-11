@@ -1,12 +1,15 @@
 package it.unibo.smartgh.greenhouse.persistence;
 
-import it.unibo.smartgh.greenhouse.entity.*;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.GreenhouseImpl;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
+import it.unibo.smartgh.greenhouse.entity.plant.Plant;
+import it.unibo.smartgh.greenhouse.entity.plant.PlantBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GreenhouseDatabaseTest {

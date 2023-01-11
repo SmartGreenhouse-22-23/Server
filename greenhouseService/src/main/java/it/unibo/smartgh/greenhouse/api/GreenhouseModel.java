@@ -7,9 +7,9 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
 import it.unibo.smartgh.greenhouse.controller.GreenhouseController;
-import it.unibo.smartgh.greenhouse.entity.Greenhouse;
-import it.unibo.smartgh.greenhouse.entity.Modality;
-import it.unibo.smartgh.greenhouse.entity.Plant;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
+import it.unibo.smartgh.greenhouse.entity.plant.Plant;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

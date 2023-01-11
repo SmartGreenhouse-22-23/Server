@@ -1,7 +1,7 @@
 package it.unibo.smartgh.greenhouse.controller;
 
-import it.unibo.smartgh.greenhouse.entity.Greenhouse;
-import it.unibo.smartgh.greenhouse.entity.Modality;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
 
 /**
  * Interface of the Greenhouse service controller

@@ -1,9 +1,7 @@
 package it.unibo.smartgh.greenhouse.persistence;
 
-import it.unibo.smartgh.greenhouse.entity.Greenhouse;
-import it.unibo.smartgh.greenhouse.entity.Modality;
-
-import java.net.UnknownHostException;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
 
 /**
  * Interface for the greenhouse service database.

@@ -1,10 +1,8 @@
 package it.unibo.smartgh.greenhouse.controller;
 
-import it.unibo.smartgh.greenhouse.entity.Greenhouse;
-import it.unibo.smartgh.greenhouse.entity.Modality;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
 import it.unibo.smartgh.greenhouse.persistence.GreenhouseDatabase;
-
-import java.net.UnknownHostException;
 
 /**
  * Implementation of the greenhouse service controller

@@ -10,13 +10,16 @@ import it.unibo.smartgh.greenhouse.persistence.GreenhouseDatabaseImpl;
  */
 public class GreenhouseServiceLauncher {
 
+    private static final String HOST = "localhost";
+    private static final int PORT = 8889;
+
     public static void main(String[] args) {
         System.out.println("Greenhouse service initializing");
         Vertx vertx = Vertx.vertx();
 
         GreenhouseAPI model = new GreenhouseModel(vertx, new GreenhouseControllerImpl(new GreenhouseDatabaseImpl()));
 
-        GreenhouseService service = new GreenhouseService(model);
+        GreenhouseService service = new GreenhouseService(HOST, PORT, model);
         vertx.deployVerticle(service);
         System.out.println("Greenhouse service ready");
     }

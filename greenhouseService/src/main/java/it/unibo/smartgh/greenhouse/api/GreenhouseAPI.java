@@ -2,8 +2,8 @@ package it.unibo.smartgh.greenhouse.api;
 
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
-import it.unibo.smartgh.greenhouse.entity.Greenhouse;
-import it.unibo.smartgh.greenhouse.entity.Modality;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
 
 /**
  * Interface of the Greenhouse service API.

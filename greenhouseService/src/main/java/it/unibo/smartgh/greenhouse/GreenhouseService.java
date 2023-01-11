@@ -11,15 +11,17 @@ import static it.unibo.smartgh.greenhouse.Logger.log;
  * Class that represent the Service, it extends the abstract class {@link AbstractVerticle} of Vertx.
  */
 public class GreenhouseService extends AbstractVerticle {
-    private final static String host = "localhost";
-    private final static int PORT = 8889;
+    private final String host;
+    private final int port;
     private final GreenhouseAPI model;
-    private GreenhouseHTTPAdapter httpAdapter;
+
     /**
      * Constructor of humidity service.
      * @param model the greenhouse model.
      */
-    public GreenhouseService(GreenhouseAPI model) {
+    public GreenhouseService(String host, int port, GreenhouseAPI model) {
+        this.host = host;
+        this.port = port;
         this.model = model;
     }
 
@@ -34,9 +36,9 @@ public class GreenhouseService extends AbstractVerticle {
             /*
              * Installing only the HTTP adapter.
              */
-            this.httpAdapter = new GreenhouseHTTPAdapter(model, host, PORT, this.getVertx());
+            GreenhouseHTTPAdapter httpAdapter = new GreenhouseHTTPAdapter(model, host, port, this.getVertx());
             Promise<Void> p = Promise.promise();
-            httpAdapter.setupAdapter();
+            httpAdapter.setupAdapter(p);
             Future<Void> fut = p.future();
             fut.onSuccess(res -> {
                 startPromise.complete();

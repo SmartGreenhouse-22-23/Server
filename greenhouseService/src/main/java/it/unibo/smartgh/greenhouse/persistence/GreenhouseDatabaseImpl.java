@@ -1,10 +1,13 @@
 package it.unibo.smartgh.greenhouse.persistence;
 
-import com.mongodb.*;
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
-import io.vertx.core.json.JsonObject;
-import it.unibo.smartgh.greenhouse.entity.*;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.GreenhouseImpl;
+import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
+import it.unibo.smartgh.greenhouse.entity.plant.Plant;
+import it.unibo.smartgh.greenhouse.entity.plant.PlantBuilder;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
