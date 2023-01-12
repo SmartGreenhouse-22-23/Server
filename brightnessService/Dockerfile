@@ -1,5 +1,5 @@
-FROM gradle:7-jdk11-alpine AS brightness_service
-COPY --chown=gradle:gradle .. /home/gradle/src
-WORKDIR /home/gradle/src
-CMD gradle brightnessService:Start
+FROM openjdk:11 AS brightness_service
+WORKDIR /
+ADD build/libs/brightnessService-0.1.0-all.jar brightnessService-0.1.0-all.jar
+CMD java -jar brightnessService-0.1.0-all.jar
 EXPOSE 8893

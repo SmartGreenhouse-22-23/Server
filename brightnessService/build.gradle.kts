@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "it.unibo.smartgh"
-version = "0.1.0-archeo+f2c73a7"
+version = "0.1.0"
 
 repositories {
     mavenCentral()
@@ -18,16 +18,8 @@ tasks.getByName<Test>("test") {
 }
 
 
-tasks.create<JavaExec>("Start"){
-    group = "custom"
-    description = "run the service of the Server"
-
-    mainClass.set("it.unibo.smartgh.brightness.BrightnessServiceLauncher")
-    classpath = project.sourceSets.main.get().runtimeClasspath
-}
-
 tasks.withType<Jar> {
     manifest {
-        attributes["Main-Class"] = "it.unibo.smartgh.brightnessService.BrightnessServiceLauncher"
+        attributes["Main-Class"] = "it.unibo.smartgh.brightness.BrightnessServiceLauncher"
     }
 }
