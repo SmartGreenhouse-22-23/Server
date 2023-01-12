@@ -8,7 +8,7 @@ import it.unibo.smartgh.greenhouseCommunication.service.GreenhouseCommunicationS
 /**
  * This is the entry point to execute the service.
  */
-public class greenhouseCommunicationServiceLauncher {
+public class GreenhouseCommunicationServiceLauncher {
 
     private static final String HTTP_HOST = "localhost";
     private static final int HTTP_PORT = 8892;

@@ -16,3 +16,9 @@ dependencies{
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
+
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "it.unibo.smartgh.humidityService.HumidityServiceLauncher"
+    }
+}

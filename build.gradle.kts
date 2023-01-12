@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("com.github.johnrengelman.shadow") version "5.2.0"
     alias(libs.plugins.gitSemVer)
 }
 
@@ -12,6 +13,7 @@ repositories {
 
 allprojects{
     apply(plugin = "java")
+    apply(plugin = "com.github.johnrengelman.shadow")
     dependencies {
         implementation(rootProject.libs.bundles.vertx.dependencies)
         implementation(rootProject.libs.mongodb.driver)

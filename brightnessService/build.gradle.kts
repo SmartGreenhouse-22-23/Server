@@ -25,3 +25,9 @@ tasks.create<JavaExec>("Start"){
     mainClass.set("it.unibo.smartgh.brightness.BrightnessServiceLauncher")
     classpath = project.sourceSets.main.get().runtimeClasspath
 }
+
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "it.unibo.smartgh.brightnessService.BrightnessServiceLauncher"
+    }
+}

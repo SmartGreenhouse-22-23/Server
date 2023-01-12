@@ -15,6 +15,12 @@ dependencies {
     testImplementation(project(":operationService"))
 }
 
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "it.unibo.smartgh.greenhouse.GreenhouseServiceLauncher"
+    }
+}
+
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
