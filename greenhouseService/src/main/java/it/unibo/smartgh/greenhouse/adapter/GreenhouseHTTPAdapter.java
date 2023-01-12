@@ -17,8 +17,8 @@ import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
 
 import static it.unibo.smartgh.greenhouse.Logger.log;
-import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.modalityToJSON;
-import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.paramToJSON;
+import static it.unibo.smartgh.greenhouse.presentation.ToJSON.modalityToJSON;
+import static it.unibo.smartgh.greenhouse.presentation.ToJSON.paramToJSON;
 
 /**
  * Class representing the implementation of the greenhouse http adapter.
