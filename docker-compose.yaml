@@ -2,24 +2,47 @@ version: "3.9"
 
 services:
   mongo:
-    image: mongo
-    container_name: mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
+    container_name: mongodb
+    image: mongo:latest
+    restart: always
     ports:
-      - "27017:27017"
+      - 27017:27017
+    volumes:
+      - db:/var/lib/mongodb
+
   brightness_service:
+    container_name: brightness
+    depends_on:
+      - mongo
     build:
       context: brightnessService
       dockerfile: Dockerfile
     ports:
-      - "8893:8893"
-    networks:
-      - service_network
+      - 8893:8893
 
-networks:
-  service_network:
-    name: service_network
-    external: true
+  temperature_service:
+    container_name: temperature
+    depends_on:
+      - mongo
+    build:
+      context: temperatureService
+      dockerfile: Dockerfile
+    ports:
+      - 8895:8895
+
+  greenhouse_service:
+    container_name: greenhouse #name that must be used as host in http request between containers
+    depends_on:
+      - mongo
+      - temperature_service
+      - brightness_service
+      # todo add other services from which it depends
+    build:
+      context: greenhouseService
+      dockerfile: Dockerfile
+    ports:
+      - 8889:8889
+
+volumes:
+  db:
 

@@ -10,7 +10,7 @@ import it.unibo.smartgh.greenhouse.persistence.GreenhouseDatabaseImpl;
  */
 public class GreenhouseServiceLauncher {
 
-    private static final String HOST = "localhost";
+    private static final String HOST = /*"0.0.0.0"*/"localhost";
     private static final int PORT = 8889;
 
     public static void main(String[] args) {

@@ -219,6 +219,7 @@ public class GreenhouseModel implements GreenhouseAPI{
             switch (p) {
                 case "Temp":
                     path = "temperature";
+                    /*host = "temperature"; name of the service container*/
                     port = 8895;
                     break;
                 case "Soil":

@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "it.unibo.smartgh"
-version = "0.1.0-archeo+2cd21f0"
+version = "0.1.0"
 
 repositories {
     mavenCentral()
@@ -19,6 +19,6 @@ tasks.getByName<Test>("test") {
 
 tasks.withType<Jar> {
     manifest {
-        attributes["Main-Class"] = "it.unibo.smartgh.soilMoistureService.SoilMoistureServiceLauncher"
+        attributes["Main-Class"] = "it.unibo.smartgh.soilMoisture.SoilMoistureServiceLauncher"
     }
 }

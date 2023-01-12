@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "it.unibo.smartgh"
-version = "0.1.0-archeo+47042ec"
+version = "0.1.0"
 
 repositories {
     mavenCentral()
@@ -15,6 +15,6 @@ tasks.getByName<Test>("test") {
 
 tasks.withType<Jar> {
     manifest {
-        attributes["Main-Class"] = "it.unibo.smartgh.greenhouseCommunicationGateway.GreenhouseCommunicationServiceLauncher"
+        attributes["Main-Class"] = "it.unibo.smartgh.greenhouseCommunication.GreenhouseCommunicationServiceLauncher"
     }
 }

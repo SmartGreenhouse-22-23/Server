@@ -26,7 +26,7 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
     private final static String DB_NAME = "greenhouse";
     private final static String COLLECTION_NAME = "greenhouse";
 
-    private final static String HOST = "localhost";
+    private final static String HOST = /*"mongodb"*/"localhost";
     private final static int PORT = 27017;
 
     @Override
