@@ -10,12 +10,12 @@ import java.util.Objects;
 public class GreenhouseImpl implements Greenhouse{
     private final Plant plant;
     private final String id;
-    private Modality modality;
+    private final Modality modality;
 
     /**
      * Constructor for the greenhouse entity.
-     * @param plant of the greenhouse
-     * @param modality the actual modality of management
+     * @param plant of the greenhouse.
+     * @param modality the actual modality of management.
      */
     public GreenhouseImpl(String id, Plant plant, Modality modality) {
         this.plant = plant;

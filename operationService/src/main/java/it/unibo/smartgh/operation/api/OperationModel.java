@@ -27,8 +27,8 @@ public class OperationModel implements OperationAPI {
 
     /**
      * Creates an instance of the class with the given {@link OperationController} instance.
-     * @param operationController the {@link OperationController} instance
-     * @param vertx the current instance of vertx
+     * @param operationController the {@link OperationController} instance.
+     * @param vertx the current instance of vertx.
      */
     public OperationModel(OperationController operationController, Vertx vertx) {
         this.operationController = operationController;

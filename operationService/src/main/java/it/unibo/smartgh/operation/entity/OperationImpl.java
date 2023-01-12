@@ -21,11 +21,11 @@ public class OperationImpl implements Operation {
 
     /**
      * Constructs a new {@link OperationImpl} with the given characteristics.
-     * @param greenhouseId the greenhouse id
-     * @param modality the modality of the operation (automatic or manual)
-     * @param date the date of the operation
-     * @param parameter the parameter the operation refers to
-     * @param action the action represented by the operation
+     * @param greenhouseId the greenhouse id.
+     * @param modality the modality of the operation (automatic or manual).
+     * @param date the date of the operation.
+     * @param parameter the parameter the operation refers to.
+     * @param action the action represented by the operation.
      */
     public OperationImpl(String greenhouseId, Modality modality, Date date, String parameter, String action) {
         this.greenhouseId = greenhouseId;

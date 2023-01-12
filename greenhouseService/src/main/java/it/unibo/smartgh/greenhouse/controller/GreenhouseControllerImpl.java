@@ -5,14 +5,14 @@ import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
 import it.unibo.smartgh.greenhouse.persistence.GreenhouseDatabase;
 
 /**
- * Implementation of the greenhouse service controller
+ * Implementation of the greenhouse service controller.
  */
 public class GreenhouseControllerImpl implements GreenhouseController {
     private final GreenhouseDatabase greenhouseDatabase;
 
     /**
-     * Constructor of the greenhouse controller
-     * @param greenhouseDatabase the greenhouse service database
+     * Constructor of the greenhouse controller.
+     * @param greenhouseDatabase the greenhouse service database.
      */
     public GreenhouseControllerImpl(GreenhouseDatabase greenhouseDatabase) {
         this.greenhouseDatabase = greenhouseDatabase;

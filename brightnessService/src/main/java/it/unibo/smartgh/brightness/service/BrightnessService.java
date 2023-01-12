@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class BrightnessService extends AbstractVerticle {
 
-    private List<AbstractAdapter> adapters;
+    private final List<AbstractAdapter> adapters;
     private final PlantValueAPI model;
     private final String host;
     private final int port;

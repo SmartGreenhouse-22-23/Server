@@ -11,7 +11,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 /**
- * Serializer of plant values
+ * Serializer for the class {@link PlantValueImpl}.
  */
 public class PlantValueSerializer implements JsonSerializer<PlantValueImpl> {
 

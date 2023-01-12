@@ -8,12 +8,12 @@ import it.unibo.smartgh.presentation.serializer.PlantValueSerializer;
 
 
 /**
- * This is a utility class to instantiate the {@link com.google.gson.JsonSerializer} and {@link com.google.gson.JsonDeserializer}
+ * This is a utility class to instantiate the {@link com.google.gson.JsonSerializer} and {@link com.google.gson.JsonDeserializer}.
  */
 public class GsonUtils {
     /**
-     * Create a new Gson builder with specific serializer and deserializer
-     * @return a new Gson builder with specific serializer and deserializer
+     * Create a new Gson builder with specific serializer and deserializer.
+     * @return a new Gson builder with specific serializer and deserializer.
      */
     public static Gson createGson() {
         return new GsonBuilder()

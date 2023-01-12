@@ -42,7 +42,7 @@ public class ParameterClientCommunicationHTTPAdapterTest {
     private static final String MONGODB_HOST = "localhost";
     private static final int MONGODB_PORT = 27017;
 
-    private Gson gson = GsonUtils.createGson();
+    private final Gson gson = GsonUtils.createGson();
 
 
     @BeforeAll

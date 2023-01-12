@@ -15,11 +15,11 @@ public class GreenhouseCommunicationHTTPModel implements GreenhouseCommunication
     private static final String TEMPERATURE_OPERATION_TOPIC = "TEMPERATURE";
     private static final String AIR_HUMIDITY_OPERATION_TOPIC = "VENTILATION";
 
-    private Vertx vertx;
+    private final Vertx vertx;
 
     /**
      * Constructor for the greenhouse communication http model.
-     * @param vertx the current instance
+     * @param vertx the current instance.
      */
     public GreenhouseCommunicationHTTPModel(Vertx vertx) {
         this.vertx = vertx;

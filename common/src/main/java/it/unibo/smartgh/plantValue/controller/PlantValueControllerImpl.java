@@ -6,10 +6,17 @@ import it.unibo.smartgh.plantValue.persistence.PlantValueDatabase;
 
 import java.util.List;
 
+/**
+ * Implementation of the interface {@link PlantValueController}.
+ */
 public class PlantValueControllerImpl implements PlantValueController {
 
     private final PlantValueDatabase plantValueDatabase;
 
+    /**
+     * Public constructor of the class.
+     * @param plantValueDatabase the database of reference.
+     */
     public PlantValueControllerImpl(PlantValueDatabase plantValueDatabase) {
         this.plantValueDatabase = plantValueDatabase;
     }

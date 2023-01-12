@@ -27,7 +27,7 @@ public class ParametersAPIOperationManager {
     private static final String TEMPERATURE_BASE_PATH = "/temperature";
     private static final int TEMPERATURE_SERVICE_PORT = 8895;
 
-    private static final String HOST = "localhost"; //todo cambiare con i nomi dei micro-servizi una volta fatto docker
+    private static final String HOST = "localhost";
     private static final String HISTORY_PATH = "/history";
     private final WebClient httpClient;
     private final HttpClient socketClient;
@@ -87,18 +87,23 @@ public class ParametersAPIOperationManager {
     }
 
 
-
-    public Future<JsonObject> getParameterCurrentValue(String greenhouseID, String parameterName) {
+    /**
+     * Gets the current value of the parameter required.
+     * @param greenhouseId the id of the greenhouse of reference.
+     * @param parameterName the name of the parameter.
+     * @return the body of the response received.
+     */
+    public Future<JsonObject> getParameterCurrentValue(String greenhouseId, String parameterName) {
         Promise<JsonObject> p = Promise.promise();
         switch (parameterName){
             case "brightness":
-                return this.requestCurrentValue(BRIGHTNESS_BASE_PATH, greenhouseID, BRIGHTNESS_SERVICE_PORT);
+                return this.requestCurrentValue(BRIGHTNESS_BASE_PATH, greenhouseId, BRIGHTNESS_SERVICE_PORT);
             case "humidity":
-                return this.requestCurrentValue(AIR_HUMIDITY_BASE_PATH, greenhouseID, AIR_HUMIDITY_SERVICE_PORT);
+                return this.requestCurrentValue(AIR_HUMIDITY_BASE_PATH, greenhouseId, AIR_HUMIDITY_SERVICE_PORT);
             case "soilMoisture":
-                return this.requestCurrentValue(SOIL_MOISTURE_BASE_PATH, greenhouseID, SOIL_MOISTURE_SERVICE_PORT);
+                return this.requestCurrentValue(SOIL_MOISTURE_BASE_PATH, greenhouseId, SOIL_MOISTURE_SERVICE_PORT);
             case "temperature":
-                return this.requestCurrentValue(TEMPERATURE_BASE_PATH, greenhouseID, TEMPERATURE_SERVICE_PORT);
+                return this.requestCurrentValue(TEMPERATURE_BASE_PATH, greenhouseId, TEMPERATURE_SERVICE_PORT);
             default:
                 p.fail(new ParameterNotFound("The parameter: " + parameterName + "does not exist!"));
                 break;

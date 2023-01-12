@@ -113,12 +113,4 @@ public class GreenhouseCommunicationMQTTModel implements GreenhouseCommunication
                 .sendJsonObject(message);
         return p.future();
     }
-
-    @Override
-    public Future<Void> sendNewOperationToDo(String topic, String message) {
-        Promise<Void> p = Promise.promise();
-        this.vertx.eventBus().send(topic, message);
-        p.complete();
-        return p.future();
-    }
 }
