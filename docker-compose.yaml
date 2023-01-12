@@ -3,18 +3,18 @@ version: "3.9"
 services:
   mongo:
     image: mongo
-    container_name: mongoDB
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
     ports:
       - "27017:27017"
-    networks:
-      - service_network
   brightness_service:
     build:
-      context: brightness
-      dockerfile: ../brightnessService/Dockerfile
+      context: brightnessService
+      dockerfile: Dockerfile
     ports:
       - "8893:8893"
-      - "27017:27017"
     networks:
       - service_network
 

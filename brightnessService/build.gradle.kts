@@ -16,3 +16,12 @@ dependencies{
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
+
+
+tasks.create<JavaExec>("Start"){
+    group = "custom"
+    description = "run the service of the Server"
+
+    mainClass.set("it.unibo.smartgh.brightness.BrightnessServiceLauncher")
+    classpath = project.sourceSets.main.get().runtimeClasspath
+}

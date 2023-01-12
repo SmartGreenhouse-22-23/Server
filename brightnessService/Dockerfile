@@ -1,5 +1,5 @@
-FROM gradle:7-gdk11-alpine AS brightness_service
-COPY --chown=gradle:gradle ../../ /home/gradle/src
-CMD gradle brightnessService:Start
+FROM gradle:7-jdk11-alpine AS brightness_service
+COPY --chown=gradle:gradle .. /home/gradle/src
+WORKDIR /home/gradle/src
+
 EXPOSE 8893
-EXPOSE 27017

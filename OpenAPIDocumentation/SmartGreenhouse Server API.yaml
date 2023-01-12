@@ -80,7 +80,7 @@ paths:
       operationId: getGreenhouse
       parameters:
         - name: "id"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
@@ -107,7 +107,7 @@ paths:
       operationId: getGreenhouseModality
       parameters:
         - name: "id"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
@@ -156,7 +156,7 @@ paths:
       operationId: getBrightness
       parameters:
         - name: "id"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
@@ -183,13 +183,13 @@ paths:
       operationId: getBrightnessHistory
       parameters:
         - name: "id"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
             type: string
         - name: "limit"
-          in: path
+          in: query
           description: "How many data you want to retrieve."
           required: true
           schema:
@@ -240,7 +240,7 @@ paths:
       operationId: getTemperature
       parameters:
         - name: "id"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
@@ -267,13 +267,13 @@ paths:
       operationId: getTemperatureHistory
       parameters:
         - name: "id"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
             type: string
         - name: "limit"
-          in: path
+          in: query
           description: "How many data you want to retrieve."
           required: true
           schema:
@@ -324,7 +324,7 @@ paths:
       operationId: getHumidity
       parameters:
         - name: "id"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
@@ -351,13 +351,13 @@ paths:
       operationId: getHumidityHistory
       parameters:
         - name: "id"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
             type: string
         - name: "limit"
-          in: path
+          in: query
           description: "How many data you want to retrieve."
           required: true
           schema:
@@ -408,7 +408,7 @@ paths:
       operationId: getSoilMoisture
       parameters:
         - name: "id"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
@@ -435,13 +435,13 @@ paths:
       operationId: getSoilMoistureHistory
       parameters:
         - name: "id"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
             type: string
         - name: "limit"
-          in: path
+          in: query
           description: "How many data you want to retrieve."
           required: true
           schema:
@@ -566,13 +566,13 @@ paths:
       operationId: getOperationGreenhouse
       parameters:
         - name: "id"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
             type: string
         - name: "limit"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
@@ -601,19 +601,19 @@ paths:
       operationId: getOperationGreenhouseParam
       parameters:
         - name: "id"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
             type: string
         - name: "parameter"
-          in: path
+          in: query
           description: "The name of the parameter."
           required: true
           schema:
             type: string
         - name: "limit"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
@@ -642,20 +642,20 @@ paths:
       operationId: getOperationGreenhouseInRange
       parameters:
         - name: "id"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
             type: string
         - name: "from"
-          in: path
+          in: query
           description: "The name of the parameter."
           required: true
           schema:
             type: string
             format: date
         - name: "to"
-          in: path
+          in: query
           description: "The name of the parameter."
           required: true
           schema:
@@ -691,7 +691,7 @@ paths:
       operationId: getClientCommunicationGreenhouse
       parameters:
         - name: "id"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
@@ -762,19 +762,19 @@ paths:
       operationId: getClientCOmmunicationParameterHistory
       parameters:
         - name: "id"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
             type: string
         - name: "parameterName"
-          in: path
+          in: query
           description: "Thename of the parameter."
           required: true
           schema:
             type: string
         - name: "limit"
-          in: path
+          in: query
           description: "How many data you want to retrieve."
           required: true
           schema:
@@ -803,13 +803,13 @@ paths:
       operationId: getClientCommunicationOperationGreenhouse
       parameters:
         - name: "id"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
             type: string
         - name: "limit"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
@@ -838,19 +838,19 @@ paths:
       operationId: getClientCommunicationOperationGreenhouseParam
       parameters:
         - name: "id"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
             type: string
         - name: "parameter"
-          in: path
+          in: query
           description: "The name of the parameter."
           required: true
           schema:
             type: string
         - name: "limit"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
@@ -879,27 +879,27 @@ paths:
       operationId: getClientCommunicationOperationGreenhouseInRange
       parameters:
         - name: "id"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
             type: string
         - name: "from"
-          in: path
+          in: query
           description: "The name of the parameter."
           required: true
           schema:
             type: string
             format: date
         - name: "to"
-          in: path
+          in: query
           description: "The name of the parameter."
           required: true
           schema:
             type: string
             format: date
         - name: "limit"
-          in: path
+          in: query
           description: "The id of the greenhouse."
           required: true
           schema:
