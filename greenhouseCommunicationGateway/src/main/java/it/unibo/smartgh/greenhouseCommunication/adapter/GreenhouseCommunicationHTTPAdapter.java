@@ -27,11 +27,11 @@ public class GreenhouseCommunicationHTTPAdapter extends AbstractAdapter<Greenhou
     private final int port;
 
     /**
-     * Constructor of the greenhouse communication http adapter
-     * @param model of the service
-     * @param host of the http server
-     * @param port of the http server
-     * @param vertx the current instance
+     * Constructor of the greenhouse communication http adapter.
+     * @param model of the service.
+     * @param host of the http server.
+     * @param port of the http server.
+     * @param vertx the current instance.
      */
     public GreenhouseCommunicationHTTPAdapter(GreenhouseCommunicationHTTPAPI model, String host, int port, Vertx vertx){
         super(model, vertx);

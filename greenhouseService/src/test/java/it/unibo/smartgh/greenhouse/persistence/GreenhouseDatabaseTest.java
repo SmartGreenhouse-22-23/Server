@@ -12,6 +12,9 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Test to verify the correct behaviour of the operations on the database.
+ */
 public class GreenhouseDatabaseTest {
     private static final GreenhouseDatabase greenhouseDatabase = new GreenhouseDatabaseImpl();
     private static final String ID = "63af0ae025d55e9840cbc1fa";

@@ -10,7 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
- * Deserializer of plant values
+ * Deserializer for the class {@link PlantValueImpl}.
  */
 public class PlantValueDeserializer  extends GeneralDeserializer implements JsonDeserializer<PlantValue> {
 

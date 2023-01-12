@@ -28,7 +28,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.greenhouseToJSON;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**

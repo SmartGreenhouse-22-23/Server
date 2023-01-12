@@ -15,7 +15,7 @@ public class OperationControllerImpl implements OperationController {
 
     /**
      * Creates an instance of the class with the given {@link OperationDatabase} instance.
-     * @param operationDatabase the {@link OperationDatabase} instance
+     * @param operationDatabase the {@link OperationDatabase} instance.
      */
     public OperationControllerImpl(OperationDatabase operationDatabase) {
         this.operationDatabase = operationDatabase;

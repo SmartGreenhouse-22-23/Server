@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * Implementation of the plant entity
+ * Implementation of the plant entity.
  */
 public class PlantImpl implements Plant{
     private final String name;
@@ -21,19 +21,19 @@ public class PlantImpl implements Plant{
     private final Map<String,String> units;
 
     /**
-     * Constructor of the plant entity
-     * @param name of the plant
-     * @param description of the plant
-     * @param img of the plant
-     * @param minTemperature of the plant
-     * @param maxTemperature of the plant
-     * @param minBrightness of the plant
-     * @param maxBrightness of the plant
-     * @param minSoilMoisture of the plant
-     * @param maxSoilMoisture of the plant
-     * @param minHumidity of the plant
-     * @param maxHumidity of the plant
-     * @param units of parameters
+     * Constructor of the plant entity.
+     * @param name of the plant.
+     * @param description of the plant.
+     * @param img of the plant.
+     * @param minTemperature of the plant.
+     * @param maxTemperature of the plant.
+     * @param minBrightness of the plant.
+     * @param maxBrightness of the plant.
+     * @param minSoilMoisture of the plant.
+     * @param maxSoilMoisture of the plant.
+     * @param minHumidity of the plant.
+     * @param maxHumidity of the plant.
+     * @param units of parameters.
      */
     public PlantImpl(String name,
                      String description,

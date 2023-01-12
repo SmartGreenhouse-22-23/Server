@@ -41,11 +41,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.modalityToJSON;
-import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.paramToJSON;
+import static it.unibo.smartgh.greenhouse.presentation.ToJSON.modalityToJSON;
+import static it.unibo.smartgh.greenhouse.presentation.ToJSON.paramToJSON;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
+/**
+ * Test to verify the correct behaviour of the {@link GreenhouseHTTPAdapter}.
+ */
 @ExtendWith(VertxExtension.class)
 public class GreenhouseHTTPAdapterTest {
     private static final String HOST = "localhost";

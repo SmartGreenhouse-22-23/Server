@@ -92,6 +92,11 @@ public class OperationAPIOperationManager {
         return p.future();
     }
 
+    /**
+     * Posts a new operation performed by the user.
+     * @param operationInformation the information of the operation performed.
+     * @return a {@link Future} representing the operation required.
+     */
     public Future<Void> postNotifyNewOperation(JsonObject operationInformation) {
         Promise<Void> p = Promise.promise();
         socketClient.webSocket(1235,

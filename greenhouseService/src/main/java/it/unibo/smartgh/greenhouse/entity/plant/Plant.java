@@ -62,8 +62,8 @@ public interface Plant {
     String getImg();
 
     /**
-     * Get the map of units <parameterName, unit>
-     * @return the map of units <parameterName, unit>
+     * Get the map of units <parameterName, unit>.
+     * @return the map of units <parameterName, unit>.
      */
     Map<String, String> getUnitMap();
 

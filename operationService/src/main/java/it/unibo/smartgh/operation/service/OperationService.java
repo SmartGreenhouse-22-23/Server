@@ -22,9 +22,9 @@ public class OperationService extends AbstractVerticle {
 
     /**
      * Constructs a new {@link OperationService}.
-     * @param model the {@link OperationAPI} object
-     * @param host the hostname for the server
-     * @param port the port number for the server
+     * @param model the {@link OperationAPI} object.
+     * @param host the hostname for the server.
+     * @param port the port number for the server.
      */
     public OperationService(OperationAPI model, String host, int port) {
         this.adapters = new LinkedList<>();

@@ -17,11 +17,11 @@ import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
 
 import static it.unibo.smartgh.greenhouse.Logger.log;
-import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.modalityToJSON;
-import static it.unibo.smartgh.greenhouse.adapter.presentation.ToJSON.paramToJSON;
+import static it.unibo.smartgh.greenhouse.presentation.ToJSON.modalityToJSON;
+import static it.unibo.smartgh.greenhouse.presentation.ToJSON.paramToJSON;
 
 /**
- * Class representing the implementation of the greenhouse http adapter
+ * Class representing the implementation of the greenhouse http adapter.
  */
 public class GreenhouseHTTPAdapter extends AbstractAdapter<GreenhouseAPI>{
 
@@ -36,11 +36,11 @@ public class GreenhouseHTTPAdapter extends AbstractAdapter<GreenhouseAPI>{
     private final int port;
 
     /**
-     * Constructor of the Greenhouse http adapter
-     * @param model of the greenhouse service
-     * @param host of the greenhouse service
-     * @param port of the greenhouse service
-     * @param vertx the current vertx instance
+     * Constructor of the Greenhouse http adapter.
+     * @param model of the greenhouse service.
+     * @param host of the greenhouse service.
+     * @param port of the greenhouse service.
+     * @param vertx the current vertx instance.
      */
     public GreenhouseHTTPAdapter(GreenhouseAPI model, String host, int port, Vertx vertx) {
         super(model, vertx);

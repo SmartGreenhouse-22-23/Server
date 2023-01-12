@@ -14,7 +14,7 @@ import java.util.Date;
 
 
 /**
- * This class represnt the implementation of the interface {@link ClientCommunicationAPI}
+ * This class represnt the implementation of the interface {@link ClientCommunicationAPI}.
  */
 public class ClientCommunicationModel implements ClientCommunicationAPI{
 

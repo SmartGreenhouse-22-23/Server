@@ -9,15 +9,15 @@ import it.unibo.smartgh.plantValue.entity.PlantValue;
 import java.util.List;
 
 /**
- * Implementation of the plant value model
+ * Implementation of the plant value model.
  */
 public class PlantValueModel implements PlantValueAPI {
 
     private final PlantValueController plantValueController;
 
     /**
-     * Constructor of the plant value model
-     * @param plantValueController  the plant value controller
+     * Constructor of the plant value model.
+     * @param plantValueController  the plant value controller.
      */
     public PlantValueModel(PlantValueController plantValueController) {
         this.plantValueController = plantValueController;

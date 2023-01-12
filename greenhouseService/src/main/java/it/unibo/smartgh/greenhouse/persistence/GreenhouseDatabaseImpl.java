@@ -20,7 +20,7 @@ import java.util.Map;
 import static java.lang.Double.valueOf;
 
 /**
- * Implementation of the Greenhouse service database
+ * Implementation of the Greenhouse service database.
  */
 public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
     private final static String DB_NAME = "greenhouse";
@@ -28,12 +28,6 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
 
     private final static String HOST = "localhost";
     private final static int PORT = 27017;
-
-    private MongoCollection<Document> connection(){
-        MongoClient mongoClient = MongoClients.create("mongodb://" + HOST + ":" + PORT);
-        MongoDatabase database = mongoClient.getDatabase(DB_NAME);
-        return database.getCollection(COLLECTION_NAME);
-    }
 
     @Override
     public void putActualModality(String id, Modality modality) {
@@ -51,7 +45,7 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
         Bson filter = Filters.eq("_id", new ObjectId(id));
         FindIterable<Document> documents = collection.find(filter);
         Document doc = documents.iterator().next();
-        List list = new ArrayList(doc.values());
+        List list = new ArrayList<>(doc.values());
         Document plantDoc = (Document) list.get(1);
         Document respUnit = (Document) plantDoc.get("unit");
         Map<String, String> unit = new HashMap<>(){{
@@ -75,5 +69,11 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
                 .build();
         Modality modality = Modality.valueOf(doc.get("modality", String.class).toUpperCase());
         return new GreenhouseImpl(id, plant, modality);
+    }
+
+    private MongoCollection<Document> connection(){
+        MongoClient mongoClient = MongoClients.create("mongodb://" + HOST + ":" + PORT);
+        MongoDatabase database = mongoClient.getDatabase(DB_NAME);
+        return database.getCollection(COLLECTION_NAME);
     }
 }

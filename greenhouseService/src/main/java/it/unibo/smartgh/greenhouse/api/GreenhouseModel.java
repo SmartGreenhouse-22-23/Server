@@ -20,16 +20,16 @@ import java.util.NoSuchElementException;
 
 import static java.lang.Double.valueOf;
 /**
- * Implementation of the Greenhouse service API
+ * Implementation of the Greenhouse service API.
  */
 public class GreenhouseModel implements GreenhouseAPI{
     private final Vertx vertx;
     private final GreenhouseController greenhouseController;
 
     /**
-     * Constructor of the greenhouse model
-     * @param vertx the actual vertx instance
-     * @param greenhouseController the greenhouse service controller
+     * Constructor of the greenhouse model.
+     * @param vertx the actual vertx instance.
+     * @param greenhouseController the greenhouse service controller.
      */
     public GreenhouseModel(Vertx vertx, GreenhouseController greenhouseController) {
         this.vertx = vertx;
@@ -91,12 +91,10 @@ public class GreenhouseModel implements GreenhouseAPI{
 
         checkSoilMoisture(greenhouse,
                 plant.getMinSoilMoisture(),
-                plant.getMaxSoilMoisture(),
                 valueOf(parameters.getValue("Soil").toString()),
                 greenhouse.getActualModality() == Modality.AUTOMATIC);
 
         checkHumidity(greenhouse,
-                plant.getMinHumidity(),
                 plant.getMaxHumidity(),
                 valueOf(parameters.getValue("Hum").toString()),
                 greenhouse.getActualModality() == Modality.AUTOMATIC);
@@ -119,7 +117,7 @@ public class GreenhouseModel implements GreenhouseAPI{
 
     }
 
-    private void checkHumidity(Greenhouse gh, Double min, Double max, Double hum, boolean automatic) {
+    private void checkHumidity(Greenhouse gh, Double max, Double hum, boolean automatic) {
         String parameter = "humidity";
         String status = "normal";
         if (hum.compareTo(max) > 0){
@@ -135,7 +133,7 @@ public class GreenhouseModel implements GreenhouseAPI{
         sendToClient(gh.getId(), parameter, hum, status);
     }
 
-    private void checkSoilMoisture(Greenhouse gh, Double min, Double max, Double soil, boolean automatic) {
+    private void checkSoilMoisture(Greenhouse gh, Double min, Double soil, boolean automatic) {
         String parameter = "soilMoisture";
         String status = "normal";
         if (soil.compareTo(min) < 0){
@@ -191,7 +189,7 @@ public class GreenhouseModel implements GreenhouseAPI{
         sendToClient(gh.getId(), parameter, temp, status);
     }
 
-    private Future<Void> sendToClient(String id, String parameter, Double value, String status){
+    private void sendToClient(String id, String parameter, Double value, String status){
         WebClient client = WebClient.create(vertx);
         String host = "localhost"; //TODO change with docker host
         int port = 8890;
@@ -207,10 +205,10 @@ public class GreenhouseModel implements GreenhouseAPI{
                                     .put("date", formatter.format(new Date()))
                                     .put("status", status)
                     ));
-        return promise.future();
+        promise.future();
     }
 
-    private Future<Void> storeParameters(String id, JsonObject parameters) {
+    private void storeParameters(String id, JsonObject parameters) {
         WebClient client = WebClient.create(vertx);
         String host = "localhost";
         int port = 8891;
@@ -218,18 +216,23 @@ public class GreenhouseModel implements GreenhouseAPI{
         List<Future> futures = new ArrayList<>();
         for (String p: parameters.fieldNames()) {
             String path = "";
-            if (p.equals("Temp")) {
-                path = "temperature";
-                port = 8895;
-            } else if (p.equals("Soil")) {
-                path = "soilMoisture";
-                port = 8894;
-            } else if (p.equals("Brigh")) {
-                path = "brightness";
-                port = 8893;
-            } else if (p.equals("Hum")) {
-                path = "humidity";
-                port = 8891;
+            switch (p) {
+                case "Temp":
+                    path = "temperature";
+                    port = 8895;
+                    break;
+                case "Soil":
+                    path = "soilMoisture";
+                    port = 8894;
+                    break;
+                case "Brigh":
+                    path = "brightness";
+                    port = 8893;
+                    break;
+                case "Hum":
+                    path = "humidity";
+                    port = 8891;
+                    break;
             }
             DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
             futures.add(client.post(port, host, "/"+ path)
@@ -243,6 +246,6 @@ public class GreenhouseModel implements GreenhouseAPI{
         CompositeFuture.all(futures)
                 .onSuccess(res -> promise.complete())
                 .onFailure(ex -> promise.future());
-        return promise.future();
+        promise.future();
     }
 }

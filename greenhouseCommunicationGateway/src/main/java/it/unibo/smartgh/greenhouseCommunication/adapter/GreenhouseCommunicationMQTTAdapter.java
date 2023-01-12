@@ -12,7 +12,7 @@ import io.vertx.mqtt.messages.MqttPublishMessage;
 import it.unibo.smartgh.greenhouseCommunication.api.mqtt.GreenhouseCommunicationMQTTAPI;
 
 /**
- * Implementation of the greenhouse communication mqtt adapter
+ * Implementation of the greenhouse communication mqtt adapter.
  */
 public class GreenhouseCommunicationMQTTAdapter extends AbstractAdapter<GreenhouseCommunicationMQTTAPI> {
 
@@ -25,8 +25,8 @@ public class GreenhouseCommunicationMQTTAdapter extends AbstractAdapter<Greenhou
 
     private MqttClient mqttClient;
     private final int qos = 1;
-    private String host;
-    private int port;
+    private final String host;
+    private final int port;
 
     /**
      * Constructor of the greenhouse communication mqtt adapter

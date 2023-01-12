@@ -23,7 +23,6 @@ import it.unibo.smartgh.operation.persistence.OperationDatabaseImpl;
 import it.unibo.smartgh.operation.presentation.GsonUtils;
 import it.unibo.smartgh.operation.service.OperationService;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 

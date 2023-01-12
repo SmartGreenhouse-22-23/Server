@@ -1,4 +1,4 @@
-package it.unibo.smartgh.greenhouse.adapter.presentation;
+package it.unibo.smartgh.greenhouse.presentation;
 
 import io.vertx.core.json.JsonObject;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
@@ -9,13 +9,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * Utility class for converting objects to JsonObject
+ * Utility class for converting objects to JsonObject.
  */
 public class ToJSON {
     /**
-     * Convert the greenhouse object into jsonObject
-     * @param gh the greenhouse object
-     * @return its JsonObject representation
+     * Convert the greenhouse object into jsonObject.
+     * @param gh the greenhouse object.
+     * @return its JsonObject representation.
      */
     public static JsonObject greenhouseToJSON(Greenhouse gh){
         JsonObject greenhouse = new JsonObject();
@@ -26,9 +26,9 @@ public class ToJSON {
     }
 
     /**
-     * Convert the plant object into jsonObject
-     * @param p the plant object
-     * @return its JsonObject representation
+     * Convert the plant object into jsonObject.
+     * @param p the plant object.
+     * @return its JsonObject representation.
      */
     private static JsonObject plantToJSON(Plant p) {
         JsonObject plant = new JsonObject();
@@ -50,9 +50,9 @@ public class ToJSON {
     }
 
     /**
-     * Convert the modality object into jsonObject
-     * @param mod the modality object
-     * @return its JsonObject representation
+     * Convert the modality object into jsonObject.
+     * @param mod the modality object.
+     * @return its JsonObject representation.
      */
     public static JsonObject modalityToJSON(Modality mod){
         JsonObject modality = new JsonObject();
@@ -61,10 +61,10 @@ public class ToJSON {
     }
 
     /**
-     * Get the minimum and maximum value of the parameter of a plant like JsonObject
-     * @param plant of the greenhouse
-     * @param param for which wants the optimal values
-     * @return the JsonObject containing the minimum and maximum value of the parameter
+     * Get the minimum and maximum value of the parameter of a plant like JsonObject.
+     * @param plant of the greenhouse.
+     * @param param for which wants the optimal values.
+     * @return the JsonObject containing the minimum and maximum value of the parameter.
      */
     public static JsonObject paramToJSON(Plant plant, String param){
         JsonObject parameter = new JsonObject();

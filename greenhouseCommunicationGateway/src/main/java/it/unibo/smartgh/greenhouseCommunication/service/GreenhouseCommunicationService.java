@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class GreenhouseCommunicationService extends AbstractVerticle {
 
-    private List<AbstractAdapter> adapters;
+    private final List<AbstractAdapter> adapters;
     private final GreenhouseCommunicationHTTPAPI httpModel;
     private final GreenhouseCommunicationMQTTAPI mqttModel;
 

@@ -9,7 +9,7 @@ import it.unibo.smartgh.greenhouse.presentation.GsonUtils;
  * This is an abstract class that defines common functionality for adapters that adapt some model API to a specific
  * protocol or interface.
  *
- * @param <API> the type of the model API
+ * @param <API> the type of the model API.
  */
 public abstract class AbstractAdapter<API>  {
 
@@ -19,8 +19,8 @@ public abstract class AbstractAdapter<API>  {
 
 	/**
 	 * Creates an instance of the adapter with the given model API and Vertx instance.
-	 * @param model the model API
-	 * @param vertx the Vertx instance
+	 * @param model the model API.
+	 * @param vertx the Vertx instance.
 	 */
 	protected AbstractAdapter(API model, Vertx vertx) {
 		this.model = model;
@@ -30,7 +30,7 @@ public abstract class AbstractAdapter<API>  {
 
 	/**
 	 * Returns the Vertx instance used by this adapter.
-	 * @return the Vertx instance
+	 * @return the Vertx instance.
 	 */
 	protected Vertx getVertx() {
 		return vertx;
@@ -38,7 +38,7 @@ public abstract class AbstractAdapter<API>  {
 
 	/**
 	 * Returns the model API used by this adapter.
-	 * @return the model API
+	 * @return the model API.
 	 */
 	protected API getModel() {
 		return model;
@@ -46,7 +46,7 @@ public abstract class AbstractAdapter<API>  {
 
 	/**
 	 * Performs any necessary setup for the adapter. This method should be implemented by subclasses.
-	 * @param startPromise a promise that should be completed when the setup is done
+	 * @param startPromise a promise that should be completed when the setup is done.
 	 */
 	abstract protected void setupAdapter(Promise<Void> startPromise);
 	
