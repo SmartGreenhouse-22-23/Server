@@ -3,6 +3,8 @@ package it.unibo.smartgh.clientCommunication.adapter;
 import com.google.gson.Gson;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.http.HttpServer;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
@@ -22,6 +24,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,6 +45,9 @@ public class ParameterClientCommunicationHTTPAdapterTest {
     private static final String BRIGHTNESS_COLLECTION_NAME = "brightnessValues";
     private static final String MONGODB_HOST = "localhost";
     private static final int MONGODB_PORT = 27017;
+
+    private final static int SOCKET_PORT = 1234;
+    private final static String SOCKET_HOST = "localhost";
 
     private Gson gson = GsonUtils.createGson();
 
@@ -113,5 +120,33 @@ public class ParameterClientCommunicationHTTPAdapterTest {
                     assertEquals(gson.toJson(history), response.body().toString());
                     testContext.completeNow();
                 });
+    }
+    @Test
+    public void testPostCurrentPlantValueData(Vertx vertx, VertxTestContext testContext){
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+        JsonObject expectedJson = new JsonObject()
+                .put("greenhouseId", "63af0ae025d55e9840cbc1fa")
+                .put("parameterName", "temperature")
+                .put("value", "5.0")
+                .put("date", formatter.format(new Date()))
+                .put("status", "alarm");
+        vertx.executeBlocking(p -> {
+            HttpServer server = vertx.createHttpServer();
+            server.webSocketHandler(ctx -> {
+                ctx.textMessageHandler(msg -> {
+                    System.out.println(msg);
+                    JsonObject json = new JsonObject(msg);
+                    assertEquals(expectedJson, json);
+                    p.complete();
+                });
+            }).listen(SOCKET_PORT, SOCKET_HOST);
+        }).onSuccess(h -> {
+            testContext.completeNow();
+        });
+
+
+        WebClient client = WebClient.create(vertx);
+        client.post(CLIENT_COMMUNICATION_SERVICE_PORT, HOST, "/clientCommunication/parameter/")
+                .sendJsonObject(expectedJson);
     }
 }

@@ -2,7 +2,9 @@ package it.unibo.smartgh.clientCommunication.adapter;
 
 import com.google.gson.Gson;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
@@ -49,6 +51,8 @@ public class OperationClientCommunicationHTTPAdapterTest {
 
     private static final OperationDatabase database = new OperationDatabaseImpl(OPERATION_DB_NAME, OPERATION_COLLECTION_NAME,
             MONGODB_HOST, MONGODB_PORT);
+    private final static int SOCKET_PORT = 1235;
+    private final static String SOCKET_HOST = "localhost";
     private final Gson gson = GsonUtils.createGson();
     private static final String greenhouseId = "1";
     private static final String parameter = "temperature";
@@ -158,5 +162,29 @@ public class OperationClientCommunicationHTTPAdapterTest {
         } catch (ParseException e) {
             testContext.failNow(e);
         }
+    }
+
+    @Test
+    public void testPostNotifyNewOperation(Vertx vertx, VertxTestContext testContext){
+        JsonObject expectedJson = new JsonObject()
+                .put("greenhouseId", "63af0ae025d55e9840cbc1fa");
+        vertx.executeBlocking(p -> {
+            HttpServer server = vertx.createHttpServer();
+            server.webSocketHandler(ctx -> {
+                ctx.textMessageHandler(msg -> {
+                    System.out.println(msg);
+                    JsonObject json = new JsonObject(msg);
+                    assertEquals(expectedJson, json);
+                    p.complete();
+                });
+            }).listen(SOCKET_PORT, SOCKET_HOST);
+        }).onSuccess(h -> {
+            testContext.completeNow();
+        });
+
+
+        WebClient client = WebClient.create(vertx);
+        client.post(CLIENT_COMMUNICATION_SERVICE_PORT, HOST, "/clientCommunication/operations/notify")
+                .sendJsonObject(expectedJson);
     }
 }
