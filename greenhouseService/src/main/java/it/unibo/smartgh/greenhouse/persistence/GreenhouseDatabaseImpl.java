@@ -16,6 +16,7 @@ import org.bson.types.ObjectId;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 import static java.lang.Double.valueOf;
@@ -31,11 +32,11 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
     private static int PORT;
 
     public GreenhouseDatabaseImpl() {
-        File file = new File(GreenhouseService.class.getClassLoader().getResource("config.properties").getFile());
+
         try {
-            FileInputStream fin = new FileInputStream(file);
+            InputStream is = GreenhouseDatabaseImpl.class.getResourceAsStream("/config.properties");
             Properties properties = new Properties();
-            properties.load(fin);
+            properties.load(is);
 
             HOST = properties.getProperty("mongodb.host");
             PORT = Integer.parseInt(properties.getProperty("mongodb.port"));

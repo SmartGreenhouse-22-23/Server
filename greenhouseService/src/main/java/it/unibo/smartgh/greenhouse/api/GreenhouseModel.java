@@ -11,10 +11,12 @@ import it.unibo.smartgh.greenhouse.controller.GreenhouseController;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
 import it.unibo.smartgh.greenhouse.entity.plant.Plant;
+import it.unibo.smartgh.greenhouse.persistence.GreenhouseDatabaseImpl;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -42,11 +44,10 @@ public class GreenhouseModel implements GreenhouseAPI{
         this.vertx = vertx;
         this.greenhouseController = greenhouseController;
 
-        File file = new File(GreenhouseService.class.getClassLoader().getResource("config.properties").getFile());
         try {
-            FileInputStream fin = new FileInputStream(file);
+            InputStream is = GreenhouseModel.class.getResourceAsStream("/config.properties");
             Properties properties = new Properties();
-            properties.load(fin);
+            properties.load(is);
 
             CLIENT_COMMUNICATION_HOST = properties.getProperty("clientCommunication.host");
             CLIENT_COMMUNICATION_PORT = Integer.parseInt(properties.getProperty("clientCommunication.port"));

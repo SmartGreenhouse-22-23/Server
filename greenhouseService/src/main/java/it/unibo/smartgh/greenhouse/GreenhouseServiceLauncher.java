@@ -9,6 +9,7 @@ import it.unibo.smartgh.greenhouse.persistence.GreenhouseDatabaseImpl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -24,11 +25,10 @@ public class GreenhouseServiceLauncher {
 
     public static void main(String[] args) {
         System.out.println("Greenhouse service initializing");
-        File file = new File(GreenhouseService.class.getClassLoader().getResource("config.properties").getFile());
         try {
-            FileInputStream fin = new FileInputStream(file);
+            InputStream is = GreenhouseServiceLauncher.class.getResourceAsStream("/config.properties");
             Properties properties = new Properties();
-            properties.load(fin);
+            properties.load(is);
 
             HOST = properties.getProperty("greenhouse.host");
             PORT = Integer.parseInt(properties.getProperty("greenhouse.port"));
