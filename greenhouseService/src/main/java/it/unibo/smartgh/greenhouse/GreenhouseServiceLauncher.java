@@ -6,13 +6,8 @@ import it.unibo.smartgh.greenhouse.api.GreenhouseModel;
 import it.unibo.smartgh.greenhouse.controller.GreenhouseControllerImpl;
 import it.unibo.smartgh.greenhouse.persistence.GreenhouseDatabaseImpl;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Properties;
 
 /**

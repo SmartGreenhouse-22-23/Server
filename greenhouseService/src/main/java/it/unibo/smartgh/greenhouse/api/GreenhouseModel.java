@@ -6,15 +6,11 @@ import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
-import it.unibo.smartgh.greenhouse.GreenhouseService;
 import it.unibo.smartgh.greenhouse.controller.GreenhouseController;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
 import it.unibo.smartgh.greenhouse.entity.plant.Plant;
-import it.unibo.smartgh.greenhouse.persistence.GreenhouseDatabaseImpl;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -48,7 +44,6 @@ public class GreenhouseModel implements GreenhouseAPI{
             InputStream is = GreenhouseModel.class.getResourceAsStream("/config.properties");
             Properties properties = new Properties();
             properties.load(is);
-
             CLIENT_COMMUNICATION_HOST = properties.getProperty("clientCommunication.host");
             CLIENT_COMMUNICATION_PORT = Integer.parseInt(properties.getProperty("clientCommunication.port"));
             OPERATION_HOST = properties.getProperty("operation.host");

@@ -3,7 +3,6 @@ package it.unibo.smartgh.greenhouse.persistence;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
-import it.unibo.smartgh.greenhouse.GreenhouseService;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.GreenhouseImpl;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
@@ -13,8 +12,6 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;

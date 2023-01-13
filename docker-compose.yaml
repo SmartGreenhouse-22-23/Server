@@ -30,12 +30,34 @@ services:
     ports:
       - 8895:8895
 
+  humidity_service:
+    container_name: humidity
+    depends_on:
+      - mongo
+    build:
+      context: humidityService
+      dockerfile: Dockerfile
+    ports:
+      - 8891:8891
+
+  soil_moisture_service:
+    container_name: soil_moisture
+    depends_on:
+      - mongo
+    build:
+      context: soilMoistureService
+      dockerfile: Dockerfile
+    ports:
+      - 8894:8894
+
   greenhouse_service:
     container_name: greenhouse #name that must be used as host in http request between containers
     depends_on:
       - mongo
       - temperature_service
       - brightness_service
+      - soil_moisture_service
+      - humidity_service
       # todo add other services from which it depends
     build:
       context: greenhouseService
