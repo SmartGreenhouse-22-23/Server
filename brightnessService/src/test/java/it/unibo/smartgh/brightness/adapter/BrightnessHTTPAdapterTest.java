@@ -21,12 +21,15 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,19 +41,17 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BrightnessHTTPAdapterTest {
     private static final String BRIGHTNESS_DB_NAME = "brightness";
     private static final String BRIGHTNESS_COLLECTION_NAME = "brightnessValues";
-    private static final String DB_HOST = "localhost";
-    private static final int DB_PORT = 27017;
-    private static final String SERVICE_HOST = "localhost";
-    private static final int SERVICE_PORT = 8893;
+    private static String SERVICE_HOST;
+    private static int SERVICE_PORT;
 
-    private static final PlantValueDatabase database = new PlantValueDatabaseImpl(BRIGHTNESS_DB_NAME, BRIGHTNESS_COLLECTION_NAME,
-            DB_HOST, DB_PORT);
+    private static PlantValueDatabase database;
     private final Gson gson = GsonUtils.createGson();
     private static final String greenhouseId = "63af0ae025d55e9840cbc1fa";
     private final int limit = 5;
 
     @BeforeAll
     static public void insertValues(Vertx vertx, VertxTestContext testContext){
+        configVariables();
         System.out.println("Brightness service initializing");
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
         Double value = 900.0;
@@ -81,6 +82,23 @@ public class BrightnessHTTPAdapterTest {
             System.out.println("wait");
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void configVariables() {
+        try {
+            InputStream is = BrightnessHTTPAdapterTest.class.getResourceAsStream("/config.properties");
+            Properties properties = new Properties();
+            properties.load(is);
+
+            SERVICE_HOST = properties.getProperty("brightness.host");
+            SERVICE_PORT = Integer.parseInt(properties.getProperty("brightness.port"));
+            String dbHost = properties.getProperty("mongodb.host");
+            int dbPort = Integer.parseInt(properties.getProperty("mongodb.port"));
+            database = new PlantValueDatabaseImpl(BRIGHTNESS_DB_NAME, BRIGHTNESS_COLLECTION_NAME,
+                    dbHost, dbPort);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
