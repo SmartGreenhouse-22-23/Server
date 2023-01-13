@@ -242,10 +242,22 @@ public class GreenhouseModel implements GreenhouseAPI{
         for (String p: parameters.fieldNames()) {
             String path = "";
             switch (p) {
-                case "Temp" -> path = "temperature";
-                case "Soil" -> path = "soilMoisture";
-                case "Bright" ->  path = "brightness";
-                case "Hum" -> path = "humidity";
+                case "Temp":{
+                    path = "temperature";
+                    break;
+                }
+                case "Soil": {
+                    path = "soilMoisture";
+                    break;
+                }
+                case "Bright": {
+                    path = "brightness";
+                    break;
+                }
+                case "Hum": {
+                    path = "humidity";
+                    break;
+                }
             }
             String host = PARAMETERS.get(path).get("host");
             int port = Integer.parseInt(PARAMETERS.get(path).get("port"));

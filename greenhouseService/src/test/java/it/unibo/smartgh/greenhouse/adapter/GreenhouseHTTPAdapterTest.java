@@ -111,10 +111,22 @@ public class GreenhouseHTTPAdapterTest {
             String host = v.get("host");
             int port = Integer.parseInt(v.get("port"));
             switch (k) {
-                case "brightness" -> serviceP = new BrightnessService(modelP, host, port);
-                case "temperature" -> serviceP = new TemperatureService(modelP, host, port);
-                case "soilMoisture" -> serviceP = new SoilMoistureService(modelP, host, port);
-                case "humidity" -> serviceP = new HumidityService(modelP, host, port);
+                case "brightness": {
+                    serviceP = new BrightnessService(modelP, host, port);
+                    break;
+                }
+                case "temperature": {
+                    serviceP = new TemperatureService(modelP, host, port);
+                    break;
+                }
+                case "soilMoisture": {
+                    serviceP = new SoilMoistureService(modelP, host, port);
+                    break;
+                }
+                case "humidity": {
+                    serviceP = new HumidityService(modelP, host, port);
+                    break;
+                }
             }
             vertx.deployVerticle(serviceP);
             System.out.println(k +" service ready");
