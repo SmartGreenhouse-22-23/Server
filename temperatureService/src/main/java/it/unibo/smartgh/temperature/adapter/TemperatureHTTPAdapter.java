@@ -106,7 +106,6 @@ public class TemperatureHTTPAdapter extends AbstractAdapter<PlantValueAPI> {
     }
 
     private void handlePostTemperatureValue(RoutingContext request) {
-        System.out.println("new request");
         HttpServerResponse response = request.response();
         response.putHeader("content-type", "application/json");
 

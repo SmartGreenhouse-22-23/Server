@@ -37,9 +37,9 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static it.unibo.smartgh.greenhouse.presentation.ToJSON.modalityToJSON;
 import static it.unibo.smartgh.greenhouse.presentation.ToJSON.paramToJSON;
@@ -50,11 +50,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @ExtendWith(VertxExtension.class)
 public class GreenhouseHTTPAdapterTest {
-    private static final String HOST = "localhost";
-    private static final int PORT = 8889;
     private static final String ID = "63af0ae025d55e9840cbc1fa";
     private static final String ID_AUTOMATIC =  "63b29b0a3792e15bae3229a7";
-    private static final int MONGODB_PORT = 27017;
+    private static String HOST;
+    private static int PORT;
+    private static String MONGODB_HOST;
+    private static int MONGODB_PORT;
+    private static String SOCKET_HOST;
+    private static int SOCKET_PORT;
+    private static String CLIENT_COMMUNICATION_HOST;
+    private static int CLIENT_COMMUNICATION_PORT;
+    private static Map<String, Map<String, String>> PARAMETERS = new HashMap<>();
     private final Map<String,String> units = new HashMap<>(){{
         put("temperature", new String("° C".getBytes(), StandardCharsets.UTF_8));
         put("humidity", "%");
@@ -79,9 +85,9 @@ public class GreenhouseHTTPAdapterTest {
     private final Greenhouse greenhouse = new GreenhouseImpl(ID_AUTOMATIC, plant, Modality.AUTOMATIC);
 
     private final Gson gson = GsonUtils.createGson();
-
     @BeforeAll
     public static void start(Vertx vertx, VertxTestContext testContext){
+        configVariable();
         System.out.println("Greenhouse service initializing");
         GreenhouseAPI model = new GreenhouseModel(vertx, new GreenhouseControllerImpl(new GreenhouseDatabaseImpl()));
         GreenhouseService service = new GreenhouseService(HOST, PORT, model);
@@ -90,34 +96,59 @@ public class GreenhouseHTTPAdapterTest {
 
         System.out.println("Client Communication service initializing");
         ClientCommunicationAPI clientCommunicationModel = new ClientCommunicationModel(vertx);
-        ClientCommunicationService clientCommunicationService = new ClientCommunicationService(clientCommunicationModel, HOST, 8890);
+        ClientCommunicationService clientCommunicationService =
+                new ClientCommunicationService(clientCommunicationModel, CLIENT_COMMUNICATION_HOST, CLIENT_COMMUNICATION_PORT);
         vertx.deployVerticle(clientCommunicationService, testContext.succeedingThenComplete());
         System.out.println("Client Communication service ready");
 
-        Map<String, Integer> parameters = new HashMap<>();
-        parameters.put("brightness", 8893);
-        parameters.put("temperature", 8895);
-        parameters.put("humidity", 8891);
-        parameters.put("soilMoisture", 8894);
-        parameters.forEach((k, v) -> {
+
+        PARAMETERS.forEach((k, v) -> {
             System.out.println(k + " service initializing");
-            PlantValueDatabase database = new PlantValueDatabaseImpl(k, k + "Values", HOST, MONGODB_PORT);
+            PlantValueDatabase database = new PlantValueDatabaseImpl(k, k + "Values", MONGODB_HOST, MONGODB_PORT);
             PlantValueController controller = new PlantValueControllerImpl(database);
             PlantValueModel modelP = new PlantValueModel(controller);
             Verticle serviceP = null;
-            if (k.equals("brightness")) {
-                serviceP = new BrightnessService(modelP, HOST, v);
-            } else if (k.equals("temperature")){
-                serviceP = new TemperatureService(modelP, HOST, v);
-            }else if (k.equals("soilMoisture")){
-                serviceP = new SoilMoistureService(modelP, HOST, v);
-            }else if (k.equals("humidity")){
-                serviceP = new HumidityService(modelP, HOST, v);
+            String host = v.get("host");
+            int port = Integer.parseInt(v.get("port"));
+            switch (k) {
+                case "brightness" -> serviceP = new BrightnessService(modelP, host, port);
+                case "temperature" -> serviceP = new TemperatureService(modelP, host, port);
+                case "soilMoisture" -> serviceP = new SoilMoistureService(modelP, host, port);
+                case "humidity" -> serviceP = new HumidityService(modelP, host, port);
             }
             vertx.deployVerticle(serviceP);
             System.out.println(k +" service ready");
         });
     }
+
+    private static void configVariable() {
+        File file = new File(GreenhouseService.class.getClassLoader().getResource("config.properties").getFile());
+        try {
+            FileInputStream fin = new FileInputStream(file);
+            Properties properties = new Properties();
+            properties.load(fin);
+
+            HOST = properties.getProperty("greenhouse.host");
+            PORT = Integer.parseInt(properties.getProperty("greenhouse.port"));
+            MONGODB_HOST = properties.getProperty("mongodb.host");
+            MONGODB_PORT = Integer.parseInt(properties.getProperty("mongodb.port"));
+            SOCKET_HOST = properties.getProperty("socket.host");
+            SOCKET_PORT = Integer.parseInt(properties.getProperty("socket.port"));
+            CLIENT_COMMUNICATION_HOST = properties.getProperty("clientCommunication.host");
+            CLIENT_COMMUNICATION_PORT = Integer.parseInt(properties.getProperty("clientCommunication.port"));
+
+            new ArrayList<>(
+                    Arrays.asList("brightness", "temperature", "humidity", "soilMoisture")).forEach(p -> {
+                    PARAMETERS.put(p, new HashMap<>(){{
+                        put("host", properties.getProperty(p + ".host"));
+                        put("port", properties.getProperty(p + ".port"));
+                    }});
+            });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Test
     public void getGreenhouseTest(Vertx vertx, VertxTestContext testContext) {
         WebClient client = WebClient.create(vertx);
@@ -171,21 +202,22 @@ public class GreenhouseHTTPAdapterTest {
 
     @RepeatedTest(2)
     public void postNewValueTest(Vertx vertx, VertxTestContext testContext){
-        int socketPort = 1234;
         HttpServer socketServer = vertx.createHttpServer();
         socketServer.webSocketHandler(ctx ->{
            ctx.textMessageHandler(msg -> {
                JsonObject json = new JsonObject(msg);
                assertEquals(ID, json.getValue("greenhouseId"));
+               testContext.completeNow();
+               ctx.close();
            });
-        }).listen(socketPort, HOST);
+        }).listen(SOCKET_PORT, SOCKET_HOST);
         WebClient client = WebClient.create(vertx);
         client.post(PORT, HOST, "/greenhouse")
                 .sendJsonObject(
                         new JsonObject()
                                 .put("id", ID)
                                 .put("parameters", new JsonObject()
-                                        .put("Temp", 10.5)
+                                        .put("Temp", 4.0)
                                         .put("Hum", 40.0)
                                         .put("Bright", 4500.0)
                                         .put("Soil", 25.0)

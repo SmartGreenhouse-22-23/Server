@@ -5,16 +5,36 @@ import it.unibo.smartgh.greenhouse.api.GreenhouseAPI;
 import it.unibo.smartgh.greenhouse.api.GreenhouseModel;
 import it.unibo.smartgh.greenhouse.controller.GreenhouseControllerImpl;
 import it.unibo.smartgh.greenhouse.persistence.GreenhouseDatabaseImpl;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Properties;
+
 /**
  * Class the represents the entry point to run the Greenhouse Service.
  */
 public class GreenhouseServiceLauncher {
 
-    private static final String HOST = /*"0.0.0.0"*/"localhost";
-    private static final int PORT = 8889;
+    private static String HOST;
+    private static int PORT;
 
     public static void main(String[] args) {
         System.out.println("Greenhouse service initializing");
+        File file = new File(GreenhouseService.class.getClassLoader().getResource("config.properties").getFile());
+        try {
+            FileInputStream fin = new FileInputStream(file);
+            Properties properties = new Properties();
+            properties.load(fin);
+
+            HOST = properties.getProperty("greenhouse.host");
+            PORT = Integer.parseInt(properties.getProperty("greenhouse.port"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         Vertx vertx = Vertx.vertx();
 
         GreenhouseAPI model = new GreenhouseModel(vertx, new GreenhouseControllerImpl(new GreenhouseDatabaseImpl()));

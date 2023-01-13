@@ -6,23 +6,30 @@ import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
+import it.unibo.smartgh.greenhouse.GreenhouseService;
 import it.unibo.smartgh.greenhouse.controller.GreenhouseController;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
 import it.unibo.smartgh.greenhouse.entity.plant.Plant;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import static java.lang.Double.valueOf;
 /**
  * Implementation of the Greenhouse service API.
  */
 public class GreenhouseModel implements GreenhouseAPI{
+    private static int OPERATION_PORT;
+    private static String OPERATION_HOST;
+    private static String CLIENT_COMMUNICATION_HOST;
+    private static int CLIENT_COMMUNICATION_PORT;
+
+    private static final Map<String, Map<String, String>> PARAMETERS = new HashMap<>();
     private final Vertx vertx;
     private final GreenhouseController greenhouseController;
 
@@ -34,6 +41,29 @@ public class GreenhouseModel implements GreenhouseAPI{
     public GreenhouseModel(Vertx vertx, GreenhouseController greenhouseController) {
         this.vertx = vertx;
         this.greenhouseController = greenhouseController;
+
+        File file = new File(GreenhouseService.class.getClassLoader().getResource("config.properties").getFile());
+        try {
+            FileInputStream fin = new FileInputStream(file);
+            Properties properties = new Properties();
+            properties.load(fin);
+
+            CLIENT_COMMUNICATION_HOST = properties.getProperty("clientCommunication.host");
+            CLIENT_COMMUNICATION_PORT = Integer.parseInt(properties.getProperty("clientCommunication.port"));
+            OPERATION_HOST = properties.getProperty("operation.host");
+            OPERATION_PORT = Integer.parseInt(properties.getProperty("operation.port"));
+
+            new ArrayList<>(
+                    Arrays.asList("brightness", "temperature", "humidity", "soilMoisture")).forEach(p -> {
+                PARAMETERS.put(p, new HashMap<>(){{
+                    put("host", properties.getProperty(p + ".host"));
+                    put("port", properties.getProperty(p + ".port"));
+                }});
+            });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
@@ -102,10 +132,8 @@ public class GreenhouseModel implements GreenhouseAPI{
 
     private void insertOperation (String ghId, String parameter, String action, String modality){
         WebClient client = WebClient.create(vertx);
-        String host = "localhost";
-        int port = 8896;
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-        client.post(port, host, "/operations")
+        client.post(OPERATION_PORT, OPERATION_HOST, "/operations")
                 .sendJsonObject(
                         new JsonObject()
                                 .put("greenhouseId", ghId)
@@ -191,12 +219,10 @@ public class GreenhouseModel implements GreenhouseAPI{
 
     private void sendToClient(String id, String parameter, Double value, String status){
         WebClient client = WebClient.create(vertx);
-        String host = "localhost"; //TODO change with docker host
-        int port = 8890;
         Promise<Void> promise = Promise.promise();
         List<Future> futures = new ArrayList<>();
             DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
-            futures.add(client.post(port, host, "/clientCommunication/parameter")
+            futures.add(client.post(CLIENT_COMMUNICATION_PORT, CLIENT_COMMUNICATION_HOST, "/clientCommunication/parameter")
                     .sendJsonObject(
                             new JsonObject()
                                     .put("greenhouseId", id)
@@ -210,31 +236,19 @@ public class GreenhouseModel implements GreenhouseAPI{
 
     private void storeParameters(String id, JsonObject parameters) {
         WebClient client = WebClient.create(vertx);
-        String host = "localhost";
-        int port = 8891;
+
         Promise<Void> promise = Promise.promise();
         List<Future> futures = new ArrayList<>();
         for (String p: parameters.fieldNames()) {
             String path = "";
             switch (p) {
-                case "Temp":
-                    path = "temperature";
-                    /*host = "temperature"; name of the service container*/
-                    port = 8895;
-                    break;
-                case "Soil":
-                    path = "soilMoisture";
-                    port = 8894;
-                    break;
-                case "Brigh":
-                    path = "brightness";
-                    port = 8893;
-                    break;
-                case "Hum":
-                    path = "humidity";
-                    port = 8891;
-                    break;
+                case "Temp" -> path = "temperature";
+                case "Soil" -> path = "soilMoisture";
+                case "Bright" ->  path = "brightness";
+                case "Hum" -> path = "humidity";
             }
+            String host = PARAMETERS.get(path).get("host");
+            int port = Integer.parseInt(PARAMETERS.get(path).get("port"));
             DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
             futures.add(client.post(port, host, "/"+ path)
                     .sendJsonObject(

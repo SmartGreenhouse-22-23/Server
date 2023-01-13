@@ -3,6 +3,7 @@ package it.unibo.smartgh.greenhouse.persistence;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
+import it.unibo.smartgh.greenhouse.GreenhouseService;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.GreenhouseImpl;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
@@ -12,10 +13,10 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.*;
 
 import static java.lang.Double.valueOf;
 
@@ -26,8 +27,22 @@ public class GreenhouseDatabaseImpl implements GreenhouseDatabase{
     private final static String DB_NAME = "greenhouse";
     private final static String COLLECTION_NAME = "greenhouse";
 
-    private final static String HOST = /*"mongodb"*/"localhost";
-    private final static int PORT = 27017;
+    private static String HOST;
+    private static int PORT;
+
+    public GreenhouseDatabaseImpl() {
+        File file = new File(GreenhouseService.class.getClassLoader().getResource("config.properties").getFile());
+        try {
+            FileInputStream fin = new FileInputStream(file);
+            Properties properties = new Properties();
+            properties.load(fin);
+
+            HOST = properties.getProperty("mongodb.host");
+            PORT = Integer.parseInt(properties.getProperty("mongodb.port"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public void putActualModality(String id, Modality modality) {
