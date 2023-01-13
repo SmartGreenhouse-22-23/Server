@@ -1,4 +1,4 @@
-package it.unibo.smartgh;
+package it.unibo.smartgh.soilMoisture;
 
 import io.vertx.core.Vertx;
 import it.unibo.smartgh.plantValue.api.PlantValueModel;
