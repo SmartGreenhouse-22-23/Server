@@ -21,10 +21,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,13 +43,10 @@ public class OperationHTTPAdapterTest {
 
     private static final String OPERATION_DB_NAME = "operation";
     private static final String OPERATION_COLLECTION_NAME = "operation";
-    private static final String DB_HOST = "localhost";
-    private static final int DB_PORT = 27017;
-    private static final String SERVICE_HOST = "localhost";
-    private static final int SERVICE_PORT = 8896;
+    private static String SERVICE_HOST;
+    private static int SERVICE_PORT;
 
-    private static final OperationDatabase database = new OperationDatabaseImpl(OPERATION_DB_NAME, OPERATION_COLLECTION_NAME,
-            DB_HOST, DB_PORT);
+    private static OperationDatabase database;
     private final Gson gson = GsonUtils.createGson();
     private static final String greenhouseId = "1";
     private static final String parameter = "temperature";
@@ -55,6 +55,7 @@ public class OperationHTTPAdapterTest {
     @BeforeAll
     static public void insertOperationsInDB(Vertx vertx, VertxTestContext testContext) {
         System.out.println("Operation service initializing");
+        configVariables();
         final String action = "TEMPERATURE decrease";
         final DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         try {
@@ -77,6 +78,23 @@ public class OperationHTTPAdapterTest {
             System.out.println("wait");
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void configVariables() {
+        try {
+            InputStream is = OperationHTTPAdapterTest.class.getResourceAsStream("/config.properties");
+            Properties properties = new Properties();
+            properties.load(is);
+
+            SERVICE_HOST = properties.getProperty("operation.host");
+            SERVICE_PORT = Integer.parseInt(properties.getProperty("operation.port"));
+            String dbHost = properties.getProperty("mongodb.host");
+            int dbPort = Integer.parseInt(properties.getProperty("mongodb.port"));
+            database = new OperationDatabaseImpl(OPERATION_DB_NAME, OPERATION_COLLECTION_NAME,
+                    dbHost, dbPort);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

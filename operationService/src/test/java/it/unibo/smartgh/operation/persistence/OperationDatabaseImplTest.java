@@ -3,13 +3,17 @@ package it.unibo.smartgh.operation.persistence;
 import it.unibo.smartgh.operation.entity.Modality;
 import it.unibo.smartgh.operation.entity.Operation;
 import it.unibo.smartgh.operation.entity.OperationImpl;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,14 +25,28 @@ class OperationDatabaseImplTest {
 
     private static final String OPERATION_DB_NAME = "operation";
     private static final String OPERATION_COLLECTION_NAME = "operation";
-    private static final String HOST = "localhost";
-    private static final int PORT = 27017;
-    private static final OperationDatabase operationDatabase = new OperationDatabaseImpl(OPERATION_DB_NAME,
-            OPERATION_COLLECTION_NAME, HOST, PORT);
+    private static OperationDatabase operationDatabase;
 
     private final String greenhouseId = "1";
     private final String parameter = "temperature";
     private final int limit = 5;
+
+    @BeforeAll
+    public static void start() {
+        try {
+            InputStream is = OperationDatabaseImplTest.class.getResourceAsStream("/config.properties");
+            Properties properties = new Properties();
+            properties.load(is);
+
+            String host = properties.getProperty("mongodb.host");
+            int port = Integer.parseInt(properties.getProperty("mongodb.port"));
+            System.out.println(host);
+            operationDatabase = new OperationDatabaseImpl(OPERATION_DB_NAME,
+                    OPERATION_COLLECTION_NAME, host, port);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Test
     void insertOperation() {

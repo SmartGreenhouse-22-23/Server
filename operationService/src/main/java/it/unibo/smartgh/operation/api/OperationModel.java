@@ -8,17 +8,20 @@ import io.vertx.ext.web.client.WebClient;
 import it.unibo.smartgh.operation.controller.OperationController;
 import it.unibo.smartgh.operation.entity.Operation;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * This class provides an implementation of the {@link OperationAPI}.
  */
 public class OperationModel implements OperationAPI {
-
-    private static final int COMM_SERVICE_PORT = 8892;
-    private static final int CLIENT_SERVICE_PORT = 8890;
-    private static final String COMM_SERVICE_HOST = "localhost";
+    private static String COMM_SERVICE_HOST;
+    private static int COMM_SERVICE_PORT;
+    private static int CLIENT_SERVICE_PORT;
+    private static String CLIENT_SERVICE_HOST;
     private static final String COMM_BASE_PATH = "/greenhouseCommunication";
 
     private static final String CLIENT_BASE_PATH = "/clientCommunication/operations/notify";
@@ -33,6 +36,19 @@ public class OperationModel implements OperationAPI {
     public OperationModel(OperationController operationController, Vertx vertx) {
         this.operationController = operationController;
         this.vertx = vertx;
+        try {
+            InputStream is = OperationModel.class.getResourceAsStream("/config.properties");
+            Properties properties = new Properties();
+            properties.load(is);
+
+            CLIENT_SERVICE_HOST = properties.getProperty("clientCommunication.host");
+            CLIENT_SERVICE_PORT = Integer.parseInt(properties.getProperty("clientCommunication.port"));
+            COMM_SERVICE_HOST = properties.getProperty("greenhouseCommunication.host");
+            COMM_SERVICE_PORT = Integer.parseInt(properties.getProperty("greenhouseCommunication.port"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
@@ -89,7 +105,7 @@ public class OperationModel implements OperationAPI {
                 .sendJsonObject(new JsonObject().put("message", operation.getAction()))
                 .andThen(h -> {
                     System.out.println(operation.getParameter());
-                    client.post(CLIENT_SERVICE_PORT, COMM_SERVICE_HOST, CLIENT_BASE_PATH)
+                    client.post(CLIENT_SERVICE_PORT, CLIENT_SERVICE_HOST, CLIENT_BASE_PATH)
                             .sendJsonObject(new JsonObject().put("greenhouseId", operation.getGreenhouseId()))
                             .onSuccess(h2 -> promise.complete())
                             .onFailure(promise::fail);
