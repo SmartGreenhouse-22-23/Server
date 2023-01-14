@@ -10,25 +10,18 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
 import it.unibo.smartgh.clientCommunication.customException.ParameterNotFound;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+
 /**
  * Utility class to handle the request to the Greenhouse service.
  */
 public class ParametersAPIOperationManager {
-
-    private static final String BRIGHTNESS_BASE_PATH = "/brightness";
-    private static final int BRIGHTNESS_SERVICE_PORT = 8893;
-
-    private static final String AIR_HUMIDITY_BASE_PATH = "/humidity";
-    private static final int AIR_HUMIDITY_SERVICE_PORT = 8891;
-
-    private static final String SOIL_MOISTURE_BASE_PATH = "/soilMoisture";
-    private static final int SOIL_MOISTURE_SERVICE_PORT = 8894;
-
-    private static final String TEMPERATURE_BASE_PATH = "/temperature";
-    private static final int TEMPERATURE_SERVICE_PORT = 8895;
-
-    private static final String HOST = "localhost";
+    private static final Map<String, Map<String, String>> PARAMETERS = new HashMap<>();
     private static final String HISTORY_PATH = "/history";
+    private static String SOCKET_HOST;
+    private static int SOCKET_PORT;
     private final WebClient httpClient;
     private final HttpClient socketClient;
 
@@ -39,6 +32,24 @@ public class ParametersAPIOperationManager {
     public ParametersAPIOperationManager(Vertx vertx){
         this.socketClient = vertx.createHttpClient();
         this.httpClient = WebClient.create(vertx);
+        try {
+            InputStream is = ParametersAPIOperationManager.class.getResourceAsStream("/config.properties");
+            Properties properties = new Properties();
+            properties.load(is);
+
+            SOCKET_HOST = properties.getProperty("socketParam.host");
+            SOCKET_PORT = Integer.parseInt(properties.getProperty("socketParam.port"));
+            new ArrayList<>(
+                    Arrays.asList("brightness", "temperature", "humidity", "soilMoisture")).forEach(p -> {
+                PARAMETERS.put(p, new HashMap<>(){{
+                    put("host", properties.getProperty(p + ".host"));
+                    put("port", properties.getProperty(p + ".port"));
+                    put("path", "/"+p);
+                }});
+            });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -49,8 +60,8 @@ public class ParametersAPIOperationManager {
      */
     public Future<Void> postCurrentPlantValueData(JsonObject parameterInformation) {
         Promise<Void> p = Promise.promise();
-        socketClient.webSocket(1234,
-                "localhost",
+        socketClient.webSocket(SOCKET_PORT,
+                SOCKET_HOST,
                 "/",
                 wsC -> {
                     WebSocket ctx = wsC.result();
@@ -69,18 +80,14 @@ public class ParametersAPIOperationManager {
      */
     public Future<JsonArray> getHistoricalData(String greenhouseID, String parameterName, int limit) {
         Promise<JsonArray> p = Promise.promise();
-        switch (parameterName){
-            case "brightness":
-                return this.requestHistoricalData(BRIGHTNESS_BASE_PATH + HISTORY_PATH, greenhouseID, limit, BRIGHTNESS_SERVICE_PORT);
-            case "humidity":
-                return this.requestHistoricalData(AIR_HUMIDITY_BASE_PATH + HISTORY_PATH, greenhouseID, limit, AIR_HUMIDITY_SERVICE_PORT);
-            case "soilMoisture":
-                return this.requestHistoricalData(SOIL_MOISTURE_BASE_PATH + HISTORY_PATH, greenhouseID, limit, SOIL_MOISTURE_SERVICE_PORT);
-            case "temperature":
-                return this.requestHistoricalData(TEMPERATURE_BASE_PATH + HISTORY_PATH, greenhouseID, limit, TEMPERATURE_SERVICE_PORT);
-            default:
-                p.fail(new ParameterNotFound("The parameter: " + parameterName + "does not exist!"));
-                break;
+        if(PARAMETERS.containsKey(parameterName)){
+            return this.requestHistoricalData(PARAMETERS.get(parameterName).get("path") + HISTORY_PATH,
+                    greenhouseID,
+                    limit,
+                    PARAMETERS.get(parameterName).get("host"),
+                    Integer.parseInt(PARAMETERS.get(parameterName).get("port")));
+        } else {
+            p.fail(new ParameterNotFound("The parameter: " + parameterName + "does not exist!"));
         }
 
         return p.future();
@@ -95,26 +102,20 @@ public class ParametersAPIOperationManager {
      */
     public Future<JsonObject> getParameterCurrentValue(String greenhouseId, String parameterName) {
         Promise<JsonObject> p = Promise.promise();
-        switch (parameterName){
-            case "brightness":
-                return this.requestCurrentValue(BRIGHTNESS_BASE_PATH, greenhouseId, BRIGHTNESS_SERVICE_PORT);
-            case "humidity":
-                return this.requestCurrentValue(AIR_HUMIDITY_BASE_PATH, greenhouseId, AIR_HUMIDITY_SERVICE_PORT);
-            case "soilMoisture":
-                return this.requestCurrentValue(SOIL_MOISTURE_BASE_PATH, greenhouseId, SOIL_MOISTURE_SERVICE_PORT);
-            case "temperature":
-                return this.requestCurrentValue(TEMPERATURE_BASE_PATH, greenhouseId, TEMPERATURE_SERVICE_PORT);
-            default:
-                p.fail(new ParameterNotFound("The parameter: " + parameterName + "does not exist!"));
-                break;
+        if(PARAMETERS.containsKey(parameterName)){
+            return this.requestCurrentValue(PARAMETERS.get(parameterName).get("path"),
+                    greenhouseId,
+                    PARAMETERS.get(parameterName).get("host"),
+                    Integer.parseInt(PARAMETERS.get(parameterName).get("port")));
+        } else {
+            p.fail(new ParameterNotFound("The parameter: " + parameterName + "does not exist!"));
         }
-
         return p.future();
     }
 
-    private Future<JsonArray> requestHistoricalData(String path, String greenhouseId, int limit, int port){
+    private Future<JsonArray> requestHistoricalData(String path, String greenhouseId, int limit, String host, int port){
         Promise<JsonArray> p = Promise.promise();
-        httpClient.get(port, ParametersAPIOperationManager.HOST, path)
+        httpClient.get(port, host, path)
                 .addQueryParam("id", greenhouseId)
                 .addQueryParam("limit", String.valueOf(limit))
                 .putHeader("content-type", "application/json")
@@ -124,9 +125,9 @@ public class ParametersAPIOperationManager {
         return p.future();
     }
 
-    private Future<JsonObject> requestCurrentValue(String path, String greenhouseId, int port){
+    private Future<JsonObject> requestCurrentValue(String path, String greenhouseId, String host, int port){
         Promise<JsonObject> p = Promise.promise();
-        httpClient.get(port, ParametersAPIOperationManager.HOST, path)
+        httpClient.get(port, host, path)
                 .addQueryParam("id", greenhouseId)
                 .putHeader("content-type", "application/json")
                 .send()

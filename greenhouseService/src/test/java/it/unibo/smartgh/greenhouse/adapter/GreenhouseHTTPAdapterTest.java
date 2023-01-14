@@ -60,7 +60,7 @@ public class GreenhouseHTTPAdapterTest {
     private static int SOCKET_PORT;
     private static String CLIENT_COMMUNICATION_HOST;
     private static int CLIENT_COMMUNICATION_PORT;
-    private static Map<String, Map<String, String>> PARAMETERS = new HashMap<>();
+    private static final Map<String, Map<String, String>> PARAMETERS = new HashMap<>();
     private final Map<String,String> units = new HashMap<>(){{
         put("temperature", new String("° C".getBytes(), StandardCharsets.UTF_8));
         put("humidity", "%");

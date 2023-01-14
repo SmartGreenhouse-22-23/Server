@@ -24,9 +24,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -36,9 +38,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(VertxExtension.class)
 public class GreenhouseClientCommunicationHTTPAdapterTest {
 
-    private static final String HOST = "localhost";
-    private static final int CLIENT_COMMUNICATION_SERVICE_PORT = 8890;
-    private static final int GREENHOUSE_PORT = 8889;
+    private static String CLIENT_COMMUNICATION_SERVICE_HOST;
+    private static int CLIENT_COMMUNICATION_SERVICE_PORT;
+    private static int GREENHOUSE_PORT;
+    private static String GREENHOUSE_HOST;
 
     private static final String GREENHOUSE_ID =  "63af0ae025d55e9840cbc1fa";
 
@@ -70,22 +73,43 @@ public class GreenhouseClientCommunicationHTTPAdapterTest {
     @BeforeAll
     public static void start(Vertx vertx, VertxTestContext testContext){
         System.out.println("Greenhouse service initializing");
+        configVariable();
         GreenhouseAPI greenhouseModel = new GreenhouseModel(vertx, new GreenhouseControllerImpl(new GreenhouseDatabaseImpl()));
-        GreenhouseService greenhouseService = new GreenhouseService(HOST, GREENHOUSE_PORT, greenhouseModel);
+        GreenhouseService greenhouseService = new GreenhouseService(GREENHOUSE_HOST, GREENHOUSE_PORT, greenhouseModel);
         vertx.deployVerticle(greenhouseService, testContext.succeedingThenComplete());
         System.out.println("Greenhouse service ready");
         System.out.println("Client Communication service initializing");
         ClientCommunicationAPI clientCommunicationModel = new ClientCommunicationModel(vertx);
-        ClientCommunicationService clientCommunicationService = new ClientCommunicationService(clientCommunicationModel, HOST, CLIENT_COMMUNICATION_SERVICE_PORT);
+        ClientCommunicationService clientCommunicationService = new ClientCommunicationService(clientCommunicationModel,
+                CLIENT_COMMUNICATION_SERVICE_HOST,
+                CLIENT_COMMUNICATION_SERVICE_PORT);
         vertx.deployVerticle(clientCommunicationService, testContext.succeedingThenComplete());
         System.out.println("Client Communication service ready");
+    }
+    private static void configVariable() {
+        File file = new File(GreenhouseClientCommunicationHTTPAdapterTest.class.getClassLoader().getResource("config.properties").getFile());
+        try {
+            FileInputStream fin = new FileInputStream(file);
+            Properties properties = new Properties();
+            properties.load(fin);
+
+            GREENHOUSE_HOST = properties.getProperty("greenhouse.host");
+            GREENHOUSE_PORT = Integer.parseInt(properties.getProperty("greenhouse.port"));
+            CLIENT_COMMUNICATION_SERVICE_HOST = properties.getProperty("clientCommunication.host");
+            CLIENT_COMMUNICATION_SERVICE_PORT = Integer.parseInt(properties.getProperty("clientCommunication.port"));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
     public void getGreenhouseInformation(Vertx vertx, VertxTestContext testContext){
         WebClient client = WebClient.create(vertx);
         String operationPath = "/clientCommunication/greenhouse/";
-        client.get(CLIENT_COMMUNICATION_SERVICE_PORT, HOST, operationPath)
+        client.get(CLIENT_COMMUNICATION_SERVICE_PORT,
+                        CLIENT_COMMUNICATION_SERVICE_HOST,
+                        operationPath)
                 .addQueryParam("id", GREENHOUSE_ID)
                 .send(testContext.succeeding(response -> testContext.verify(() -> {
                     assertEquals(greenhouse, gson.fromJson(response.body().toString(), GreenhouseImpl.class));
@@ -101,7 +125,9 @@ public class GreenhouseClientCommunicationHTTPAdapterTest {
         JsonObject body = new JsonObject();
         body.put("id", GREENHOUSE_ID);
         body.put("modality", "MANUAL");
-        client.post(CLIENT_COMMUNICATION_SERVICE_PORT, HOST, operationPath)
+        client.post(CLIENT_COMMUNICATION_SERVICE_PORT,
+                        CLIENT_COMMUNICATION_SERVICE_HOST,
+                        operationPath)
                 .sendJsonObject(body, testContext.succeeding(response -> testContext.verify(() -> {
                     assertEquals(expectedStatusCode, response.statusCode());
                     testContext.completeNow();

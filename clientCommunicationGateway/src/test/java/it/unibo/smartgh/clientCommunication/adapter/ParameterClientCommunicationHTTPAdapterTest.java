@@ -12,6 +12,7 @@ import it.unibo.smartgh.brightness.service.BrightnessService;
 import it.unibo.smartgh.clientCommunication.api.ClientCommunicationAPI;
 import it.unibo.smartgh.clientCommunication.api.ClientCommunicationModel;
 import it.unibo.smartgh.clientCommunication.service.ClientCommunicationService;
+import it.unibo.smartgh.operation.persistence.OperationDatabaseImpl;
 import it.unibo.smartgh.plantValue.api.PlantValueModel;
 import it.unibo.smartgh.plantValue.controller.PlantValueController;
 import it.unibo.smartgh.plantValue.controller.PlantValueControllerImpl;
@@ -23,12 +24,15 @@ import it.unibo.smartgh.presentation.GsonUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -38,31 +42,56 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(VertxExtension.class)
 public class ParameterClientCommunicationHTTPAdapterTest {
 
-    private static final String HOST = "localhost";
-    private static final int CLIENT_COMMUNICATION_SERVICE_PORT = 8890;
-    private static final int BRIGHTNESS_SERVICE_PORT = 8893;
+    private static String CLIENT_COMMUNICATION_SERVICE_HOST;
+    private static int CLIENT_COMMUNICATION_SERVICE_PORT;
+    private static String BRIGHTNESS_SERVICE_HOST;
+    private static int BRIGHTNESS_SERVICE_PORT;
     private static final String BRIGHTNESS_DB_NAME = "brightness";
     private static final String BRIGHTNESS_COLLECTION_NAME = "brightnessValues";
-    private static final String MONGODB_HOST = "localhost";
-    private static final int MONGODB_PORT = 27017;
+    private static String MONGODB_HOST;
+    private static int MONGODB_PORT;
 
-    private final static int SOCKET_PORT = 1234;
-    private final static String SOCKET_HOST = "localhost";
+    private static int SOCKET_PORT;
+    private static String SOCKET_HOST;
 
     private Gson gson = GsonUtils.createGson();
+
+    private static void configVariable() {
+        File file = new File(ParameterClientCommunicationHTTPAdapterTest.class.getClassLoader().getResource("config.properties").getFile());
+        try {
+            FileInputStream fin = new FileInputStream(file);
+            Properties properties = new Properties();
+            properties.load(fin);
+
+            MONGODB_HOST = properties.getProperty("mongodb.host");
+            MONGODB_PORT = Integer.parseInt(properties.getProperty("mongodb.port"));
+            CLIENT_COMMUNICATION_SERVICE_HOST = properties.getProperty("clientCommunication.host");
+            CLIENT_COMMUNICATION_SERVICE_PORT = Integer.parseInt(properties.getProperty("clientCommunication.port"));
+            BRIGHTNESS_SERVICE_HOST = properties.getProperty("brightness.host");
+            BRIGHTNESS_SERVICE_PORT = Integer.parseInt(properties.getProperty("brightness.port"));
+            SOCKET_HOST = properties.getProperty("socketParam.host");
+            SOCKET_PORT = Integer.parseInt(properties.getProperty("socketParam.port"));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
     @BeforeAll
     public static void start(Vertx vertx, VertxTestContext testContext){
         System.out.println("Brightness service initializing");
+        configVariable();
         PlantValueDatabase database = new PlantValueDatabaseImpl(BRIGHTNESS_DB_NAME, BRIGHTNESS_COLLECTION_NAME, MONGODB_HOST, MONGODB_PORT);
         PlantValueController controller = new PlantValueControllerImpl(database);
         PlantValueModel model = new PlantValueModel(controller);
-        vertx.deployVerticle(new BrightnessService(model, HOST, BRIGHTNESS_SERVICE_PORT));
+        vertx.deployVerticle(new BrightnessService(model, BRIGHTNESS_SERVICE_HOST, BRIGHTNESS_SERVICE_PORT));
         System.out.println("Brightness service ready");
         System.out.println("Client Communication service initializing");
         ClientCommunicationAPI clientCommunicationModel = new ClientCommunicationModel(vertx);
-        ClientCommunicationService clientCommunicationService = new ClientCommunicationService(clientCommunicationModel, HOST, CLIENT_COMMUNICATION_SERVICE_PORT);
+        ClientCommunicationService clientCommunicationService = new ClientCommunicationService(clientCommunicationModel,
+                CLIENT_COMMUNICATION_SERVICE_HOST,
+                CLIENT_COMMUNICATION_SERVICE_PORT);
         vertx.deployVerticle(clientCommunicationService, testContext.succeedingThenComplete());
         System.out.println("Client Communication service ready");
     }
@@ -79,11 +108,11 @@ public class ParameterClientCommunicationHTTPAdapterTest {
         Double valueRegistered = 90.0;
         PlantValue brightnessValue = new PlantValueImpl(greenhouseID, date, valueRegistered);
 
-        client.post(BRIGHTNESS_SERVICE_PORT, HOST, insertBrightnessValuePath)
+        client.post(BRIGHTNESS_SERVICE_PORT, BRIGHTNESS_SERVICE_HOST, insertBrightnessValuePath)
                 .putHeader("content-type", "application/json")
                 .sendBuffer(Buffer.buffer(gson.toJson(brightnessValue, PlantValueImpl.class)));
 
-        client.get(CLIENT_COMMUNICATION_SERVICE_PORT, HOST, getCurrentValueDataPath)
+        client.get(CLIENT_COMMUNICATION_SERVICE_PORT, CLIENT_COMMUNICATION_SERVICE_HOST, getCurrentValueDataPath)
                 .addQueryParam("id", greenhouseID)
                 .addQueryParam("parameterName",parameterName)
                 .send(testContext.succeeding(response -> testContext.verify(() -> {
@@ -107,11 +136,11 @@ public class ParameterClientCommunicationHTTPAdapterTest {
         history.add(brightnessValue);
         int limit = 1;
 
-        client.post(BRIGHTNESS_SERVICE_PORT, HOST, insertBrightnessValuePath)
+        client.post(BRIGHTNESS_SERVICE_PORT, BRIGHTNESS_SERVICE_HOST, insertBrightnessValuePath)
                 .putHeader("content-type", "application/json")
                 .sendBuffer(Buffer.buffer(gson.toJson(brightnessValue, PlantValueImpl.class)));
 
-        client.get(CLIENT_COMMUNICATION_SERVICE_PORT, HOST, getHistoryDataPath)
+        client.get(CLIENT_COMMUNICATION_SERVICE_PORT, CLIENT_COMMUNICATION_SERVICE_HOST, getHistoryDataPath)
                 .addQueryParam("id", greenhouseID)
                 .addQueryParam("parameterName",parameterName)
                 .addQueryParam("limit", String.valueOf(limit))
@@ -146,7 +175,7 @@ public class ParameterClientCommunicationHTTPAdapterTest {
 
 
         WebClient client = WebClient.create(vertx);
-        client.post(CLIENT_COMMUNICATION_SERVICE_PORT, HOST, "/clientCommunication/parameter/")
+        client.post(CLIENT_COMMUNICATION_SERVICE_PORT, CLIENT_COMMUNICATION_SERVICE_HOST, "/clientCommunication/parameter/")
                 .sendJsonObject(expectedJson);
     }
 }

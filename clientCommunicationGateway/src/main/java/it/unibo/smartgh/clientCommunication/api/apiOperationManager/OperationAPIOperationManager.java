@@ -9,7 +9,10 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
+import java.util.Properties;
 
 /**
  * Utility class to handle the request to the Operation service.
@@ -19,9 +22,10 @@ public class OperationAPIOperationManager {
     private static final String OPERATION_BASE_PATH = "/operations";
     private static final String GET_OPERATION_PARAMETER = OPERATION_BASE_PATH + "/parameter";
     private static final String GET_OPERATION_IN_DATE_RANGE = OPERATION_BASE_PATH + "/date";
-
-    private static final String OPERATION_SERVICE_HOST = "localhost";
-    private static final int OPERATION_SERVICE_PORT = 8896;
+    private static String OPERATION_SERVICE_HOST;
+    private static int OPERATION_SERVICE_PORT;
+    private static String SOCKET_HOST;
+    private static int SOCKET_PORT;
     private final WebClient httpClient;
     private final HttpClient socketClient;
 
@@ -32,6 +36,18 @@ public class OperationAPIOperationManager {
     public OperationAPIOperationManager(Vertx vertx){
         this.httpClient = WebClient.create(vertx);
         this.socketClient = vertx.createHttpClient();
+        try {
+            InputStream is = OperationAPIOperationManager.class.getResourceAsStream("/config.properties");
+            Properties properties = new Properties();
+            properties.load(is);
+
+            OPERATION_SERVICE_HOST = properties.getProperty("operation.host");
+            OPERATION_SERVICE_PORT = Integer.parseInt(properties.getProperty("operation.port"));
+            SOCKET_HOST = properties.getProperty("socketOperation.host");
+            SOCKET_PORT = Integer.parseInt(properties.getProperty("socketOperation.port"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -99,8 +115,8 @@ public class OperationAPIOperationManager {
      */
     public Future<Void> postNotifyNewOperation(JsonObject operationInformation) {
         Promise<Void> p = Promise.promise();
-        socketClient.webSocket(1235,
-                "localhost",
+        socketClient.webSocket(SOCKET_PORT,
+                SOCKET_HOST,
                 "/",
                 wsC -> {
                     WebSocket ctx = wsC.result();

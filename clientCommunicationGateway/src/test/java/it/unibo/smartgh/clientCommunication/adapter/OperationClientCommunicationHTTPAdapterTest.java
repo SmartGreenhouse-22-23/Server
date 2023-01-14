@@ -26,10 +26,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -40,18 +44,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(VertxExtension.class)
 public class OperationClientCommunicationHTTPAdapterTest {
 
-    private static final String HOST = "localhost";
-    private static final int CLIENT_COMMUNICATION_SERVICE_PORT = 8890;
-    private static final int OPERATION_SERVICE_PORT = 8896;
+    private static String CLIENT_COMMUNICATION_SERVICE_HOST;
+    private static int CLIENT_COMMUNICATION_SERVICE_PORT;
+    private static int OPERATION_SERVICE_PORT;
+    private static String OPERATION_SERVICE_HOST;
     private static final String OPERATION_DB_NAME = "operation";
     private static final String OPERATION_COLLECTION_NAME = "operation";
-    private static final String MONGODB_HOST = "localhost";
-    private static final int MONGODB_PORT = 27017;
 
-    private static final OperationDatabase database = new OperationDatabaseImpl(OPERATION_DB_NAME, OPERATION_COLLECTION_NAME,
-            MONGODB_HOST, MONGODB_PORT);
-    private final static int SOCKET_PORT = 1235;
-    private final static String SOCKET_HOST = "localhost";
+    private static OperationDatabase database;
+    private static int SOCKET_PORT;
+    private static String SOCKET_HOST;
     private final Gson gson = GsonUtils.createGson();
     private static final String greenhouseId = "1";
     private static final String parameter = "temperature";
@@ -72,26 +74,54 @@ public class OperationClientCommunicationHTTPAdapterTest {
         }
     }
 
+
     @BeforeAll
     static public void start(Vertx vertx, VertxTestContext testContext) {
         System.out.println("Operations service initializing");
+        configVariable();
         insertOperationInDB(testContext);
         OperationController controller = new OperationControllerImpl(database);
         OperationAPI model = new OperationModel(controller, vertx);
-        vertx.deployVerticle(new OperationService(model, HOST, OPERATION_SERVICE_PORT));
+        vertx.deployVerticle(new OperationService(model, OPERATION_SERVICE_HOST, OPERATION_SERVICE_PORT));
         System.out.println("Operations service ready");
         System.out.println("Client Communication service initializing");
         ClientCommunicationAPI clientCommunicationModel = new ClientCommunicationModel(vertx);
-        ClientCommunicationService clientCommunicationService = new ClientCommunicationService(clientCommunicationModel, HOST, CLIENT_COMMUNICATION_SERVICE_PORT);
+        ClientCommunicationService clientCommunicationService = new ClientCommunicationService(clientCommunicationModel,
+                CLIENT_COMMUNICATION_SERVICE_HOST,
+                CLIENT_COMMUNICATION_SERVICE_PORT);
         vertx.deployVerticle(clientCommunicationService, testContext.succeedingThenComplete());
         System.out.println("Client Communication service ready");
+    }
+
+    private static void configVariable() {
+        File file = new File(OperationClientCommunicationHTTPAdapterTest.class.getClassLoader().getResource("config.properties").getFile());
+        try {
+            FileInputStream fin = new FileInputStream(file);
+            Properties properties = new Properties();
+            properties.load(fin);
+
+            String mongodbHost = properties.getProperty("mongodb.host");
+            int mongodbPort = Integer.parseInt(properties.getProperty("mongodb.port"));
+            CLIENT_COMMUNICATION_SERVICE_HOST = properties.getProperty("clientCommunication.host");
+            CLIENT_COMMUNICATION_SERVICE_PORT = Integer.parseInt(properties.getProperty("clientCommunication.port"));
+            OPERATION_SERVICE_HOST = properties.getProperty("operation.host");
+            OPERATION_SERVICE_PORT = Integer.parseInt(properties.getProperty("operation.port"));
+            SOCKET_HOST = properties.getProperty("socketOperation.host");
+            SOCKET_PORT = Integer.parseInt(properties.getProperty("socketOperation.port"));
+
+            database = new OperationDatabaseImpl(OPERATION_DB_NAME, OPERATION_COLLECTION_NAME,
+                    mongodbHost, mongodbPort);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
     public void testGetGreenhouseOperations(Vertx vertx, VertxTestContext testContext){
         WebClient client = WebClient.create(vertx);
         String operationPath = "/clientCommunication/operations";
-        client.get(CLIENT_COMMUNICATION_SERVICE_PORT, HOST, operationPath)
+        client.get(CLIENT_COMMUNICATION_SERVICE_PORT, CLIENT_COMMUNICATION_SERVICE_HOST, operationPath)
                 .addQueryParam("id", greenhouseId)
                 .addQueryParam("limit", String.valueOf(limit))
                 .putHeader("content-type", "application/json")
@@ -111,7 +141,7 @@ public class OperationClientCommunicationHTTPAdapterTest {
     public void testGetParameterOperations(Vertx vertx, VertxTestContext testContext){
         WebClient client = WebClient.create(vertx);
         String operationPath = "/clientCommunication/operations/parameter";
-        client.get(CLIENT_COMMUNICATION_SERVICE_PORT, HOST, operationPath)
+        client.get(CLIENT_COMMUNICATION_SERVICE_PORT, CLIENT_COMMUNICATION_SERVICE_HOST, operationPath)
                 .addQueryParam("id", greenhouseId)
                 .addQueryParam("parameterName", parameter)
                 .addQueryParam("limit", String.valueOf(limit))
@@ -141,7 +171,7 @@ public class OperationClientCommunicationHTTPAdapterTest {
 
 
         String operationPath = "/clientCommunication/operations/date";
-        client.get(CLIENT_COMMUNICATION_SERVICE_PORT, HOST, operationPath)
+        client.get(CLIENT_COMMUNICATION_SERVICE_PORT, CLIENT_COMMUNICATION_SERVICE_HOST, operationPath)
                 .addQueryParam("id", greenhouseId)
                 .addQueryParam("from", fromDate)
                 .addQueryParam("to", toDate)
@@ -183,7 +213,7 @@ public class OperationClientCommunicationHTTPAdapterTest {
 
 
         WebClient client = WebClient.create(vertx);
-        client.post(CLIENT_COMMUNICATION_SERVICE_PORT, HOST, "/clientCommunication/operations/notify")
+        client.post(CLIENT_COMMUNICATION_SERVICE_PORT, CLIENT_COMMUNICATION_SERVICE_HOST, "/clientCommunication/operations/notify")
                 .sendJsonObject(expectedJson);
     }
 }

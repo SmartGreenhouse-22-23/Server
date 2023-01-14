@@ -8,6 +8,10 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.HttpResponse;
 import io.vertx.ext.web.client.WebClient;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 
 /**
  * Utility class to handle the request to the Greenhouse service.
@@ -16,8 +20,8 @@ public class GreenhouseAPIOperationManager {
 
     private static final String GREENHOUSE_BASE_PATH = "/greenhouse";
 
-    private static final String GREENHOUSE_SERVICE_HOST = "localhost";
-    private static final int GREENHOUSE_SERVICE_PORT = 8889;
+    private static String GREENHOUSE_SERVICE_HOST;
+    private static int GREENHOUSE_SERVICE_PORT;
     private final WebClient httpClient;
 
     /**
@@ -25,6 +29,16 @@ public class GreenhouseAPIOperationManager {
      * @param vertx the program's instance of Vertx.
      */
     public GreenhouseAPIOperationManager(Vertx vertx) {
+        try {
+            InputStream is = GreenhouseAPIOperationManager.class.getResourceAsStream("/config.properties");
+            Properties properties = new Properties();
+            properties.load(is);
+
+            GREENHOUSE_SERVICE_HOST = properties.getProperty("greenhouse.host");
+            GREENHOUSE_SERVICE_PORT = Integer.parseInt(properties.getProperty("greenhouse.port"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         this.httpClient = WebClient.create(vertx);
     }
 
