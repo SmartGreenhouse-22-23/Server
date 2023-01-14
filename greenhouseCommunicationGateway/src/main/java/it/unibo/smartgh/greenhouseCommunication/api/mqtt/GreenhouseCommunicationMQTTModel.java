@@ -6,6 +6,13 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
+import it.unibo.smartgh.greenhouseCommunication.GreenhouseCommunicationServiceLauncher;
+import it.unibo.smartgh.greenhouseCommunication.api.http.GreenhouseCommunicationHTTPModel;
+import it.unibo.smartgh.greenhouseCommunication.service.GreenhouseCommunicationService;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * This class represents the Model for handling the communication via HTTP.
@@ -13,8 +20,6 @@ import io.vertx.ext.web.client.WebClient;
 public class GreenhouseCommunicationMQTTModel implements GreenhouseCommunicationMQTTAPI{
 
     private static final String GREENHOUSE_PATH = "/greenhouse";
-    private static final String GREENHOUSE_SERVICE_HOST = "localhost";
-    private static final int GREENHOUSE_SERVICE_PORT = 8889;
     private final Vertx vertx;
     private JsonObject thingDescription;
     private final WebClient httpClient;
@@ -108,9 +113,21 @@ public class GreenhouseCommunicationMQTTModel implements GreenhouseCommunication
         JsonObject message = new JsonObject();
         message.put("id", this.thingID);
         message.put("parameters", newGreenhouseData);
-        httpClient.post(GREENHOUSE_SERVICE_PORT, GREENHOUSE_SERVICE_HOST, GREENHOUSE_PATH)
-                .putHeader("content-type", "application/json")
-                .sendJsonObject(message);
+        try {
+            InputStream is = GreenhouseCommunicationServiceLauncher.class.getResourceAsStream("/config.properties");
+            Properties properties = new Properties();
+            properties.load(is);
+
+            String host = properties.getProperty("greenhouse.host");
+            int port = Integer.parseInt(properties.getProperty("greenhouse.port"));
+            httpClient.post(port, host, GREENHOUSE_PATH)
+                    .putHeader("content-type", "application/json")
+                    .sendJsonObject(message);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         return p.future();
     }
 }

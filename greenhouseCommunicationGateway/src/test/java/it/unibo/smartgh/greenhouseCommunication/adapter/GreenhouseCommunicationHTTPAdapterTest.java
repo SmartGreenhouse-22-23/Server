@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
+import it.unibo.smartgh.greenhouseCommunication.GreenhouseCommunicationServiceLauncher;
 import it.unibo.smartgh.greenhouseCommunication.api.http.GreenhouseCommunicationHTTPAPI;
 import it.unibo.smartgh.greenhouseCommunication.api.http.GreenhouseCommunicationHTTPModel;
 import it.unibo.smartgh.greenhouseCommunication.api.mqtt.GreenhouseCommunicationMQTTAPI;
@@ -14,6 +15,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,22 +25,39 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(VertxExtension.class)
 public class GreenhouseCommunicationHTTPAdapterTest {
 
-    private static final String HTTP_HOST = "localhost";
-    private static final int HTTP_PORT = 8892;
-    private static final String MQTT_HOST = "broker.mqtt-dashboard.com";
-    private static final int MQTT_PORT = 1883;
+    private static String HTTP_HOST;
+    private static int HTTP_PORT;
+    private static String MQTT_HOST;
+    private static int MQTT_PORT;
 
     private static final String GREENHOUSE_ID = "63af0ae025d55e9840cbc1fa";
 
     @BeforeAll
     public static void start(Vertx vertx, VertxTestContext testContext){
         System.out.println("Greenhouse Communication service initializing");
+        configVariable();
         GreenhouseCommunicationHTTPAPI httpModel = new GreenhouseCommunicationHTTPModel(vertx);
         GreenhouseCommunicationMQTTAPI mqttModel = new GreenhouseCommunicationMQTTModel(GREENHOUSE_ID, vertx);
         GreenhouseCommunicationService service = new GreenhouseCommunicationService(httpModel, mqttModel, MQTT_HOST, HTTP_HOST, MQTT_PORT, HTTP_PORT);
         vertx.deployVerticle(service, testContext.succeedingThenComplete());
         System.out.println("Greenhouse Communication service ready");
     }
+
+    private static void configVariable() {
+        try {
+            InputStream is = GreenhouseCommunicationHTTPAdapterTest.class.getResourceAsStream("/config.properties");
+            Properties properties = new Properties();
+            properties.load(is);
+
+            HTTP_HOST = properties.getProperty("greenhouseCommunication.host");
+            HTTP_PORT = Integer.parseInt(properties.getProperty("greenhouseCommunication.port"));
+            MQTT_HOST = properties.getProperty("greenhouseCommunicationMQTT.host");
+            MQTT_PORT = Integer.parseInt(properties.getProperty("greenhouseCommunicationMQTT.port"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Test
     public void postBrightnessOperationTest(Vertx vertx, VertxTestContext testContext) {
         WebClient client = WebClient.create(vertx);

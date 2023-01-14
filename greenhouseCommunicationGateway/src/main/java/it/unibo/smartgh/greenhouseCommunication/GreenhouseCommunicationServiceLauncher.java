@@ -5,23 +5,34 @@ import it.unibo.smartgh.greenhouseCommunication.api.http.GreenhouseCommunication
 import it.unibo.smartgh.greenhouseCommunication.api.mqtt.GreenhouseCommunicationMQTTModel;
 import it.unibo.smartgh.greenhouseCommunication.service.GreenhouseCommunicationService;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 /**
  * This is the entry point to execute the service.
  */
 public class GreenhouseCommunicationServiceLauncher {
 
-    private static final String HTTP_HOST = "localhost";
-    private static final int HTTP_PORT = 8892;
-    private static final String MQTT_HOST = "broker.mqtt-dashboard.com";
-    private static final int MQTT_PORT = 1883;
-
-
     public static void  main(String[] args){
         String greenhouseID = "63af0ae025d55e9840cbc1fa";
         Vertx vertx = Vertx.vertx();
-        GreenhouseCommunicationHTTPModel httpModel = new GreenhouseCommunicationHTTPModel(vertx);
-        GreenhouseCommunicationMQTTModel mqttModel = new GreenhouseCommunicationMQTTModel(greenhouseID, vertx);
-        vertx.deployVerticle(new GreenhouseCommunicationService(httpModel, mqttModel, MQTT_HOST, HTTP_HOST, MQTT_PORT, HTTP_PORT));
+        try {
+            InputStream is = GreenhouseCommunicationServiceLauncher.class.getResourceAsStream("/config.properties");
+            Properties properties = new Properties();
+            properties.load(is);
+
+            String httpHost = properties.getProperty("greenhouseCommunication.host");
+            int httpPort = Integer.parseInt(properties.getProperty("greenhouseCommunication.port"));
+            String mqttHost = properties.getProperty("greenhouseCommunicationMQTT.host");
+            int mqttPort = Integer.parseInt(properties.getProperty("greenhouseCommunicationMQTT.port"));
+            GreenhouseCommunicationHTTPModel httpModel = new GreenhouseCommunicationHTTPModel(vertx);
+            GreenhouseCommunicationMQTTModel mqttModel = new GreenhouseCommunicationMQTTModel(greenhouseID, vertx);
+            vertx.deployVerticle(new GreenhouseCommunicationService(httpModel, mqttModel, mqttHost, httpHost, mqttPort, httpPort));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }
