@@ -103,7 +103,7 @@ public class OperationModel implements OperationAPI {
         WebClient client = WebClient.create(vertx);
         client.post(COMM_SERVICE_PORT, COMM_SERVICE_HOST, COMM_BASE_PATH + "/" + operation.getParameter() + "Operation")
                 .sendJsonObject(new JsonObject().put("message", operation.getAction()))
-                .andThen(h -> {
+                .onSuccess(h -> {
                     System.out.println(operation.getParameter());
                     client.post(CLIENT_SERVICE_PORT, CLIENT_SERVICE_HOST, CLIENT_BASE_PATH)
                             .sendJsonObject(new JsonObject().put("greenhouseId", operation.getGreenhouseId()))
