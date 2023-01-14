@@ -50,6 +50,45 @@ services:
     ports:
       - 8894:8894
 
+  operation_service:
+    container_name: operation
+    depends_on:
+      - mongo
+      - greenhouse_communication_gateway
+    build:
+      context: operationService
+      dockerfile: Dockerfile
+    ports:
+      - 8896:8896
+
+  client_communication_gateway:
+    container_name: client_communication
+    depends_on:
+      - greenhouse_service
+      - temperature_service
+      - brightness_service
+      - soil_moisture_service
+      - humidity_service
+      - operation_service
+    build:
+      context: clientCommunicationGateway
+      dockerfile: Dockerfile
+    ports:
+      - 8890:8890
+      - 1234:1234
+      - 1235:1235
+
+  greenhouse_communication_gateway:
+    container_name: greenhouse_communication
+    depends_on:
+      - greenhouse_service
+    build:
+      context: greenhouseCommunicationGateway
+      dockerfile: Dockerfile
+    ports:
+      - 8892:8892
+      - 1883:1883
+
   greenhouse_service:
     container_name: greenhouse #name that must be used as host in http request between containers
     depends_on:
@@ -58,7 +97,8 @@ services:
       - brightness_service
       - soil_moisture_service
       - humidity_service
-      # todo add other services from which it depends
+      - operation_service
+      - client_communication_gateway
     build:
       context: greenhouseService
       dockerfile: Dockerfile

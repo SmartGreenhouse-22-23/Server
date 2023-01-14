@@ -19,28 +19,24 @@ public class SoilMoistureServiceLauncher {
 
     private static final String SOIL_MOISTURE_DB_NAME = "soilMoisture";
     private static final String SOIL_MOISTURE_COLLECTION_NAME = "soilMoistureValues";
-    private static String HOST;
-    private static int PORT;
-    private static String MONGODB_HOST;
-    private static int MONGODB_PORT;
 
     public static void main(String[] args) {
         try {
             InputStream is = SoilMoistureServiceLauncher.class.getResourceAsStream("/config.properties");
             Properties properties = new Properties();
             properties.load(is);
-
-            HOST = properties.getProperty("soilMoisture.host");
-            PORT = Integer.parseInt(properties.getProperty("soilMoisture.port"));
-            MONGODB_HOST = properties.getProperty("mongodb.host");
-            MONGODB_PORT = Integer.parseInt(properties.getProperty("mongodb.port"));
+            String host = properties.getProperty("soilMoisture.host");
+            int port = Integer.parseInt(properties.getProperty("soilMoisture.port"));
+            String mongodbHost = properties.getProperty("mongodb.host");
+            int mongodbPort = Integer.parseInt(properties.getProperty("mongodb.port"));
+            Vertx vertx = Vertx.vertx();
+            PlantValueDatabase database = new PlantValueDatabaseImpl(SOIL_MOISTURE_DB_NAME, SOIL_MOISTURE_COLLECTION_NAME, mongodbHost, mongodbPort);
+            PlantValueController controller = new PlantValueControllerImpl(database);
+            PlantValueModel model = new PlantValueModel(controller);
+            vertx.deployVerticle(new SoilMoistureService(model, host, port));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Vertx vertx = Vertx.vertx();
-        PlantValueDatabase database = new PlantValueDatabaseImpl(SOIL_MOISTURE_DB_NAME, SOIL_MOISTURE_COLLECTION_NAME, MONGODB_HOST, MONGODB_PORT);
-        PlantValueController controller = new PlantValueControllerImpl(database);
-        PlantValueModel model = new PlantValueModel(controller);
-        vertx.deployVerticle(new SoilMoistureService(model, HOST, PORT));
+
     }
 }

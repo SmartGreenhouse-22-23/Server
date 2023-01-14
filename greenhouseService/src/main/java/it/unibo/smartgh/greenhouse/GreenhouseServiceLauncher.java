@@ -5,6 +5,7 @@ import it.unibo.smartgh.greenhouse.api.GreenhouseAPI;
 import it.unibo.smartgh.greenhouse.api.GreenhouseModel;
 import it.unibo.smartgh.greenhouse.controller.GreenhouseControllerImpl;
 import it.unibo.smartgh.greenhouse.persistence.GreenhouseDatabaseImpl;
+import it.unibo.smartgh.greenhouse.service.GreenhouseService;
 
 import java.io.IOException;
 import java.io.InputStream;

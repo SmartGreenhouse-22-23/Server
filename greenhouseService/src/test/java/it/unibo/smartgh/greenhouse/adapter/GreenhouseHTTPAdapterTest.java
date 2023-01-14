@@ -13,7 +13,7 @@ import it.unibo.smartgh.brightness.service.BrightnessService;
 import it.unibo.smartgh.clientCommunication.api.ClientCommunicationAPI;
 import it.unibo.smartgh.clientCommunication.api.ClientCommunicationModel;
 import it.unibo.smartgh.clientCommunication.service.ClientCommunicationService;
-import it.unibo.smartgh.greenhouse.GreenhouseService;
+import it.unibo.smartgh.greenhouse.service.GreenhouseService;
 import it.unibo.smartgh.greenhouse.api.GreenhouseAPI;
 import it.unibo.smartgh.greenhouse.api.GreenhouseModel;
 import it.unibo.smartgh.greenhouse.controller.GreenhouseControllerImpl;

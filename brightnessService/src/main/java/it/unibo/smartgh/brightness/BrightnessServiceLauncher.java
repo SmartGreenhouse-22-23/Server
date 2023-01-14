@@ -19,28 +19,25 @@ public class BrightnessServiceLauncher {
 
     private static final String BRIGHTNESS_DB_NAME = "brightness";
     private static final String BRIGHTNESS_COLLECTION_NAME = "brightnessValues";
-    private static  String HOST;
-    private static int PORT;
-    private static String MONGODB_HOST;
-    private static int MONGODB_PORT;
 
     public static void main(String[] args) {
         try {
-            InputStream is = BrightnessServiceLauncher.class.getResourceAsStream("/configB.properties");
+            InputStream is = BrightnessServiceLauncher.class.getResourceAsStream("/config.properties");
             Properties properties = new Properties();
             properties.load(is);
 
-            HOST = properties.getProperty("service.host");
-            PORT = Integer.parseInt(properties.getProperty("brightness.port"));
-            MONGODB_HOST = properties.getProperty("mongodb.host");
-            MONGODB_PORT = Integer.parseInt(properties.getProperty("mongodb.port"));
+            String host = properties.getProperty("brightness.host");
+            int port = Integer.parseInt(properties.getProperty("brightness.port"));
+            String mongodbHost = properties.getProperty("mongodb.host");
+            int mongodbPort = Integer.parseInt(properties.getProperty("mongodb.port"));
+            Vertx vertx = Vertx.vertx();
+            PlantValueDatabase database = new PlantValueDatabaseImpl(BRIGHTNESS_DB_NAME, BRIGHTNESS_COLLECTION_NAME, mongodbHost, mongodbPort);
+            PlantValueController controller = new PlantValueControllerImpl(database);
+            PlantValueModel model = new PlantValueModel(controller);
+            vertx.deployVerticle(new BrightnessService(model, host, port));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Vertx vertx = Vertx.vertx();
-        PlantValueDatabase database = new PlantValueDatabaseImpl(BRIGHTNESS_DB_NAME, BRIGHTNESS_COLLECTION_NAME, MONGODB_HOST, MONGODB_PORT);
-        PlantValueController controller = new PlantValueControllerImpl(database);
-        PlantValueModel model = new PlantValueModel(controller);
-        vertx.deployVerticle(new BrightnessService(model, HOST, PORT));
+
     }
 }

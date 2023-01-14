@@ -19,28 +19,24 @@ public class HumidityServiceLauncher {
 
     private static final String HUMIDITY_DB_NAME = "humidity";
     private static final String HUMIDITY_COLLECTION_NAME = "humidityValues";
-    private static String HOST;
-    private static int PORT;
-    private static String MONGODB_HOST;
-    private static int MONGODB_PORT;
-
     public static void main(String[] args) {
         try {
             InputStream is = HumidityServiceLauncher.class.getResourceAsStream("/config.properties");
             Properties properties = new Properties();
             properties.load(is);
 
-            HOST = properties.getProperty("humidity.host");
-            PORT = Integer.parseInt(properties.getProperty("humidity.port"));
-            MONGODB_HOST = properties.getProperty("mongodb.host");
-            MONGODB_PORT = Integer.parseInt(properties.getProperty("mongodb.port"));
+            String host = properties.getProperty("humidity.host");
+            int port = Integer.parseInt(properties.getProperty("humidity.port"));
+            String mongodbHost = properties.getProperty("mongodb.host");
+            int mongodbPort = Integer.parseInt(properties.getProperty("mongodb.port"));
+            Vertx vertx = Vertx.vertx();
+            PlantValueDatabase database = new PlantValueDatabaseImpl(HUMIDITY_DB_NAME, HUMIDITY_COLLECTION_NAME, mongodbHost, mongodbPort);
+            PlantValueController controller = new PlantValueControllerImpl(database);
+            PlantValueModel model = new PlantValueModel(controller);
+            vertx.deployVerticle(new HumidityService(model, host, port));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Vertx vertx = Vertx.vertx();
-        PlantValueDatabase database = new PlantValueDatabaseImpl(HUMIDITY_DB_NAME, HUMIDITY_COLLECTION_NAME, MONGODB_HOST, MONGODB_PORT);
-        PlantValueController controller = new PlantValueControllerImpl(database);
-        PlantValueModel model = new PlantValueModel(controller);
-        vertx.deployVerticle(new HumidityService(model, HOST, PORT));
+
     }
 }

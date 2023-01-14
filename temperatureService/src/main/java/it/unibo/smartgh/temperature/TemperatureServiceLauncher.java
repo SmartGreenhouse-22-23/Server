@@ -18,10 +18,6 @@ import java.util.Properties;
 public class TemperatureServiceLauncher {
     private static final String TEMPERATURE_DB_NAME = "temperature";
     private static final String TEMPERATURE_COLLECTION_NAME = "temperatureValues";
-    private static String HOST;
-    private static int PORT;
-    private static String MONGODB_HOST;
-    private static int MONGODB_PORT;
 
     public static void main(String[] args) {
         try {
@@ -29,17 +25,17 @@ public class TemperatureServiceLauncher {
             Properties properties = new Properties();
             properties.load(is);
 
-            HOST = properties.getProperty("temperature.host");
-            PORT = Integer.parseInt(properties.getProperty("temperature.port"));
-            MONGODB_HOST = properties.getProperty("mongodb.host");
-            MONGODB_PORT = Integer.parseInt(properties.getProperty("mongodb.port"));
+            String host = properties.getProperty("temperature.host");
+            int port = Integer.parseInt(properties.getProperty("temperature.port"));
+            String mongodbHost = properties.getProperty("mongodb.host");
+            int mongodbPort = Integer.parseInt(properties.getProperty("mongodb.port"));
+            Vertx vertx = Vertx.vertx();
+            PlantValueDatabase database = new PlantValueDatabaseImpl(TEMPERATURE_DB_NAME, TEMPERATURE_COLLECTION_NAME, mongodbHost, mongodbPort);
+            PlantValueController controller = new PlantValueControllerImpl(database);
+            PlantValueModel model = new PlantValueModel(controller);
+            vertx.deployVerticle(new TemperatureService(model, host, port));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Vertx vertx = Vertx.vertx();
-        PlantValueDatabase database = new PlantValueDatabaseImpl(TEMPERATURE_DB_NAME, TEMPERATURE_COLLECTION_NAME, MONGODB_HOST, MONGODB_PORT);
-        PlantValueController controller = new PlantValueControllerImpl(database);
-        PlantValueModel model = new PlantValueModel(controller);
-        vertx.deployVerticle(new TemperatureService(model, HOST, PORT));
     }
 }

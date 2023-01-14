@@ -1,4 +1,4 @@
-package it.unibo.smartgh.greenhouse;
+package it.unibo.smartgh.greenhouse.service;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
