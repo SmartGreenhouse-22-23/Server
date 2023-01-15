@@ -3,8 +3,7 @@ package it.unibo.smartgh.clientCommunication.api.apiOperationManager;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
 import io.vertx.core.Vertx;
-import io.vertx.core.http.HttpClient;
-import io.vertx.core.http.WebSocket;
+import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
@@ -23,15 +22,17 @@ public class ParametersAPIOperationManager {
     private static String SOCKET_HOST;
     private static int SOCKET_PORT;
     private final WebClient httpClient;
-    private final HttpClient socketClient;
+    private final HttpServer socketServer;
+    private final Vertx vertx;
 
     /**
      * Public constructor of the class.
      * @param vertx the program's instance of Vertx.
      */
     public ParametersAPIOperationManager(Vertx vertx){
-        this.socketClient = vertx.createHttpClient();
+        this.socketServer = vertx.createHttpServer();
         this.httpClient = WebClient.create(vertx);
+        this.vertx = vertx;
         try {
             InputStream is = ParametersAPIOperationManager.class.getResourceAsStream("/config.properties");
             Properties properties = new Properties();
@@ -60,13 +61,8 @@ public class ParametersAPIOperationManager {
      */
     public Future<Void> postCurrentPlantValueData(JsonObject parameterInformation) {
         Promise<Void> p = Promise.promise();
-        socketClient.webSocket(SOCKET_PORT,
-                SOCKET_HOST,
-                "/",
-                wsC -> {
-                    WebSocket ctx = wsC.result();
-                    if (ctx != null) ctx.writeTextMessage(parameterInformation.toString(), h -> ctx.close());
-                });
+        vertx.eventBus().publish("parameter", parameterInformation.toString());
+        p.complete();
         return p.future();
     }
 

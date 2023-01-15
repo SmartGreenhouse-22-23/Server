@@ -12,12 +12,19 @@ import it.unibo.smartgh.clientCommunication.adapter.pathManager.impl.GreenhouseP
 import it.unibo.smartgh.clientCommunication.adapter.pathManager.impl.OperationPathManagerImpl;
 import it.unibo.smartgh.clientCommunication.adapter.pathManager.impl.ParametersPathManagerImpl;
 import it.unibo.smartgh.clientCommunication.api.ClientCommunicationAPI;
+import it.unibo.smartgh.clientCommunication.api.apiOperationManager.ParametersAPIOperationManager;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * Represents the HTTP Adapter for the Client Communication service.
  */
 public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommunicationAPI> {
 
+    private static String SOCKET_HOST;
+    private static int SOCKET_PORT;
     private static final String BASE_PATH = "/clientCommunication";
     private static final String GET_GREENHOUSE_INFO_PATH = BASE_PATH + "/greenhouse";
 
@@ -49,6 +56,15 @@ public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommun
         super(model, vertx);
         this.host = host;
         this.port = port;
+        InputStream is = ParametersAPIOperationManager.class.getResourceAsStream("/config.properties");
+        Properties properties = new Properties();
+        try {
+            properties.load(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        SOCKET_HOST = properties.getProperty("socketParam.host");
+        SOCKET_PORT = Integer.parseInt(properties.getProperty("socketParam.port"));
         this.greenhousePathManager = new GreenhousePathManagerImpl(model);
         this.parametersPathManager = new ParametersPathManagerImpl(model);
         this.operationPathManager = new OperationPathManagerImpl(model);
@@ -82,13 +98,22 @@ public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommun
                 }
             });
 
+
+            HttpServer serverSocket = getVertx().createHttpServer();
+            serverSocket.webSocketHandler(ctx -> {
+                System.out.println("ctx " + ctx);
+                getVertx().eventBus().consumer("parameter", body ->
+                    ctx.writeTextMessage(body.body().toString())
+                );
+            }).listen(SOCKET_PORT, SOCKET_HOST)
+                    .onSuccess(r -> System.out.println("listen success"))
+                    .onFailure(Throwable::printStackTrace);
+
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println("API setup failed - " + ex);
             startPromise.fail("API setup failed - " + ex);
         }
     }
-
-
 
 }
