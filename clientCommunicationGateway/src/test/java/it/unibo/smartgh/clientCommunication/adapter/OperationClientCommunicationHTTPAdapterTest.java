@@ -228,7 +228,7 @@ public class OperationClientCommunicationHTTPAdapterTest {
                 .put("parameter", parameter)
                 .put("action", action);
         WebClient client = WebClient.create(vertx);
-        client.post(CLIENT_COMMUNICATION_SERVICE_PORT, CLIENT_COMMUNICATION_SERVICE_HOST, "/clientCommunication/operations/notify")
+        client.post(CLIENT_COMMUNICATION_SERVICE_PORT, CLIENT_COMMUNICATION_SERVICE_HOST, "/clientCommunication/operations")
                 .sendJsonObject(expectedJson)
                 .onSuccess(r -> {
                     assertEquals(201, r.statusCode());
