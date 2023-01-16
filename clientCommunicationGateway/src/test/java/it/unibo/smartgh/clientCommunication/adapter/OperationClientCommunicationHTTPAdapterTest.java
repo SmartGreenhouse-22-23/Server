@@ -28,9 +28,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.*;
-import java.net.Inet4Address;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -109,11 +106,7 @@ public class OperationClientCommunicationHTTPAdapterTest {
             OPERATION_SERVICE_HOST = properties.getProperty("operation.host");
             OPERATION_SERVICE_PORT = Integer.parseInt(properties.getProperty("operation.port"));
             SOCKET_PORT = Integer.parseInt(properties.getProperty("socketOperation.port"));
-
-            try (Socket socket = new Socket()) {
-                socket.connect(new InetSocketAddress("google.com", 80));
-                SOCKET_HOST = socket.getLocalAddress().getHostAddress();
-            }
+            SOCKET_HOST = properties.getProperty("socket.host");
 
             database = new OperationDatabaseImpl(OPERATION_DB_NAME, OPERATION_COLLECTION_NAME,
                     mongodbHost, mongodbPort);

@@ -25,9 +25,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.net.Inet4Address;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.io.File;
@@ -70,10 +67,7 @@ public class ParameterClientCommunicationHTTPAdapterTest {
             CLIENT_COMMUNICATION_SERVICE_PORT = Integer.parseInt(properties.getProperty("clientCommunication.port"));
             BRIGHTNESS_SERVICE_HOST = properties.getProperty("brightness.host");
             BRIGHTNESS_SERVICE_PORT = Integer.parseInt(properties.getProperty("brightness.port"));
-            try (Socket socket = new Socket()) {
-                socket.connect(new InetSocketAddress("google.com", 80));
-                SOCKET_HOST = socket.getLocalAddress().getHostAddress();
-            }
+            SOCKET_HOST = properties.getProperty("socket.host");
             SOCKET_PORT = Integer.parseInt(properties.getProperty("socketParam.port"));
 
         } catch (IOException e) {

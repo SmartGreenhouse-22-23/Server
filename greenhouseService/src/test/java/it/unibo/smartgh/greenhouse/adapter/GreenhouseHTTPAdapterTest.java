@@ -149,13 +149,8 @@ public class GreenhouseHTTPAdapterTest {
             PORT = Integer.parseInt(properties.getProperty("greenhouse.port"));
             MONGODB_HOST = properties.getProperty("mongodb.host");
             MONGODB_PORT = Integer.parseInt(properties.getProperty("mongodb.port"));
-            try (Socket socket = new Socket()) {
-                socket.connect(new InetSocketAddress("google.com", 80));
-                SOCKET_HOST = socket.getLocalAddress().getHostAddress();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            SOCKET_PORT = Integer.parseInt(properties.getProperty("socket.port"));
+            SOCKET_HOST = properties.getProperty("socket.host");
+            SOCKET_PORT = Integer.parseInt(properties.getProperty("socketParam.port"));
             CLIENT_COMMUNICATION_HOST = properties.getProperty("clientCommunication.host");
             CLIENT_COMMUNICATION_PORT = Integer.parseInt(properties.getProperty("clientCommunication.port"));
 

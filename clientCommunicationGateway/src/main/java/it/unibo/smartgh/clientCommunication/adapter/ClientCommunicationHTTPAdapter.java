@@ -16,10 +16,6 @@ import it.unibo.smartgh.clientCommunication.api.apiOperationManager.ParametersAP
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.util.Properties;
 
 /**
@@ -68,13 +64,7 @@ public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommun
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        try (Socket socket = new Socket()) {
-            socket.connect(new InetSocketAddress("google.com", 80));
-            SOCKET_HOST = socket.getLocalAddress().getHostAddress();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        SOCKET_HOST=properties.getProperty("socket.host");
         SOCKET_OPERATION_PORT = Integer.parseInt(properties.getProperty("socketOperation.port"));
         SOCKET_PARAM_PORT = Integer.parseInt(properties.getProperty("socketParam.port"));
         this.greenhousePathManager = new GreenhousePathManagerImpl(model);
@@ -113,6 +103,7 @@ public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommun
 
             HttpServer serverSocketParameter = getVertx().createHttpServer();
             serverSocketParameter.webSocketHandler(ctx -> {
+                System.out.println("new connection");
                 getVertx().eventBus().consumer("parameter", body ->
                     ctx.writeTextMessage(body.body().toString())
                 );
