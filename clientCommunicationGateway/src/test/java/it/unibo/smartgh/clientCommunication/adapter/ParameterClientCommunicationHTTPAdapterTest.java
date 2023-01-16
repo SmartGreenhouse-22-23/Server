@@ -3,7 +3,8 @@ package it.unibo.smartgh.clientCommunication.adapter;
 import com.google.gson.Gson;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.core.http.HttpServer;
+import io.vertx.core.http.HttpClient;
+import io.vertx.core.http.WebSocket;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.junit5.VertxExtension;
@@ -12,7 +13,6 @@ import it.unibo.smartgh.brightness.service.BrightnessService;
 import it.unibo.smartgh.clientCommunication.api.ClientCommunicationAPI;
 import it.unibo.smartgh.clientCommunication.api.ClientCommunicationModel;
 import it.unibo.smartgh.clientCommunication.service.ClientCommunicationService;
-import it.unibo.smartgh.operation.persistence.OperationDatabaseImpl;
 import it.unibo.smartgh.plantValue.api.PlantValueModel;
 import it.unibo.smartgh.plantValue.controller.PlantValueController;
 import it.unibo.smartgh.plantValue.controller.PlantValueControllerImpl;
@@ -24,15 +24,16 @@ import it.unibo.smartgh.presentation.GsonUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import java.net.Inet4Address;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -54,7 +55,7 @@ public class ParameterClientCommunicationHTTPAdapterTest {
     private static int SOCKET_PORT;
     private static String SOCKET_HOST;
 
-    private Gson gson = GsonUtils.createGson();
+    private final Gson gson = GsonUtils.createGson();
 
     private static void configVariable() {
         File file = new File(ParameterClientCommunicationHTTPAdapterTest.class.getClassLoader().getResource("config.properties").getFile());
@@ -69,7 +70,10 @@ public class ParameterClientCommunicationHTTPAdapterTest {
             CLIENT_COMMUNICATION_SERVICE_PORT = Integer.parseInt(properties.getProperty("clientCommunication.port"));
             BRIGHTNESS_SERVICE_HOST = properties.getProperty("brightness.host");
             BRIGHTNESS_SERVICE_PORT = Integer.parseInt(properties.getProperty("brightness.port"));
-            SOCKET_HOST = properties.getProperty("socketParam.host");
+            try (Socket socket = new Socket()) {
+                socket.connect(new InetSocketAddress("google.com", 80));
+                SOCKET_HOST = socket.getLocalAddress().getHostAddress();
+            }
             SOCKET_PORT = Integer.parseInt(properties.getProperty("socketParam.port"));
 
         } catch (IOException e) {
@@ -159,20 +163,19 @@ public class ParameterClientCommunicationHTTPAdapterTest {
                 .put("value", "5.0")
                 .put("date", formatter.format(new Date()))
                 .put("status", "alarm");
-        vertx.executeBlocking(p -> {
-            HttpServer server = vertx.createHttpServer();
-            server.webSocketHandler(ctx -> {
-                ctx.textMessageHandler(msg -> {
-                    System.out.println(msg);
-                    JsonObject json = new JsonObject(msg);
-                    assertEquals(expectedJson, json);
-                    p.complete();
-                });
-            }).listen(SOCKET_PORT, SOCKET_HOST);
-        }).onSuccess(h -> {
-            testContext.completeNow();
-        });
 
+        HttpClient socketClient = vertx.createHttpClient();
+        socketClient.webSocket(SOCKET_PORT,
+                SOCKET_HOST,
+                "/",
+                wsC -> {
+                    WebSocket ctx = wsC.result();
+                    if (ctx != null) ctx.textMessageHandler(msg -> {
+                        JsonObject json = new JsonObject(msg);
+                        assertEquals(expectedJson, json);
+                        testContext.completeNow();
+                    });
+                });
 
         WebClient client = WebClient.create(vertx);
         client.post(CLIENT_COMMUNICATION_SERVICE_PORT, CLIENT_COMMUNICATION_SERVICE_HOST, "/clientCommunication/parameter/")

@@ -3,7 +3,9 @@ package it.unibo.smartgh.greenhouse.adapter;
 import com.google.gson.Gson;
 import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
+import io.vertx.core.http.HttpClient;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.http.WebSocket;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.codec.BodyCodec;
@@ -38,6 +40,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.*;
+import java.net.Inet4Address;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -144,7 +149,12 @@ public class GreenhouseHTTPAdapterTest {
             PORT = Integer.parseInt(properties.getProperty("greenhouse.port"));
             MONGODB_HOST = properties.getProperty("mongodb.host");
             MONGODB_PORT = Integer.parseInt(properties.getProperty("mongodb.port"));
-            SOCKET_HOST = properties.getProperty("socket.host");
+            try (Socket socket = new Socket()) {
+                socket.connect(new InetSocketAddress("google.com", 80));
+                SOCKET_HOST = socket.getLocalAddress().getHostAddress();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             SOCKET_PORT = Integer.parseInt(properties.getProperty("socket.port"));
             CLIENT_COMMUNICATION_HOST = properties.getProperty("clientCommunication.host");
             CLIENT_COMMUNICATION_PORT = Integer.parseInt(properties.getProperty("clientCommunication.port"));
@@ -214,27 +224,30 @@ public class GreenhouseHTTPAdapterTest {
 
     @RepeatedTest(2)
     public void postNewValueTest(Vertx vertx, VertxTestContext testContext){
-        HttpServer socketServer = vertx.createHttpServer();
-        socketServer.webSocketHandler(ctx ->{
-           ctx.textMessageHandler(msg -> {
-               JsonObject json = new JsonObject(msg);
-               assertEquals(ID, json.getValue("greenhouseId"));
-               testContext.completeNow();
-               ctx.close();
-           });
-        }).listen(SOCKET_PORT, SOCKET_HOST);
+        HttpClient socketClient = vertx.createHttpClient();
+        socketClient.webSocket(SOCKET_PORT,
+                SOCKET_HOST,
+                "/",
+                wsC -> {
+                    WebSocket ctx = wsC.result();
+                    if (ctx != null) ctx.textMessageHandler(msg -> {
+                        JsonObject json = new JsonObject(msg);
+                        assertEquals(ID, json.getValue("greenhouseId"));
+                        if(json.containsKey("temperature")) assertEquals(4.0, json.getValue("value"));
+                        testContext.completeNow();
+                    });
+                });
+
         WebClient client = WebClient.create(vertx);
         client.post(PORT, HOST, "/greenhouse")
-                .sendJsonObject(
-                        new JsonObject()
-                                .put("id", ID)
-                                .put("parameters", new JsonObject()
-                                        .put("Temp", 4.0)
-                                        .put("Hum", 40.0)
-                                        .put("Bright", 4500.0)
-                                        .put("Soil", 25.0)
-                                )
-                )
+                .sendJsonObject( new JsonObject()
+                        .put("id", ID)
+                        .put("parameters", new JsonObject()
+                                .put("Temp", 4.0)
+                                .put("Hum", 40.0)
+                                .put("Bright", 4500.0)
+                                .put("Soil", 25.0)
+                        ))
                 .onSuccess(response -> {
                     assertEquals(201, response.statusCode());
                     testContext.completeNow();

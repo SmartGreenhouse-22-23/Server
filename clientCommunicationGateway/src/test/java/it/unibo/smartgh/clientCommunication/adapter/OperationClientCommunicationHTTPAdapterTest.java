@@ -2,7 +2,8 @@ package it.unibo.smartgh.clientCommunication.adapter;
 
 import com.google.gson.Gson;
 import io.vertx.core.Vertx;
-import io.vertx.core.http.HttpServer;
+import io.vertx.core.http.HttpClient;
+import io.vertx.core.http.WebSocket;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
@@ -26,9 +27,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
+import java.net.Inet4Address;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -106,8 +108,12 @@ public class OperationClientCommunicationHTTPAdapterTest {
             CLIENT_COMMUNICATION_SERVICE_PORT = Integer.parseInt(properties.getProperty("clientCommunication.port"));
             OPERATION_SERVICE_HOST = properties.getProperty("operation.host");
             OPERATION_SERVICE_PORT = Integer.parseInt(properties.getProperty("operation.port"));
-            SOCKET_HOST = properties.getProperty("socketOperation.host");
             SOCKET_PORT = Integer.parseInt(properties.getProperty("socketOperation.port"));
+
+            try (Socket socket = new Socket()) {
+                socket.connect(new InetSocketAddress("google.com", 80));
+                SOCKET_HOST = socket.getLocalAddress().getHostAddress();
+            }
 
             database = new OperationDatabaseImpl(OPERATION_DB_NAME, OPERATION_COLLECTION_NAME,
                     mongodbHost, mongodbPort);
@@ -197,19 +203,19 @@ public class OperationClientCommunicationHTTPAdapterTest {
     public void testPostNotifyNewOperation(Vertx vertx, VertxTestContext testContext){
         JsonObject expectedJson = new JsonObject()
                 .put("greenhouseId", "63af0ae025d55e9840cbc1fa");
-        vertx.executeBlocking(p -> {
-            HttpServer server = vertx.createHttpServer();
-            server.webSocketHandler(ctx -> {
-                ctx.textMessageHandler(msg -> {
-                    System.out.println(msg);
-                    JsonObject json = new JsonObject(msg);
-                    assertEquals(expectedJson, json);
-                    p.complete();
+
+        HttpClient socketClient = vertx.createHttpClient();
+        socketClient.webSocket(SOCKET_PORT,
+                SOCKET_HOST,
+                "/",
+                wsC -> {
+                    WebSocket ctx = wsC.result();
+                    if (ctx != null) ctx.textMessageHandler(msg -> {
+                        JsonObject json = new JsonObject(msg);
+                        assertEquals(expectedJson, json);
+                        testContext.completeNow();
+                    });
                 });
-            }).listen(SOCKET_PORT, SOCKET_HOST);
-        }).onSuccess(h -> {
-            testContext.completeNow();
-        });
 
 
         WebClient client = WebClient.create(vertx);

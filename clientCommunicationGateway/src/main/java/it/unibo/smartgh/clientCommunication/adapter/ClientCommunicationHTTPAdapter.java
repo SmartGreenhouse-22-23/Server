@@ -16,6 +16,10 @@ import it.unibo.smartgh.clientCommunication.api.apiOperationManager.ParametersAP
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.util.Properties;
 
 /**
@@ -23,8 +27,9 @@ import java.util.Properties;
  */
 public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommunicationAPI> {
 
+    private static int SOCKET_PARAM_PORT;
     private static String SOCKET_HOST;
-    private static int SOCKET_PORT;
+    private static int SOCKET_OPERATION_PORT;
     private static final String BASE_PATH = "/clientCommunication";
     private static final String GET_GREENHOUSE_INFO_PATH = BASE_PATH + "/greenhouse";
 
@@ -63,8 +68,15 @@ public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommun
         } catch (IOException e) {
             e.printStackTrace();
         }
-        SOCKET_HOST = properties.getProperty("socketParam.host");
-        SOCKET_PORT = Integer.parseInt(properties.getProperty("socketParam.port"));
+
+        try (Socket socket = new Socket()) {
+            socket.connect(new InetSocketAddress("google.com", 80));
+            SOCKET_HOST = socket.getLocalAddress().getHostAddress();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        SOCKET_OPERATION_PORT = Integer.parseInt(properties.getProperty("socketOperation.port"));
+        SOCKET_PARAM_PORT = Integer.parseInt(properties.getProperty("socketParam.port"));
         this.greenhousePathManager = new GreenhousePathManagerImpl(model);
         this.parametersPathManager = new ParametersPathManagerImpl(model);
         this.operationPathManager = new OperationPathManagerImpl(model);
@@ -99,13 +111,21 @@ public class ClientCommunicationHTTPAdapter extends AbstractAdapter<ClientCommun
             });
 
 
-            HttpServer serverSocket = getVertx().createHttpServer();
-            serverSocket.webSocketHandler(ctx -> {
-                System.out.println("ctx " + ctx);
+            HttpServer serverSocketParameter = getVertx().createHttpServer();
+            serverSocketParameter.webSocketHandler(ctx -> {
                 getVertx().eventBus().consumer("parameter", body ->
                     ctx.writeTextMessage(body.body().toString())
                 );
-            }).listen(SOCKET_PORT, SOCKET_HOST)
+            }).listen(SOCKET_PARAM_PORT, SOCKET_HOST)
+                    .onSuccess(r -> System.out.println("listen success"))
+                    .onFailure(Throwable::printStackTrace);
+
+            HttpServer serverSocketOperation = getVertx().createHttpServer();
+            serverSocketOperation.webSocketHandler(ctx -> {
+                        getVertx().eventBus().consumer("operation", body ->
+                                ctx.writeTextMessage(body.body().toString())
+                        );
+                    }).listen(SOCKET_OPERATION_PORT, SOCKET_HOST)
                     .onSuccess(r -> System.out.println("listen success"))
                     .onFailure(Throwable::printStackTrace);
 

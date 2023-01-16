@@ -24,10 +24,8 @@ public class OperationAPIOperationManager {
     private static final String GET_OPERATION_IN_DATE_RANGE = OPERATION_BASE_PATH + "/date";
     private static String OPERATION_SERVICE_HOST;
     private static int OPERATION_SERVICE_PORT;
-    private static String SOCKET_HOST;
-    private static int SOCKET_PORT;
     private final WebClient httpClient;
-    private final HttpClient socketClient;
+    private final Vertx vertx;
 
     /**
      * Public constructor of the class.
@@ -35,7 +33,7 @@ public class OperationAPIOperationManager {
      */
     public OperationAPIOperationManager(Vertx vertx){
         this.httpClient = WebClient.create(vertx);
-        this.socketClient = vertx.createHttpClient();
+        this.vertx = vertx;
         try {
             InputStream is = OperationAPIOperationManager.class.getResourceAsStream("/config.properties");
             Properties properties = new Properties();
@@ -43,8 +41,6 @@ public class OperationAPIOperationManager {
 
             OPERATION_SERVICE_HOST = properties.getProperty("operation.host");
             OPERATION_SERVICE_PORT = Integer.parseInt(properties.getProperty("operation.port"));
-            SOCKET_HOST = properties.getProperty("socketOperation.host");
-            SOCKET_PORT = Integer.parseInt(properties.getProperty("socketOperation.port"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -115,13 +111,8 @@ public class OperationAPIOperationManager {
      */
     public Future<Void> postNotifyNewOperation(JsonObject operationInformation) {
         Promise<Void> p = Promise.promise();
-        socketClient.webSocket(SOCKET_PORT,
-                SOCKET_HOST,
-                "/",
-                wsC -> {
-                    WebSocket ctx = wsC.result();
-                    if (ctx != null) ctx.writeTextMessage(operationInformation.toString(), h -> ctx.close());
-                });
+        vertx.eventBus().publish("operation", operationInformation.toString());
+        p.complete();
         return p.future();
     }
 }
