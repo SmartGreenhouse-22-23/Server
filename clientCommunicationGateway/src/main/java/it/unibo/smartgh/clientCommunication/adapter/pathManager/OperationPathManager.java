@@ -30,4 +30,10 @@ public interface OperationPathManager {
      * @param request the routing context of reference.
      */
     void handlePostNotifyNewOperation(RoutingContext request);
+
+    /**
+     * Handles the new manual operation.
+     * @param request the routing context of reference.
+     */
+    void handlePostNewOperation(RoutingContext request);
 }

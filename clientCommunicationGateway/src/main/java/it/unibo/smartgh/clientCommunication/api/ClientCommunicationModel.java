@@ -76,4 +76,9 @@ public class ClientCommunicationModel implements ClientCommunicationAPI{
     public Future<Void> postNotifyNewOperation(JsonObject operationInformation) {
         return this.operationAPIOperationManager.postNotifyNewOperation(operationInformation);
     }
+
+    @Override
+    public Future<Void> postNewOperation(JsonObject operation) {
+        return this.operationAPIOperationManager.postNewOperation(operation);
+    }
 }

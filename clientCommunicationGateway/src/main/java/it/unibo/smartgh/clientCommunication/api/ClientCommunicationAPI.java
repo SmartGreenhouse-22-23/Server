@@ -92,4 +92,10 @@ public interface ClientCommunicationAPI {
      */
     Future<Void> postNotifyNewOperation(JsonObject operationInformation);
 
+    /**
+     * Store a new operation.
+     * @param operation new operation.
+     * @return a {@link io.vertx.core.Future} representing the operation performed.
+     */
+    Future<Void> postNewOperation(JsonObject operation);
 }

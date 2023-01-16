@@ -115,4 +115,14 @@ public class OperationAPIOperationManager {
         p.complete();
         return p.future();
     }
+
+    public Future<Void> postNewOperation(JsonObject operation) {
+        Promise<Void> p = Promise.promise();
+        httpClient.post(OPERATION_SERVICE_PORT, OPERATION_SERVICE_HOST, OPERATION_BASE_PATH)
+                .putHeader("content-type", "application/json")
+                .sendJsonObject(operation)
+                .onSuccess(r -> p.complete())
+                .onFailure(p::fail);
+        return p.future();
+    }
 }
