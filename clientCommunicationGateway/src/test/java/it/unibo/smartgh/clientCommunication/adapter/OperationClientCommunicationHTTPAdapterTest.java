@@ -207,6 +207,7 @@ public class OperationClientCommunicationHTTPAdapterTest {
                         JsonObject json = new JsonObject(msg);
                         assertEquals(expectedJson, json);
                         testContext.completeNow();
+                        ctx.close();
                     });
                 });
 
@@ -214,5 +215,24 @@ public class OperationClientCommunicationHTTPAdapterTest {
         WebClient client = WebClient.create(vertx);
         client.post(CLIENT_COMMUNICATION_SERVICE_PORT, CLIENT_COMMUNICATION_SERVICE_HOST, "/clientCommunication/operations/notify")
                 .sendJsonObject(expectedJson);
+    }
+
+    @Test
+    public void testPostNewOperation(Vertx vertx, VertxTestContext testContext){
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+        final String action = "TEMPERATURE decrease";
+        JsonObject expectedJson = new JsonObject()
+                .put("greenhouseId", greenhouseId)
+                .put("modality", Modality.MANUAL)
+                .put("date", formatter.format(new Date()))
+                .put("parameter", parameter)
+                .put("action", action);
+        WebClient client = WebClient.create(vertx);
+        client.post(CLIENT_COMMUNICATION_SERVICE_PORT, CLIENT_COMMUNICATION_SERVICE_HOST, "/clientCommunication/operations/notify")
+                .sendJsonObject(expectedJson)
+                .onSuccess(r -> {
+                    assertEquals(201, r.statusCode());
+                    testContext.completeNow();
+                });
     }
 }
