@@ -117,10 +117,12 @@ public class GreenhouseModel implements GreenhouseAPI{
 
         checkSoilMoisture(greenhouse,
                 plant.getMinSoilMoisture(),
+                plant.getMaxSoilMoisture(),
                 valueOf(parameters.getValue("Soil").toString()),
                 greenhouse.getActualModality() == Modality.AUTOMATIC);
 
         checkHumidity(greenhouse,
+                plant.getMinHumidity(),
                 plant.getMaxHumidity(),
                 valueOf(parameters.getValue("Hum").toString()),
                 greenhouse.getActualModality() == Modality.AUTOMATIC);
@@ -141,7 +143,7 @@ public class GreenhouseModel implements GreenhouseAPI{
 
     }
 
-    private void checkHumidity(Greenhouse gh, Double max, Double hum, boolean automatic) {
+    private void checkHumidity(Greenhouse gh, Double min, Double max, Double hum, boolean automatic) {
         String parameter = "humidity";
         String status = "normal";
         if (hum.compareTo(max) > 0){
@@ -150,6 +152,7 @@ public class GreenhouseModel implements GreenhouseAPI{
                 insertOperation(gh.getId(), parameter, "VENTILATION on", gh.getActualModality().toString());
             }
         } else {
+            if (hum.compareTo(min) < 0) status = "alarm";
             if (automatic) {
                 insertOperation(gh.getId(), parameter, "VENTILATION off", gh.getActualModality().toString());
             }
@@ -157,7 +160,7 @@ public class GreenhouseModel implements GreenhouseAPI{
         sendToClient(gh.getId(), parameter, hum, status);
     }
 
-    private void checkSoilMoisture(Greenhouse gh, Double min, Double soil, boolean automatic) {
+    private void checkSoilMoisture(Greenhouse gh, Double min, Double max, Double soil, boolean automatic) {
         String parameter = "soilMoisture";
         String status = "normal";
         if (soil.compareTo(min) < 0){
@@ -166,6 +169,7 @@ public class GreenhouseModel implements GreenhouseAPI{
                 insertOperation(gh.getId(), parameter, "IRRIGATION on", gh.getActualModality().toString());
             }
         } else {
+            if (soil.compareTo(max) > 0) status = "alarm";
             if (automatic) {
                 insertOperation(gh.getId(), parameter, "IRRIGATION off", gh.getActualModality().toString());
             }
@@ -207,7 +211,7 @@ public class GreenhouseModel implements GreenhouseAPI{
             }
         } else {
             if (temp.compareTo(min + 5.0) >= 0 || temp.compareTo(max - 5.0) <= 0) {
-                insertOperation(gh.getId(), parameter, "TEMPERATURE off", gh.getActualModality().toString());
+                insertOperation(gh.getId(), parameter, "TEMPERATURE turn-off", gh.getActualModality().toString());
             }
         }
         sendToClient(gh.getId(), parameter, temp, status);
