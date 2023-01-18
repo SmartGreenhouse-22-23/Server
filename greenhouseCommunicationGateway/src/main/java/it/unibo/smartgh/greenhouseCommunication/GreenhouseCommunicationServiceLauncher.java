@@ -15,7 +15,7 @@ import java.util.Properties;
 public class GreenhouseCommunicationServiceLauncher {
 
     public static void  main(String[] args){
-        String greenhouseID = "63af0ae025d55e9840cbc1fa";
+        String greenhouseID = "63af0ae025d55e9840cbc1fc";
         Vertx vertx = Vertx.vertx();
         try {
             InputStream is = GreenhouseCommunicationServiceLauncher.class.getResourceAsStream("/config.properties");

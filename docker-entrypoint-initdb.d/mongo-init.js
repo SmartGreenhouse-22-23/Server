@@ -4,6 +4,29 @@ db.createCollection('greenhouse');
 
 db.greenhouse.insertMany( [
 {
+  _id: ObjectId('63af0ae025d55e9840cbc1fc'),
+  plant: {
+    name: 'Peperoncino rosso calabrese',
+    description: 'È un arbusto a portamento eretto, ha foglie lanceolate, verdi. Può essere presente una peluria su fusto e pagina superiore delle foglie. I fiori, bianchi, singoli, con stami giallo/verdi, a 5-7 petali, compaiono all\'ascella delle foglie, uno per nodo, in estate.',
+    img: 'http://www.giardinaggio.it/giardino/piante-da-giardino/peperoncini_NG4.jpg',
+    minTemperature: 10.0,
+    maxTemperature: 35.0,
+    minBrightness: 3000.0,
+    maxBrightness: 95000.0,
+    minSoilMoisture: 20.0,
+    maxSoilMoisture: 65.0,
+    minHumidity: 30.0,
+    maxHumidity: 80.0,
+    unit: {
+      temperature: '° C',
+      humidity:'%',
+      soilMoisture: '%',
+      brightness: 'Lux'
+    }
+  },
+  modality: 'AUTOMATIC'
+},
+{
   _id: ObjectId('63af0ae025d55e9840cbc1fa'),
   plant: {
     name: 'lemon',
