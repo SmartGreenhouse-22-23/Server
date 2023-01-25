@@ -2,7 +2,7 @@
   "name": "SmartGreenhouseServer",
   "private": true,
   "devDependencies": {
-    "semantic-release-preconfigured-conventional-commits": "1.1.15"
+    "semantic-release-preconfigured-conventional-commits": "1.1.16"
   },
   "engines": {
     "node": ">=18"
