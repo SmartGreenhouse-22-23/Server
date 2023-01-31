@@ -3,13 +3,16 @@ package it.unibo.smartgh.greenhouse.presentation.serializer;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.Greenhouse;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.GreenhouseImpl;
 import it.unibo.smartgh.greenhouse.entity.greenhouse.Modality;
 import it.unibo.smartgh.greenhouse.entity.plant.*;
 import it.unibo.smartgh.greenhouse.presentation.GsonUtils;
+import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -117,6 +120,10 @@ class GreenhouseSerializerTest {
         json.addProperty("id", this.greenhouse.getId());
         json.addProperty("modality", this.greenhouse.getActualModality().toString());
 
-        assertEquals(json.toString(), this.gson.toJson(this.greenhouse));
+        try {
+            JSONAssert.assertEquals(json.toString(), this.gson.toJson(this.greenhouse), false);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

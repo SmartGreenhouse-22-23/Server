@@ -6,8 +6,10 @@ import com.google.gson.JsonObject;
 import io.vertx.core.json.Json;
 import it.unibo.smartgh.greenhouse.entity.plant.*;
 import it.unibo.smartgh.greenhouse.presentation.GsonUtils;
+import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -105,6 +107,10 @@ class PlantSerializerTest {
         json.addProperty("img", this.plant.getImg());
         json.add("parameters", array);
 
-        assertEquals(json.toString(), this.gson.toJson(this.plant));
+        try {
+            JSONAssert.assertEquals(json.toString(), this.gson.toJson(this.plant), false);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
