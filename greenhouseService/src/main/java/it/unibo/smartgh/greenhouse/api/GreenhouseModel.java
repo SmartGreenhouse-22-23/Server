@@ -81,6 +81,7 @@ public class GreenhouseModel implements GreenhouseAPI{
         Promise<Void> promise = Promise.promise();
         try {
             greenhouseController.changeActualModality(id, modality);
+            notifyChangeModality(id, modality);
             promise.complete();
         } catch (NoSuchElementException ex) {
             promise.fail("invalid id");
@@ -279,5 +280,15 @@ public class GreenhouseModel implements GreenhouseAPI{
                 .onSuccess(res -> promise.complete())
                 .onFailure(ex -> promise.future());
         promise.future();
+    }
+
+    private void notifyChangeModality(String id, Modality modality){
+        WebClient client = WebClient.create(vertx);
+        client.post(CLIENT_COMMUNICATION_PORT, CLIENT_COMMUNICATION_HOST, "/clientCommunication/greenhouse/modality/notify")
+                .sendJsonObject(
+                        new JsonObject()
+                                .put("greenhouseId", id)
+                                .put("modality", modality)
+                );
     }
 }

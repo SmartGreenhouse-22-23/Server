@@ -4,3 +4,4 @@ ADD build/libs/clientCommunicationGateway-0.1.0-all.jar clientCommunicationGatew
 CMD java -jar clientCommunicationGateway-0.1.0-all.jar
 EXPOSE 1234
 EXPOSE 1235
+EXPOSE 1236
