@@ -1,3 +1,19 @@
+## [1.1.1](https://github.com/SmartGreenhouse-22-23/Server/compare/1.1.0...1.1.1) (2023-02-19)
+
+
+### Dependency updates
+
+* **core-deps:** update dependency gradle to v8 ([1a0feef](https://github.com/SmartGreenhouse-22-23/Server/commit/1a0feef343f64add43be9de9c7fbf9ebf60c3ffa))
+* **deps:** update dependency io.vertx:vertx-junit5 to v4.3.8 ([3afabd9](https://github.com/SmartGreenhouse-22-23/Server/commit/3afabd9511649f90054a320f90780ac3e9b68730))
+* **deps:** update dependency org.mongodb:mongodb-driver-sync to v4.9.0 ([04dc80b](https://github.com/SmartGreenhouse-22-23/Server/commit/04dc80b6969dff42d089f97c34f9a72bde221fbf))
+* **deps:** update junit5 monorepo ([7461971](https://github.com/SmartGreenhouse-22-23/Server/commit/7461971da776a1c70e8023ee58cbd4236c8cbe67))
+* **deps:** update openjdk docker tag to v17 ([e982f21](https://github.com/SmartGreenhouse-22-23/Server/commit/e982f21b3a77d67d18de70a05825f5d6b7190602))
+* **deps:** update plugin com.github.johnrengelman.shadow to v7 ([cf82aa8](https://github.com/SmartGreenhouse-22-23/Server/commit/cf82aa830aec3f5d8bcd30eb06e09e6eb32d564e))
+* **deps:** update plugin gitsemver to v0.3.25 ([c3dcc4e](https://github.com/SmartGreenhouse-22-23/Server/commit/c3dcc4e110cbc5aa8e7b4fcaa0650e82b80ebeb3))
+* **deps:** update plugin gitsemver to v0.4.0 ([d3b6a2d](https://github.com/SmartGreenhouse-22-23/Server/commit/d3b6a2da54ff4d50e6008a61e5be7cb64ba5a393))
+* **deps:** update plugin javadocaggregate to v6.6.2 ([d7c886b](https://github.com/SmartGreenhouse-22-23/Server/commit/d7c886b49e85405cefc5284cebdca35d77855186))
+* **deps:** update vertx to v4.3.8 ([9450472](https://github.com/SmartGreenhouse-22-23/Server/commit/945047210160e8fd1551fd3795251919cfbbaac7))
+
 ## [1.1.0](https://github.com/SmartGreenhouse-22-23/Server/compare/1.0.1...1.1.0) (2023-02-06)
 
 
