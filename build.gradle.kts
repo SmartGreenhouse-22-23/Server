@@ -1,7 +1,7 @@
 plugins {
     java
     jacoco
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("com.github.johnrengelman.shadow") version "8.0.0"
     alias(libs.plugins.gitSemVer)
     alias(libs.plugins.javadocAggregate)
 }
