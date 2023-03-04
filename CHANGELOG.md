@@ -1,3 +1,16 @@
+## [1.1.2](https://github.com/SmartGreenhouse-22-23/Server/compare/1.1.1...1.1.2) (2023-03-04)
+
+
+### Dependency updates
+
+* **core-deps:** update dependency gradle to v8.0.2 ([f92b663](https://github.com/SmartGreenhouse-22-23/Server/commit/f92b663208c7f8958dbd62acae0c20ba036f0b96))
+* **deps:** update plugin com.github.johnrengelman.shadow to v8 ([640a416](https://github.com/SmartGreenhouse-22-23/Server/commit/640a41654a886a8eab505a66ef6cd9721ff49c14))
+* **deps:** update plugin com.github.johnrengelman.shadow to v8.1.0 ([43af079](https://github.com/SmartGreenhouse-22-23/Server/commit/43af07903af00368dd48545d952aaa20db5416b7))
+* **deps:** update plugin gitsemver to v1 ([43f0b52](https://github.com/SmartGreenhouse-22-23/Server/commit/43f0b52ac79253bcc3543cb6649739faa9238da4))
+* **deps:** update plugin gitsemver to v1.1.2 ([7b19851](https://github.com/SmartGreenhouse-22-23/Server/commit/7b198514f2aaf6bb751c6db7af1edf1dec72ea6a))
+* **deps:** update plugin javadocaggregate to v6.6.3 ([74bf396](https://github.com/SmartGreenhouse-22-23/Server/commit/74bf396473ca4916e89a974c47111810bb5165d6))
+* **deps:** update vertx to v4.4.0 ([28fbcdc](https://github.com/SmartGreenhouse-22-23/Server/commit/28fbcdcf04a36cf8604626059b4f24fe340ca166))
+
 ## [1.1.1](https://github.com/SmartGreenhouse-22-23/Server/compare/1.1.0...1.1.1) (2023-02-19)
 
 
