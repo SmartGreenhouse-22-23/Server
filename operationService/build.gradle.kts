@@ -7,7 +7,7 @@ group = "it.unibo.smartgh"
 version = "0.1.0"
 
 jacoco {
-    toolVersion = "0.8.8"
+    toolVersion = "0.8.9"
     reportsDirectory.set(layout.buildDirectory.dir("customJacocoReportDir"))
 }
 
