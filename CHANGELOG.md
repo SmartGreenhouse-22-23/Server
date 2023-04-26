@@ -1,3 +1,13 @@
+## [1.1.4](https://github.com/SmartGreenhouse-22-23/Server/compare/1.1.3...1.1.4) (2023-04-26)
+
+
+### Dependency updates
+
+* **core-deps:** update dependency gradle to v8.1.1 ([c30a095](https://github.com/SmartGreenhouse-22-23/Server/commit/c30a0950ced77dd9c353653e1a014fecf66a67b8))
+* **deps:** update dependency jacoco to v0.8.10 ([4d96da0](https://github.com/SmartGreenhouse-22-23/Server/commit/4d96da0f2bd654e786b63ad3eaedd6471866f3ed))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.25 ([47892e1](https://github.com/SmartGreenhouse-22-23/Server/commit/47892e186d06b4ca73ffb028ba4d24c220b3682f))
+* **deps:** update plugin gitsemver to v1.1.8 ([ca2ccd7](https://github.com/SmartGreenhouse-22-23/Server/commit/ca2ccd79a6953f48af4370b8e96192803fb068db))
+
 ## [1.1.3](https://github.com/SmartGreenhouse-22-23/Server/compare/1.1.2...1.1.3) (2023-04-14)
 
 
