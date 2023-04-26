@@ -1,6 +1,6 @@
 [versions]
 vertx = "4.4.1"
-junit = "5.8.2"
+junit = "5.9.3"
 mongodb = "4.9.1"
 vertxTest = "4.4.1"
 gson = "2.8.8"
