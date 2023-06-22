@@ -1,5 +1,5 @@
 [versions]
-vertx = "4.4.3"
+vertx = "4.4.4"
 junit = "5.9.3"
 mongodb = "4.10.0"
 vertxTest = "4.4.4"
