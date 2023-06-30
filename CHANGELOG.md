@@ -1,3 +1,31 @@
+## [1.1.5](https://github.com/SmartGreenhouse-22-23/Server/compare/1.1.4...1.1.5) (2023-06-30)
+
+
+### Dependency updates
+
+* **core-deps:** update dependency gradle to v8.2 ([49f0710](https://github.com/SmartGreenhouse-22-23/Server/commit/49f0710dc8bb5f4724ca7be174fbfa8b3b0acc7a))
+* **deps:** update dependency io.vertx:vertx-junit5 to v4.4.2 ([58c5094](https://github.com/SmartGreenhouse-22-23/Server/commit/58c5094bcfb53f0530f78ceaf6d791fdcb5a688f))
+* **deps:** update dependency io.vertx:vertx-junit5 to v4.4.3 ([17090e6](https://github.com/SmartGreenhouse-22-23/Server/commit/17090e667135888446f59b87141ea90002b13f82))
+* **deps:** update dependency io.vertx:vertx-junit5 to v4.4.4 ([3bd1f86](https://github.com/SmartGreenhouse-22-23/Server/commit/3bd1f86ae5887eb4b2d2de2472341975576cf977))
+* **deps:** update dependency org.jacoco:org.jacoco.build to v0.8.10 ([a0265ac](https://github.com/SmartGreenhouse-22-23/Server/commit/a0265aca7852cd5a663066982028c50322215543))
+* **deps:** update dependency org.mongodb:mongodb-driver-sync to v4.10.0 ([b1bfc1e](https://github.com/SmartGreenhouse-22-23/Server/commit/b1bfc1e289959e866769663479792aa375f63785))
+* **deps:** update dependency org.mongodb:mongodb-driver-sync to v4.10.1 ([a37b26b](https://github.com/SmartGreenhouse-22-23/Server/commit/a37b26bae341ce02d46892829b359dfe9ee5898e))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.26 ([57c0154](https://github.com/SmartGreenhouse-22-23/Server/commit/57c0154f4da418ef12e5cefda553f150c3f5f32b))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.27 ([3ba36d5](https://github.com/SmartGreenhouse-22-23/Server/commit/3ba36d58055aad2a2d5b76f1e04ac782c1ff8b12))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.30 ([971d06f](https://github.com/SmartGreenhouse-22-23/Server/commit/971d06f6319f1ecf50cc9257ee85331c92199a27))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.32 ([e30ecba](https://github.com/SmartGreenhouse-22-23/Server/commit/e30ecbae2042c09c20506a40ac0bf76d9e7591bc))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.34 ([cc20e64](https://github.com/SmartGreenhouse-22-23/Server/commit/cc20e648200705b4a320ae66d7bc141e88d2abfc))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.35 ([80fd140](https://github.com/SmartGreenhouse-22-23/Server/commit/80fd140d088e51941b1123142e286734e64eded9))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.37 ([f442b3c](https://github.com/SmartGreenhouse-22-23/Server/commit/f442b3c6b47451107b767d226af047e232a673e9))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.38 ([713bde9](https://github.com/SmartGreenhouse-22-23/Server/commit/713bde9d98fdaa494f59d3e979e0b54d1d9db368))
+* **deps:** update junit5 monorepo to v5.9.3 ([06311c2](https://github.com/SmartGreenhouse-22-23/Server/commit/06311c24fd9e3fd1aff9252ea7d0f7a36ae0bb1e))
+* **deps:** update plugin gitsemver to v1.1.10 ([aa864d7](https://github.com/SmartGreenhouse-22-23/Server/commit/aa864d72162e9f9f59d3913075b9e843bc3acd09))
+* **deps:** update plugin gitsemver to v1.1.9 ([ebe59c6](https://github.com/SmartGreenhouse-22-23/Server/commit/ebe59c6e2fd2d922e26327d9853e6ae96db2ed52))
+* **deps:** update plugin javadocaggregate to v8.1.0 ([6ba4987](https://github.com/SmartGreenhouse-22-23/Server/commit/6ba498782d2144df18512a0904d3c7e2edfe1514))
+* **deps:** update vertx to v4.4.2 ([6cc63f0](https://github.com/SmartGreenhouse-22-23/Server/commit/6cc63f03a066aface319657658e715c14b102f50))
+* **deps:** update vertx to v4.4.3 ([c4b733d](https://github.com/SmartGreenhouse-22-23/Server/commit/c4b733d655155d599b05ec12e6753a21ba81c914))
+* **deps:** update vertx to v4.4.4 ([00e1acc](https://github.com/SmartGreenhouse-22-23/Server/commit/00e1acc9e7f9685cbafab99cacb088b4d870d8d1))
+
 ## [1.1.4](https://github.com/SmartGreenhouse-22-23/Server/compare/1.1.3...1.1.4) (2023-04-26)
 
 
