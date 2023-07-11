@@ -1,3 +1,13 @@
+## [1.1.6](https://github.com/SmartGreenhouse-22-23/Server/compare/1.1.5...1.1.6) (2023-07-11)
+
+
+### Dependency updates
+
+* **core-deps:** update dependency gradle to v8.2.1 ([639cc57](https://github.com/SmartGreenhouse-22-23/Server/commit/639cc577f56e4ff26db76a3e1860b97c3e97ccd2))
+* **deps:** update dependency org.mongodb:mongodb-driver-sync to v4.10.2 ([959504e](https://github.com/SmartGreenhouse-22-23/Server/commit/959504efb2295225481885f4cbbfc949c5db4dc1))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.39 ([41ce7ac](https://github.com/SmartGreenhouse-22-23/Server/commit/41ce7acbec23ea88998b0b70ddb95025cf1ccca7))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.41 ([516979d](https://github.com/SmartGreenhouse-22-23/Server/commit/516979dcc797d01fd01acdd427405587dc05bc45))
+
 ## [1.1.5](https://github.com/SmartGreenhouse-22-23/Server/compare/1.1.4...1.1.5) (2023-06-30)
 
 
