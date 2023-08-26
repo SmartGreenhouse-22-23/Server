@@ -1,3 +1,17 @@
+## [1.1.7](https://github.com/SmartGreenhouse-22-23/Server/compare/1.1.6...1.1.7) (2023-08-26)
+
+
+### Dependency updates
+
+* **core-deps:** update dependency gradle to v8.3 ([f3d117b](https://github.com/SmartGreenhouse-22-23/Server/commit/f3d117bdeafe273a9295df87210a3baf0507671f))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.42 ([e02853a](https://github.com/SmartGreenhouse-22-23/Server/commit/e02853a6a2d1f4703454f6bde21cc06167c1b0f4))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.43 ([0628af0](https://github.com/SmartGreenhouse-22-23/Server/commit/0628af0cc3e6a34bc20421da1879396c20971b50))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.44 ([bd72017](https://github.com/SmartGreenhouse-22-23/Server/commit/bd72017dfc9ec50fc3988517952823f11a2e83d1))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.46 ([384d4d4](https://github.com/SmartGreenhouse-22-23/Server/commit/384d4d4fc0c18b62cd36aa5ee0bfa97064708180))
+* **deps:** update junit5 monorepo to v5.10.0 ([b58b4e5](https://github.com/SmartGreenhouse-22-23/Server/commit/b58b4e5fa321da99c50fc5857e7dbb96906c68e8))
+* **deps:** update plugin javadocaggregate to v8.2.1 ([71f6798](https://github.com/SmartGreenhouse-22-23/Server/commit/71f6798beda283e1ab3593e1fc5d3503b2e7e6e9))
+* **deps:** update plugin javadocaggregate to v8.2.2 ([1c468aa](https://github.com/SmartGreenhouse-22-23/Server/commit/1c468aa03547b30c2f4917bc8a5d4d7b12f4f5aa))
+
 ## [1.1.6](https://github.com/SmartGreenhouse-22-23/Server/compare/1.1.5...1.1.6) (2023-07-11)
 
 
