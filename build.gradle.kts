@@ -10,7 +10,7 @@ group = "it.unibo.smartgh"
 version = "1.0-SNAPSHOT"
 
 jacoco {
-    toolVersion = "0.8.10"
+    toolVersion = "0.8.11"
     reportsDirectory.set(layout.buildDirectory.dir("customJacocoReportDir"))
 }
 
@@ -24,7 +24,7 @@ allprojects{
     apply(plugin = "com.github.johnrengelman.shadow")
 
     jacoco {
-        toolVersion = "0.8.10"
+        toolVersion = "0.8.11"
         reportsDirectory.set(layout.buildDirectory.dir("customJacocoReportDir"))
     }
 
