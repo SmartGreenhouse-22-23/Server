@@ -4,7 +4,7 @@ junit = "5.10.0"
 mongodb = "4.11.0"
 vertxTest = "4.4.6"
 gson = "2.8.8"
-jacoco = "0.8.10"
+jacoco = "0.8.11"
 
 
 [libraries]
