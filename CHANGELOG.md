@@ -1,3 +1,38 @@
+## [1.1.9](https://github.com/SmartGreenhouse-22-23/Server/compare/1.1.8...1.1.9) (2023-11-29)
+
+
+### Dependency updates
+
+* **core-deps:** update dependency gradle to v8.5 ([8fc4ed6](https://github.com/SmartGreenhouse-22-23/Server/commit/8fc4ed6a91450da75acccc23e2547cb27c47a514))
+* **deps:** update dependency io.vertx:vertx-junit5 to v4.4.6 ([ef8ca4e](https://github.com/SmartGreenhouse-22-23/Server/commit/ef8ca4ee77279b09df874e55e6178a7d7b61d9d8))
+* **deps:** update dependency io.vertx:vertx-junit5 to v4.5.0 ([6e5d3dc](https://github.com/SmartGreenhouse-22-23/Server/commit/6e5d3dcfd93e03355b68c6f12d627b269caee55f))
+* **deps:** update dependency jacoco to v0.8.11 ([24622ca](https://github.com/SmartGreenhouse-22-23/Server/commit/24622cae58edcd1d035753e5ef0afc9c508c6193))
+* **deps:** update dependency org.jacoco:org.jacoco.build to v0.8.11 ([f2f9177](https://github.com/SmartGreenhouse-22-23/Server/commit/f2f9177640bca715fed5da4133d1bb5fa682ffc6))
+* **deps:** update dependency org.mongodb:mongodb-driver-sync to v4.11.0 ([ea8a2bf](https://github.com/SmartGreenhouse-22-23/Server/commit/ea8a2bfb0d3c4ccc5ca5c456faf584a0b28c5d20))
+* **deps:** update dependency org.mongodb:mongodb-driver-sync to v4.11.1 ([35f0d68](https://github.com/SmartGreenhouse-22-23/Server/commit/35f0d681e87a8ef4ce3305e0b2492fc3861af103))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.70 ([bb47d2d](https://github.com/SmartGreenhouse-22-23/Server/commit/bb47d2d2aeaae17e32cc8ec3a9703653de83342f))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.71 ([dd9724f](https://github.com/SmartGreenhouse-22-23/Server/commit/dd9724f6ef2659c81209cf60a816cb0278e031fb))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.74 ([73756b9](https://github.com/SmartGreenhouse-22-23/Server/commit/73756b9f431e485bb0e1ae5e2a23a5ddfe0cc001))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.75 ([a871013](https://github.com/SmartGreenhouse-22-23/Server/commit/a8710131416a29ad11c489484b9357c6c38c673a))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.76 ([d98f886](https://github.com/SmartGreenhouse-22-23/Server/commit/d98f886ecb47be0a1f1e911b9d5479aa4e5080cf))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.77 ([9f3f56a](https://github.com/SmartGreenhouse-22-23/Server/commit/9f3f56a9ee1192aeee860644e2f86f1c7feed6d8))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.78 ([af56642](https://github.com/SmartGreenhouse-22-23/Server/commit/af56642b3ee98866a5cd8f68c514ed71166b26d9))
+* **deps:** update junit5 monorepo to v5.10.1 ([9d98196](https://github.com/SmartGreenhouse-22-23/Server/commit/9d9819621f703e5901f29b1f4082ba6568549652))
+* **deps:** update openjdk docker tag to v21 ([5ce8d56](https://github.com/SmartGreenhouse-22-23/Server/commit/5ce8d5695b7839b7908c4eb52c9fa5b1b1c65706))
+* **deps:** update plugin gitsemver to v1.1.14 ([745cef1](https://github.com/SmartGreenhouse-22-23/Server/commit/745cef1df8a1517d346bc3f22cd8bf4c1a7feb5d))
+* **deps:** update plugin gitsemver to v2 ([e126a57](https://github.com/SmartGreenhouse-22-23/Server/commit/e126a57245544de31dd73bc345732098598cee29))
+* **deps:** update plugin gitsemver to v2.0.1 ([c6f5970](https://github.com/SmartGreenhouse-22-23/Server/commit/c6f5970cb8c8f095a49d2a0e344f97491d19d611))
+* **deps:** update plugin gitsemver to v2.0.2 ([a3ca94d](https://github.com/SmartGreenhouse-22-23/Server/commit/a3ca94d6a2d46b837288b9edc1b86784a501aa47))
+* **deps:** update plugin gitsemver to v2.0.3 ([1f16ee4](https://github.com/SmartGreenhouse-22-23/Server/commit/1f16ee493a03f0813c6e2d00fd99f44bbf15579d))
+* **deps:** update vertx to v4.4.6 ([2d69698](https://github.com/SmartGreenhouse-22-23/Server/commit/2d69698322f98c29e88eebeae7cce8a9bde71269))
+* **deps:** update vertx to v4.5.0 ([fcb2549](https://github.com/SmartGreenhouse-22-23/Server/commit/fcb25490730a2399fc895d135206e7bc494c3dc8))
+
+
+### Build and continuous integration
+
+* **deps:** update actions/setup-java action to v4 ([ef23823](https://github.com/SmartGreenhouse-22-23/Server/commit/ef23823f80cee0d79a4a896c2487b3622d88ab12))
+* **deps:** update actions/setup-node action to v4 ([94823af](https://github.com/SmartGreenhouse-22-23/Server/commit/94823af518f28998a1a1ab5b1602c024eae566c7))
+
 ## [1.1.8](https://github.com/SmartGreenhouse-22-23/Server/compare/1.1.7...1.1.8) (2023-10-08)
 
 
