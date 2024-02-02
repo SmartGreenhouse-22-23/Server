@@ -1,3 +1,23 @@
+## [1.1.10](https://github.com/SmartGreenhouse-22-23/Server/compare/1.1.9...1.1.10) (2024-02-02)
+
+
+### Dependency updates
+
+* **core-deps:** update dependency gradle to v8.6 ([2675bf2](https://github.com/SmartGreenhouse-22-23/Server/commit/2675bf2962521c4c4b015cf3513b1736af64ce35))
+* **deps:** update dependency io.vertx:vertx-junit5 to v4.5.1 ([625117b](https://github.com/SmartGreenhouse-22-23/Server/commit/625117bc163534c15bcacebd96fa154b52f43802))
+* **deps:** update dependency io.vertx:vertx-junit5 to v4.5.2 ([238c248](https://github.com/SmartGreenhouse-22-23/Server/commit/238c248c60d03a225dd6777a54ef9f21235f5c47))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.80 ([3d9cf83](https://github.com/SmartGreenhouse-22-23/Server/commit/3d9cf839bd87c0a5820b588a34bae300ff88ebc2))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.81 ([7360053](https://github.com/SmartGreenhouse-22-23/Server/commit/736005308a467c982097cae06c81afe2a565d5c1))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.82 ([e7a4db1](https://github.com/SmartGreenhouse-22-23/Server/commit/e7a4db1f3e4bb0bf4e06c129ade0127f2639a722))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.83 ([e800d24](https://github.com/SmartGreenhouse-22-23/Server/commit/e800d24158c87788d26fb9b03c9895907f67a81f))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.84 ([7b129e5](https://github.com/SmartGreenhouse-22-23/Server/commit/7b129e5e03ad99ccc23971b9318b51f996474713))
+* **deps:** update dependency semantic-release-preconfigured-conventional-commits to v1.1.85 ([707592e](https://github.com/SmartGreenhouse-22-23/Server/commit/707592eab4ee9bf8db61f2f33bfeebdcee1078a1))
+* **deps:** update plugin gitsemver to v2.0.4 ([451fbfa](https://github.com/SmartGreenhouse-22-23/Server/commit/451fbfa4782d78fbbab56ac3d2b621460ec28e2f))
+* **deps:** update plugin gitsemver to v2.0.5 ([2b0971d](https://github.com/SmartGreenhouse-22-23/Server/commit/2b0971d89ae15a4b0acccd537545c8c3cd214f4e))
+* **deps:** update plugin gitsemver to v3 ([3f2103a](https://github.com/SmartGreenhouse-22-23/Server/commit/3f2103a38f115420907c51ff54be222688e01731))
+* **deps:** update plugin gitsemver to v3.1.0 ([daa13c9](https://github.com/SmartGreenhouse-22-23/Server/commit/daa13c90632c3489677d14e7455912fc1d7f4fb9))
+* **deps:** update vertx to v4.5.1 ([a8369d7](https://github.com/SmartGreenhouse-22-23/Server/commit/a8369d7edb06bfc939afe6885134224459fb761c))
+
 ## [1.1.9](https://github.com/SmartGreenhouse-22-23/Server/compare/1.1.8...1.1.9) (2023-11-29)
 
 
