@@ -3,7 +3,7 @@ vertx = "4.5.7"
 junit = "5.10.2"
 mongodb = "5.1.0"
 vertxTest = "4.5.7"
-gson = "2.8.8"
+gson = "2.11.0"
 jacoco = "0.8.12"
 
 
