@@ -1,3 +1,23 @@
+## [1.1.12](https://github.com/SmartGreenhouse-22-23/Server/compare/1.1.11...1.1.12) (2024-06-01)
+
+
+### Dependency updates
+
+* **core-deps:** update dependency gradle to v8.8 ([b8611c4](https://github.com/SmartGreenhouse-22-23/Server/commit/b8611c43cd9e1a979155eee02a800708b333cd60))
+* **deps:** update dependency com.google.code.gson:gson to v2.11.0 ([16f646a](https://github.com/SmartGreenhouse-22-23/Server/commit/16f646a3d737ff1e66032da110d915104d8ad47f))
+* **deps:** update dependency io.vertx:vertx-junit5 to v4.5.7 ([1943e4b](https://github.com/SmartGreenhouse-22-23/Server/commit/1943e4bc2e748da6a8b9f0cbdef6315ef74ceaf0))
+* **deps:** update dependency io.vertx:vertx-junit5 to v4.5.8 ([15f0f7e](https://github.com/SmartGreenhouse-22-23/Server/commit/15f0f7e879a984e4f47033d45c604671910e8a64))
+* **deps:** update dependency jacoco to v0.8.12 ([618bbc4](https://github.com/SmartGreenhouse-22-23/Server/commit/618bbc46a1ac5b1e1d97a1cd1e7c81620dfbe21d))
+* **deps:** update dependency org.jacoco:org.jacoco.build to v0.8.12 ([f49ce91](https://github.com/SmartGreenhouse-22-23/Server/commit/f49ce91a292abe9c536b572d3484d084569a9228))
+* **deps:** update dependency org.mongodb:mongodb-driver-sync to v5.0.1 ([1ca57f7](https://github.com/SmartGreenhouse-22-23/Server/commit/1ca57f729ccfaeff225f81846cd01e942d12ab2d))
+* **deps:** update dependency org.mongodb:mongodb-driver-sync to v5.1.0 ([a4b83d2](https://github.com/SmartGreenhouse-22-23/Server/commit/a4b83d2e164928aa53fe53f35aae69f394e87d27))
+* **deps:** update plugin gitsemver to v3.1.4 ([68bc6bd](https://github.com/SmartGreenhouse-22-23/Server/commit/68bc6bd3bed0d5aab4555def52b3ef09f14e43d5))
+* **deps:** update plugin gitsemver to v3.1.5 ([84659fd](https://github.com/SmartGreenhouse-22-23/Server/commit/84659fd768641dfb0a2a91ba9bc3e2939287f9f2))
+* **deps:** update plugin gitsemver to v3.1.6 ([3b5e714](https://github.com/SmartGreenhouse-22-23/Server/commit/3b5e714f00940774224a39c4f9b56a6f72b528eb))
+* **deps:** update plugin gitsemver to v3.1.7 ([d6aea11](https://github.com/SmartGreenhouse-22-23/Server/commit/d6aea11c22a9c1bbf50501218949e75050db592b))
+* **deps:** update vertx to v4.5.7 ([202b129](https://github.com/SmartGreenhouse-22-23/Server/commit/202b12930774a10121c9b5e355d84d89040f1751))
+* **deps:** update vertx to v4.5.8 ([786eb0b](https://github.com/SmartGreenhouse-22-23/Server/commit/786eb0b2c444d0afa417a6f2543a048a2e5a8a79))
+
 ## [1.1.11](https://github.com/SmartGreenhouse-22-23/Server/compare/1.1.10...1.1.11) (2024-03-22)
 
 
