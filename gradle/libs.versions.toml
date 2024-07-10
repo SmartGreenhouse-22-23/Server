@@ -1,7 +1,7 @@
 [versions]
 vertx = "4.5.8"
 junit = "5.10.3"
-mongodb = "5.1.1"
+mongodb = "5.1.2"
 vertxTest = "4.5.8"
 gson = "2.11.0"
 jacoco = "0.8.12"
