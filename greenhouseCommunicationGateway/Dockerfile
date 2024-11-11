@@ -1,4 +1,4 @@
-FROM openjdk:22 AS greenhouse_communication_gateway
+FROM openjdk:23 AS greenhouse_communication_gateway
 WORKDIR /
 ADD build/libs/greenhouseCommunicationGateway-0.1.0-all.jar greenhouseCommunicationGateway-0.1.0-all.jar
 CMD java -jar greenhouseCommunicationGateway-0.1.0-all.jar
