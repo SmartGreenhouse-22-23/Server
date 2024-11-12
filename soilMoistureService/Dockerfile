@@ -1,4 +1,4 @@
-FROM openjdk:23 AS soil_moisture_service
+FROM openjdk:24 AS soil_moisture_service
 WORKDIR /
 ADD build/libs/soilMoistureService-0.1.0-all.jar soilMoistureService-0.1.0-all.jar
 CMD java -jar soilMoistureService-0.1.0-all.jar
