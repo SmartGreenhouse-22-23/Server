@@ -1,4 +1,4 @@
-FROM openjdk:23 AS client_communication_gateway
+FROM openjdk:24 AS client_communication_gateway
 WORKDIR /
 ADD build/libs/clientCommunicationGateway-0.1.0-all.jar clientCommunicationGateway-0.1.0-all.jar
 CMD java -jar clientCommunicationGateway-0.1.0-all.jar

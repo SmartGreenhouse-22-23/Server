@@ -1,4 +1,4 @@
-FROM openjdk:23 AS brightness_service
+FROM openjdk:24 AS brightness_service
 WORKDIR /
 ADD build/libs/brightnessService-0.1.0-all.jar brightnessService-0.1.0-all.jar
 CMD java -jar brightnessService-0.1.0-all.jar
