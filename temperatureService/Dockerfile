@@ -1,4 +1,4 @@
-FROM openjdk:24 AS temperature_service
+FROM openjdk:25 AS temperature_service
 WORKDIR /
 ADD build/libs/temperatureService-0.1.0-all.jar temperatureService-0.1.0-all.jar
 CMD java -jar temperatureService-0.1.0-all.jar
