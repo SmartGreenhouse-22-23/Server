@@ -31,4 +31,4 @@ vertx-dependencies = [
 
 [plugins]
 gitSemVer = "org.danilopianini.git-sensitive-semantic-versioning-gradle-plugin:4.0.2"
-javadocAggregate = "io.freefair.aggregate-javadoc-jar:8.13"
+javadocAggregate = "io.freefair.aggregate-javadoc-jar:8.13.1"
